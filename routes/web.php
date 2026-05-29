@@ -12,4 +12,5 @@ Route::get('/matches', function () {
 
 Route::get('/tickets', function () {
     return view('frontend.tickets');
-});
+});Route::get('/reserve', fn() => view('frontend.reserve'))->name('reserve');
+Route::post('/reserve/submit', [App\Http\Controllers\ReservationController::class, 'store'])->name('reserve.store');
