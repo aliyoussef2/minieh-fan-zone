@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::dropIfExists('ticket_categories');
         Schema::create('ticket_categories', function (Blueprint $table) {
             $table->id();
             $table->string('section', 2);
