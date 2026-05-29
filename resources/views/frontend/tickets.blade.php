@@ -91,267 +91,377 @@ nav {
 .page-header h1 span { color: var(--gold); }
 .page-header p { color: rgba(255,255,255,0.5); font-size: 1rem; }
 
-/* TOTAL CAPACITY */
-.capacity-bar {
-    padding: 30px 60px;
-    text-align: center;
-    background: rgba(255,215,0,0.04);
-    border-bottom: 1px solid rgba(255,215,0,0.08);
-}
-
-.capacity-bar p {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 10px;
-}
-
-.capacity-nums {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-}
-
-.cap-item span:first-child {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 2.5rem;
-    color: var(--gold);
-    display: block;
-    line-height: 1;
-}
-
-.cap-item span:last-child {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-}
-
-/* TICKET CARDS */
-.tickets-container {
+/* MAIN LAYOUT */
+.venue-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
     padding: 60px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-.tickets-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-.ticket-card {
+/* MAP */
+.map-container {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 20px;
     padding: 40px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s;
-    border: 1px solid transparent;
 }
 
-.ticket-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-}
-
-.ticket-card.vip {
-    background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.03));
-    border-color: rgba(255,215,0,0.3);
-}
-
-.ticket-card.vip:hover { border-color: var(--gold); }
-
-.ticket-card.high {
-    background: linear-gradient(135deg, rgba(30,136,255,0.08), rgba(30,136,255,0.03));
-    border-color: rgba(30,136,255,0.3);
-}
-
-.ticket-card.high:hover { border-color: var(--blue); }
-
-.ticket-card.standard {
-    background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.03));
-    border-color: rgba(34,197,94,0.3);
-}
-
-.ticket-card.standard:hover { border-color: #22c55e; }
-
-.ticket-card.single {
-    background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(168,85,247,0.03));
-    border-color: rgba(168,85,247,0.3);
-}
-
-.ticket-card.single:hover { border-color: #a855f7; }
-
-.ticket-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 25px;
-}
-
-.ticket-icon {
-    font-size: 2.5rem;
-}
-
-.ticket-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 50px;
-}
-
-.vip .ticket-badge { background: rgba(255,215,0,0.15); color: var(--gold); }
-.high .ticket-badge { background: rgba(30,136,255,0.15); color: var(--blue); }
-.standard .ticket-badge { background: rgba(34,197,94,0.15); color: #22c55e; }
-.single .ticket-badge { background: rgba(168,85,247,0.15); color: #a855f7; }
-
-.ticket-name {
+.map-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: 2rem;
+    font-size: 1.3rem;
     letter-spacing: 3px;
-    margin-bottom: 8px;
-}
-
-.ticket-subtitle {
-    font-size: 0.85rem;
     color: rgba(255,255,255,0.5);
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-.ticket-features {
-    list-style: none;
+    text-align: center;
     margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
-.ticket-features li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.7);
-}
-
-.ticket-features li::before {
-    content: '✓';
-    font-weight: 700;
-    font-size: 0.8rem;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.vip .ticket-features li::before { background: rgba(255,215,0,0.2); color: var(--gold); }
-.high .ticket-features li::before { background: rgba(30,136,255,0.2); color: var(--blue); }
-.standard .ticket-features li::before { background: rgba(34,197,94,0.2); color: #22c55e; }
-.single .ticket-features li::before { background: rgba(168,85,247,0.2); color: #a855f7; }
-
-.ticket-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 25px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-}
-
-.ticket-capacity {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.4);
-}
-
-.ticket-capacity strong {
-    display: block;
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.8);
-    font-weight: 700;
-}
-
-.btn-book {
-    padding: 12px 28px;
+.screen-label {
+    background: linear-gradient(90deg, var(--blue), #1565d8);
+    color: white;
+    text-align: center;
+    padding: 12px;
     border-radius: 8px;
     font-family: 'Bebas Neue', cursive;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    text-decoration: none;
-    transition: all 0.3s;
-    display: inline-block;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 30px rgba(30,136,255,0.4);
 }
 
-.vip .btn-book { background: var(--gold); color: var(--navy); }
-.vip .btn-book:hover { background: white; }
-.high .btn-book { background: var(--blue); color: white; }
-.high .btn-book:hover { background: #1565d8; }
-.standard .btn-book { background: #22c55e; color: white; }
-.standard .btn-book:hover { background: #16a34a; }
-.single .btn-book { background: #a855f7; color: white; }
-.single .btn-book:hover { background: #9333ea; }
-
-/* VENUE MAP */
-.venue-section {
-    padding: 80px 60px;
-    background: rgba(255,255,255,0.02);
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.venue-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-    text-align: center;
-    margin-bottom: 50px;
-    color: var(--white);
-}
-
-.venue-title span { color: var(--gold); }
-
+/* SECTIONS */
 .venue-map {
-    max-width: 700px;
-    margin: 0 auto;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 40px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.venue-legend {
+.map-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.section {
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+    user-select: none;
+}
+
+.section:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.section.selected {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.section-label {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.section-type {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    display: block;
+    margin-top: 3px;
+}
+
+.section-cap {
+    font-size: 0.65rem;
+    opacity: 0.6;
+    display: block;
+    margin-top: 2px;
+}
+
+/* VIP sections */
+.vip-section {
+    background: rgba(255,215,0,0.1);
+    border-color: rgba(255,215,0,0.3);
+    color: var(--gold);
+}
+
+.vip-section:hover, .vip-section.selected {
+    background: rgba(255,215,0,0.25);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(255,215,0,0.3);
+}
+
+/* High table sections */
+.high-section {
+    background: rgba(30,136,255,0.1);
+    border-color: rgba(30,136,255,0.3);
+    color: var(--blue);
+}
+
+.high-section:hover, .high-section.selected {
+    background: rgba(30,136,255,0.25);
+    border-color: var(--blue);
+    box-shadow: 0 0 20px rgba(30,136,255,0.3);
+}
+
+/* Standard sections */
+.standard-section {
+    background: rgba(34,197,94,0.1);
+    border-color: rgba(34,197,94,0.3);
+    color: #22c55e;
+}
+
+.standard-section:hover, .standard-section.selected {
+    background: rgba(34,197,94,0.25);
+    border-color: #22c55e;
+    box-shadow: 0 0 20px rgba(34,197,94,0.3);
+}
+
+/* Single seats */
+.single-section {
+    background: rgba(168,85,247,0.1);
+    border-color: rgba(168,85,247,0.3);
+    color: #a855f7;
+}
+
+.single-section:hover, .single-section.selected {
+    background: rgba(168,85,247,0.25);
+    border-color: #a855f7;
+    box-shadow: 0 0 20px rgba(168,85,247,0.3);
+}
+
+.catwalk {
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    margin: 5px 0;
+}
+
+.stage-box {
+    background: rgba(30,136,255,0.05);
+    border: 1px solid rgba(30,136,255,0.15);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    color: rgba(30,136,255,0.5);
+    margin-top: 5px;
+}
+
+/* LEGEND */
+.map-legend {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.6);
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
 }
 
 .legend-dot {
-    width: 14px;
-    height: 14px;
+    width: 12px; height: 12px;
     border-radius: 3px;
 }
 
-/* SVG VENUE */
-.venue-svg {
+/* SIDEBAR */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-info {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 30px;
+    transition: all 0.3s;
+}
+
+.section-info.active {
+    border-color: var(--gold);
+    background: rgba(255,215,0,0.05);
+}
+
+.info-placeholder {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.3);
+}
+
+.info-placeholder .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+.info-placeholder p { font-size: 0.9rem; line-height: 1.6; }
+
+.info-section-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem;
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.info-type-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.info-desc {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.info-features {
+    list-style: none;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info-features li {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-features li::before {
+    content: '✓';
+    font-weight: 700;
+    font-size: 0.75rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(255,215,0,0.2);
+    color: var(--gold);
+}
+
+.info-capacity {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.cap-stat span:first-child {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+}
+
+.cap-stat span:last-child {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+}
+
+.btn-book-section {
     width: 100%;
-    max-width: 600px;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    background: var(--gold);
+    color: var(--navy);
+    transition: all 0.3s;
+}
+
+.btn-book-section:hover { background: white; }
+
+/* ALL TICKETS */
+.all-tickets {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.all-tickets h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    color: rgba(255,255,255,0.6);
+}
+
+.ticket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ticket-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.ticket-item:hover { background: rgba(255,255,255,0.05); }
+
+.ticket-item-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+.ticket-item-cap {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
 }
 </style>
 
@@ -367,184 +477,150 @@ nav {
 </nav>
 
 <div class="page-header">
-    <h1>CHOOSE YOUR <span>SEAT</span></h1>
-    <p>Select your seating category and reserve your spot at Minieh Fan Zone 2026</p>
+    <h1>SELECT YOUR <span>SECTION</span></h1>
+    <p>Click on a section to view details and reserve your spot</p>
 </div>
 
-<div class="capacity-bar">
-    <p>Total Venue Capacity</p>
-    <div class="capacity-nums">
-        <div class="cap-item">
-            <span>1,042</span>
-            <span>Total Seats</span>
-        </div>
-        <div class="cap-item">
-            <span>52</span>
-            <span>VIP Lounges</span>
-        </div>
-        <div class="cap-item">
-            <span>142</span>
-            <span>Tables of 4</span>
-        </div>
-        <div class="cap-item">
-            <span>162</span>
-            <span>Single Seats</span>
-        </div>
-    </div>
-</div>
+<div class="venue-layout">
+    <!-- MAP -->
+    <div class="map-container">
+        <div class="map-title">🏟️ MINIEH FAN ZONE — VENUE MAP</div>
+        <div class="screen-label">📺 GIANT LED SCREEN — ABOVE THE SEA</div>
 
-<div class="tickets-container">
-    <div class="tickets-grid">
-
-        {{-- VIP LOUNGE --}}
-        <div class="ticket-card vip">
-            <div class="ticket-top">
-                <span class="ticket-icon">👑</span>
-                <span class="ticket-badge">Premium</span>
-            </div>
-            <h3 class="ticket-name">VIP Lounge</h3>
-            <p class="ticket-subtitle">52 lounge tables · 6 seats per table · Couch seating · 312 total pax</p>
-            <ul class="ticket-features">
-                <li>Luxury couch seating for 6</li>
-                <li>Best elevated view of the screen</li>
-                <li>Premium table service</li>
-                <li>Dedicated VIP entrance</li>
-                <li>Complimentary welcome drinks</li>
-            </ul>
-            <div class="ticket-bottom">
-                <div class="ticket-capacity">
-                    <strong>312 seats</strong>
-                    52 tables × 6 pax
+        <div class="venue-map">
+            <!-- VIP ROW -->
+            <div class="map-row">
+                <div class="section vip-section" style="flex:1;" onclick="selectSection('A')" id="sec-A">
+                    <span class="section-label">A</span>
+                    <span class="section-type">VIP Lounge</span>
+                    <span class="section-cap">18 tables · 108 pax</span>
                 </div>
-                <a href="/reserve" class="btn-book">Book Now</a>
-            </div>
-        </div>
-
-        {{-- HIGH TABLES --}}
-        <div class="ticket-card high">
-            <div class="ticket-top">
-                <span class="ticket-icon">🍺</span>
-                <span class="ticket-badge">Popular</span>
-            </div>
-            <h3 class="ticket-name">High Tables</h3>
-            <p class="ticket-subtitle">70 high tables · 4 seats per table · High chairs · 280 total pax</p>
-            <ul class="ticket-features">
-                <li>High table with 4 high chairs</li>
-                <li>Great elevated viewing angle</li>
-                <li>Social atmosphere</li>
-                <li>Full food & drinks service</li>
-                <li>Central location in the venue</li>
-            </ul>
-            <div class="ticket-bottom">
-                <div class="ticket-capacity">
-                    <strong>280 seats</strong>
-                    70 tables × 4 pax
+                <div class="section vip-section" style="flex:1.5;" onclick="selectSection('B')" id="sec-B">
+                    <span class="section-label">B</span>
+                    <span class="section-type">VIP Lounge</span>
+                    <span class="section-cap">16 tables · 96 pax</span>
                 </div>
-                <a href="/reserve" class="btn-book">Book Now</a>
-            </div>
-        </div>
-
-        {{-- STANDARD TABLES --}}
-        <div class="ticket-card standard">
-            <div class="ticket-top">
-                <span class="ticket-icon">🪑</span>
-                <span class="ticket-badge">Standard</span>
-            </div>
-            <h3 class="ticket-name">Standard Tables</h3>
-            <p class="ticket-subtitle">72 standard tables · 4 seats per table · Regular chairs · 288 total pax</p>
-            <ul class="ticket-features">
-                <li>Standard table for 4</li>
-                <li>Comfortable regular chairs</li>
-                <li>Good screen visibility</li>
-                <li>Food & drinks available</li>
-                <li>Great value experience</li>
-            </ul>
-            <div class="ticket-bottom">
-                <div class="ticket-capacity">
-                    <strong>288 seats</strong>
-                    72 tables × 4 pax
+                <div class="section vip-section" style="flex:1;" onclick="selectSection('C')" id="sec-C">
+                    <span class="section-label">C</span>
+                    <span class="section-type">VIP Lounge</span>
+                    <span class="section-cap">18 tables · 108 pax</span>
                 </div>
-                <a href="/reserve" class="btn-book">Book Now</a>
             </div>
-        </div>
 
-        {{-- SINGLE SEATS --}}
-        <div class="ticket-card single">
-            <div class="ticket-top">
-                <span class="ticket-icon">🎯</span>
-                <span class="ticket-badge">Individual</span>
-            </div>
-            <h3 class="ticket-name">Single Seats</h3>
-            <p class="ticket-subtitle">162 individual seats · Front area · Closest to the screen</p>
-            <ul class="ticket-features">
-                <li>Individual seat closest to screen</li>
-                <li>Best immersion experience</li>
-                <li>Front row atmosphere</li>
-                <li>Access to food court</li>
-                <li>Perfect for solo fans</li>
-            </ul>
-            <div class="ticket-bottom">
-                <div class="ticket-capacity">
-                    <strong>162 seats</strong>
-                    Individual seats
+            <!-- HIGH TABLES ROW -->
+            <div class="map-row">
+                <div class="section high-section" style="flex:1;" onclick="selectSection('D')" id="sec-D">
+                    <span class="section-label">D</span>
+                    <span class="section-type">High Tables</span>
+                    <span class="section-cap">24 tables · 96 pax</span>
                 </div>
-                <a href="/reserve" class="btn-book">Book Now</a>
+                <div class="section high-section" style="flex:1.5;" onclick="selectSection('E')" id="sec-E">
+                    <span class="section-label">E</span>
+                    <span class="section-type">High Tables</span>
+                    <span class="section-cap">22 tables · 88 pax</span>
+                </div>
+                <div class="section high-section" style="flex:1;" onclick="selectSection('F')" id="sec-F">
+                    <span class="section-label">F</span>
+                    <span class="section-type">High Tables</span>
+                    <span class="section-cap">24 tables · 96 pax</span>
+                </div>
             </div>
+
+            <!-- STANDARD TABLES ROW -->
+            <div class="map-row">
+                <div class="section standard-section" style="flex:1;" onclick="selectSection('G')" id="sec-G">
+                    <span class="section-label">G</span>
+                    <span class="section-type">Standard Tables</span>
+                    <span class="section-cap">36 tables · 144 pax</span>
+                </div>
+                <div class="section standard-section" style="flex:1;" onclick="selectSection('H')" id="sec-H">
+                    <span class="section-label">H</span>
+                    <span class="section-type">Standard Tables</span>
+                    <span class="section-cap">36 tables · 144 pax</span>
+                </div>
+            </div>
+
+            <!-- SINGLE SEATS -->
+            <div class="catwalk">Catwalk</div>
+            <div class="map-row">
+                <div class="section single-section" style="flex:2;" onclick="selectSection('I')" id="sec-I">
+                    <span class="section-label">I</span>
+                    <span class="section-type">Single Seats</span>
+                    <span class="section-cap">162 individual seats</span>
+                </div>
+            </div>
+
+            <div class="stage-box">🎬 STAGE & SCAFFOLD</div>
         </div>
 
-    </div>
-</div>
-
-{{-- VENUE MAP --}}
-<div class="venue-section">
-    <h2 class="venue-title">VENUE <span>MAP</span></h2>
-    <div class="venue-map">
-        <svg class="venue-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- Screen -->
-            <rect x="200" y="20" width="200" height="40" rx="6" fill="#1E88FF" opacity="0.8"/>
-            <text x="300" y="46" text-anchor="middle" fill="white" font-size="14" font-weight="bold">GIANT SCREEN</text>
-
-            <!-- VIP Lounge (yellow) -->
-            <rect x="50" y="80" width="500" height="100" rx="8" fill="rgba(255,215,0,0.15)" stroke="#FFD700" stroke-width="1.5"/>
-            <text x="300" y="125" text-anchor="middle" fill="#FFD700" font-size="13" font-weight="bold">VIP LOUNGE — 52 Tables × 6 pax</text>
-            <text x="300" y="145" text-anchor="middle" fill="rgba(255,215,0,0.6)" font-size="11">Couch Seating · 312 pax</text>
-
-            <!-- High Tables (blue) -->
-            <rect x="50" y="195" width="500" height="90" rx="8" fill="rgba(30,136,255,0.12)" stroke="#1E88FF" stroke-width="1.5"/>
-            <text x="300" y="235" text-anchor="middle" fill="#1E88FF" font-size="13" font-weight="bold">HIGH TABLES — 70 Tables × 4 pax</text>
-            <text x="300" y="255" text-anchor="middle" fill="rgba(30,136,255,0.6)" font-size="11">High Chairs · 280 pax</text>
-
-            <!-- Standard Tables (green) -->
-            <rect x="50" y="300" width="500" height="90" rx="8" fill="rgba(34,197,94,0.12)" stroke="#22c55e" stroke-width="1.5"/>
-            <text x="300" y="340" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="bold">STANDARD TABLES — 72 Tables × 4 pax</text>
-            <text x="300" y="360" text-anchor="middle" fill="rgba(34,197,94,0.6)" font-size="11">Regular Chairs · 288 pax</text>
-
-            <!-- Single Seats (purple) -->
-            <rect x="150" y="405" width="300" height="70" rx="8" fill="rgba(168,85,247,0.12)" stroke="#a855f7" stroke-width="1.5"/>
-            <text x="300" y="436" text-anchor="middle" fill="#a855f7" font-size="13" font-weight="bold">SINGLE SEATS — 162 pax</text>
-            <text x="300" y="456" text-anchor="middle" fill="rgba(168,85,247,0.6)" font-size="11">Closest to Screen</text>
-
-            <!-- Catwalk -->
-            <rect x="270" y="480" width="60" height="15" rx="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-            <text x="300" y="492" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9">CATWALK</text>
-        </svg>
-
-        <div class="venue-legend">
+        <div class="map-legend">
             <div class="legend-item">
                 <div class="legend-dot" style="background:#FFD700;"></div>
-                VIP Lounge
+                VIP Lounge (A, B, C)
             </div>
             <div class="legend-item">
                 <div class="legend-dot" style="background:#1E88FF;"></div>
-                High Tables
+                High Tables (D, E, F)
             </div>
             <div class="legend-item">
                 <div class="legend-dot" style="background:#22c55e;"></div>
-                Standard Tables
+                Standard Tables (G, H)
             </div>
             <div class="legend-item">
                 <div class="legend-dot" style="background:#a855f7;"></div>
-                Single Seats
+                Single Seats (I)
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="section-info" id="sectionInfo">
+            <div class="info-placeholder">
+                <span class="icon">👆</span>
+                <p>Click on any section on the map to view details, pricing, and availability</p>
+            </div>
+        </div>
+
+        <div class="all-tickets">
+            <h3>All Sections</h3>
+            <div class="ticket-list">
+                <div class="ticket-item" onclick="selectSection('A')" style="border-color:rgba(255,215,0,0.2);">
+                    <span class="ticket-item-name" style="color:#FFD700;">Section A — VIP Lounge</span>
+                    <span class="ticket-item-cap">108 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('B')" style="border-color:rgba(255,215,0,0.2);">
+                    <span class="ticket-item-name" style="color:#FFD700;">Section B — VIP Lounge</span>
+                    <span class="ticket-item-cap">96 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('C')" style="border-color:rgba(255,215,0,0.2);">
+                    <span class="ticket-item-name" style="color:#FFD700;">Section C — VIP Lounge</span>
+                    <span class="ticket-item-cap">108 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('D')" style="border-color:rgba(30,136,255,0.2);">
+                    <span class="ticket-item-name" style="color:#1E88FF;">Section D — High Tables</span>
+                    <span class="ticket-item-cap">96 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('E')" style="border-color:rgba(30,136,255,0.2);">
+                    <span class="ticket-item-name" style="color:#1E88FF;">Section E — High Tables</span>
+                    <span class="ticket-item-cap">88 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('F')" style="border-color:rgba(30,136,255,0.2);">
+                    <span class="ticket-item-name" style="color:#1E88FF;">Section F — High Tables</span>
+                    <span class="ticket-item-cap">96 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('G')" style="border-color:rgba(34,197,94,0.2);">
+                    <span class="ticket-item-name" style="color:#22c55e;">Section G — Standard Tables</span>
+                    <span class="ticket-item-cap">144 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('H')" style="border-color:rgba(34,197,94,0.2);">
+                    <span class="ticket-item-name" style="color:#22c55e;">Section H — Standard Tables</span>
+                    <span class="ticket-item-cap">144 pax</span>
+                </div>
+                <div class="ticket-item" onclick="selectSection('I')" style="border-color:rgba(168,85,247,0.2);">
+                    <span class="ticket-item-name" style="color:#a855f7;">Section I — Single Seats</span>
+                    <span class="ticket-item-cap">162 pax</span>
+                </div>
             </div>
         </div>
     </div>
@@ -553,5 +629,193 @@ nav {
 <footer style="padding:40px 60px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.3);font-size:0.85rem;">
     <p>© 2026 Minieh Fan Zone. All rights reserved. 🇱🇧</p>
 </footer>
+
+<script>
+const sectionData = {
+    A: {
+        name: 'Section A',
+        type: 'VIP Lounge',
+        color: '#FFD700',
+        bgColor: 'rgba(255,215,0,0.05)',
+        borderColor: '#FFD700',
+        icon: '👑',
+        badge: 'VIP',
+        badgeBg: 'rgba(255,215,0,0.15)',
+        desc: 'Premium VIP lounge section on the left side of the venue. Luxury couch seating with the best elevated views.',
+        features: ['Luxury couch seating for 6', 'Elevated view of the screen', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
+        tables: 18,
+        perTable: 6,
+        total: 108,
+    },
+    B: {
+        name: 'Section B',
+        type: 'VIP Lounge',
+        color: '#FFD700',
+        bgColor: 'rgba(255,215,0,0.05)',
+        borderColor: '#FFD700',
+        icon: '👑',
+        badge: 'VIP',
+        badgeBg: 'rgba(255,215,0,0.15)',
+        desc: 'Premium VIP lounge center section. Best central view of the giant screen with luxury couch seating.',
+        features: ['Luxury couch seating for 6', 'Best central screen view', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
+        tables: 16,
+        perTable: 6,
+        total: 96,
+    },
+    C: {
+        name: 'Section C',
+        type: 'VIP Lounge',
+        color: '#FFD700',
+        bgColor: 'rgba(255,215,0,0.05)',
+        borderColor: '#FFD700',
+        icon: '👑',
+        badge: 'VIP',
+        badgeBg: 'rgba(255,215,0,0.15)',
+        desc: 'Premium VIP lounge section on the right side. Luxury couch seating with elevated views.',
+        features: ['Luxury couch seating for 6', 'Elevated view of the screen', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
+        tables: 18,
+        perTable: 6,
+        total: 108,
+    },
+    D: {
+        name: 'Section D',
+        type: 'High Tables',
+        color: '#1E88FF',
+        bgColor: 'rgba(30,136,255,0.05)',
+        borderColor: '#1E88FF',
+        icon: '🍺',
+        badge: 'Popular',
+        badgeBg: 'rgba(30,136,255,0.15)',
+        desc: 'High tables on the left side with great elevated viewing angle and social atmosphere.',
+        features: ['High table for 4', 'High chairs included', 'Great viewing angle', 'Food & drinks service', 'Social atmosphere'],
+        tables: 24,
+        perTable: 4,
+        total: 96,
+    },
+    E: {
+        name: 'Section E',
+        type: 'High Tables',
+        color: '#1E88FF',
+        bgColor: 'rgba(30,136,255,0.05)',
+        borderColor: '#1E88FF',
+        icon: '🍺',
+        badge: 'Popular',
+        badgeBg: 'rgba(30,136,255,0.15)',
+        desc: 'Center high tables with the best central view of the giant screen.',
+        features: ['High table for 4', 'High chairs included', 'Central screen view', 'Food & drinks service', 'Prime location'],
+        tables: 22,
+        perTable: 4,
+        total: 88,
+    },
+    F: {
+        name: 'Section F',
+        type: 'High Tables',
+        color: '#1E88FF',
+        bgColor: 'rgba(30,136,255,0.05)',
+        borderColor: '#1E88FF',
+        icon: '🍺',
+        badge: 'Popular',
+        badgeBg: 'rgba(30,136,255,0.15)',
+        desc: 'High tables on the right side with great elevated viewing angle.',
+        features: ['High table for 4', 'High chairs included', 'Great viewing angle', 'Food & drinks service', 'Social atmosphere'],
+        tables: 24,
+        perTable: 4,
+        total: 96,
+    },
+    G: {
+        name: 'Section G',
+        type: 'Standard Tables',
+        color: '#22c55e',
+        bgColor: 'rgba(34,197,94,0.05)',
+        borderColor: '#22c55e',
+        icon: '🪑',
+        badge: 'Standard',
+        badgeBg: 'rgba(34,197,94,0.15)',
+        desc: 'Standard tables on the left side. Comfortable seating with great value.',
+        features: ['Standard table for 4', 'Regular chairs', 'Good screen view', 'Food & drinks available', 'Great value'],
+        tables: 36,
+        perTable: 4,
+        total: 144,
+    },
+    H: {
+        name: 'Section H',
+        type: 'Standard Tables',
+        color: '#22c55e',
+        bgColor: 'rgba(34,197,94,0.05)',
+        borderColor: '#22c55e',
+        icon: '🪑',
+        badge: 'Standard',
+        badgeBg: 'rgba(34,197,94,0.15)',
+        desc: 'Standard tables on the right side. Comfortable seating with great value.',
+        features: ['Standard table for 4', 'Regular chairs', 'Good screen view', 'Food & drinks available', 'Great value'],
+        tables: 36,
+        perTable: 4,
+        total: 144,
+    },
+    I: {
+        name: 'Section I',
+        type: 'Single Seats',
+        color: '#a855f7',
+        bgColor: 'rgba(168,85,247,0.05)',
+        borderColor: '#a855f7',
+        icon: '🎯',
+        badge: 'Individual',
+        badgeBg: 'rgba(168,85,247,0.15)',
+        desc: 'Individual seats at the front, closest to the giant screen. Best immersion experience.',
+        features: ['Individual seat', 'Closest to the screen', 'Best immersion', 'Access to food court', 'Perfect for solo fans'],
+        tables: 162,
+        perTable: 1,
+        total: 162,
+    },
+};
+
+let selectedSection = null;
+
+function selectSection(id) {
+    // Remove previous selection
+    if (selectedSection) {
+        document.getElementById('sec-' + selectedSection).classList.remove('selected');
+    }
+
+    selectedSection = id;
+    document.getElementById('sec-' + id).classList.add('selected');
+
+    const s = sectionData[id];
+    const info = document.getElementById('sectionInfo');
+    info.classList.add('active');
+    info.style.borderColor = s.borderColor;
+    info.style.background = s.bgColor;
+
+    info.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;">
+            <span style="font-size:2.5rem;">${s.icon}</span>
+            <span style="font-size:0.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 12px;border-radius:50px;background:${s.badgeBg};color:${s.color};">${s.badge}</span>
+        </div>
+        <div class="info-section-name" style="color:${s.color};">${s.name}</div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:15px;">${s.type}</div>
+        <p class="info-desc">${s.desc}</p>
+        <ul class="info-features">
+            ${s.features.map(f => `<li style="::before{background:rgba(${s.color},0.2);}">${f}</li>`).join('')}
+        </ul>
+        <div class="info-capacity">
+            <div class="cap-stat">
+                <span style="color:${s.color};">${s.total}</span>
+                <span>Total Seats</span>
+            </div>
+            <div class="cap-stat">
+                <span style="color:${s.color};">${s.tables}</span>
+                <span>${s.type === 'Single Seats' ? 'Seats' : 'Tables'}</span>
+            </div>
+            <div class="cap-stat">
+                <span style="color:${s.color};">${s.perTable}</span>
+                <span>Per Table</span>
+            </div>
+        </div>
+        <a href="/reserve?section=${id}" class="btn-book-section" style="background:${s.color};color:#0B1220;">
+            🎟️ Book ${s.name}
+        </a>
+    `;
+}
+</script>
 
 @endsection
