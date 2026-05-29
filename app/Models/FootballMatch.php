@@ -18,7 +18,7 @@ class FootballMatch extends Model
 
     public function reservations(): HasMany
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class, 'match_id');
     }
 
     public function getLabelAttribute(): string
