@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Customer;
 use App\Models\FootballMatch;
 use App\Models\Reservation;
 use App\Models\TicketCategory;
 use App\Models\Payment;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\SvgWriter;
 
 class ReservationController extends Controller
 {
     public function index()
     {
-        return view('frontend.reserve');
+        $matches = FootballMatch::upcoming()->get();
+        return view('frontend.reserve', compact('matches'));
     }
 
     public function store(Request $request): JsonResponse
@@ -47,6 +51,9 @@ class ReservationController extends Controller
         $bookingCode = Reservation::generateBookingCode();
         $totalPrice  = $category->price ? $category->price * $validated['quantity'] : null;
 
+        // Generate QR code
+        $qrPath = $this->generateQrCode($bookingCode);
+
         $reservation = Reservation::create([
             'customer_id'        => $customer->id,
             'match_id'           => $validated['match_id'],
@@ -54,6 +61,7 @@ class ReservationController extends Controller
             'quantity'           => $validated['quantity'],
             'total_price'        => $totalPrice,
             'booking_code'       => $bookingCode,
+            'qr_code'            => $qrPath,
             'payment_reference'  => $validated['payment_ref'],
             'payment_status'     => 'pending',
             'entry_status'       => 'not_entered',
@@ -70,7 +78,27 @@ class ReservationController extends Controller
         return response()->json([
             'success'      => true,
             'booking_code' => $bookingCode,
+            'qr_code_url'  => $qrPath ? asset('storage/' . $qrPath) : null,
         ]);
+    }
+
+    private function generateQrCode(string $bookingCode): ?string
+    {
+        try {
+            $qrCode = QrCode::create($bookingCode)
+                ->setSize(300)
+                ->setMargin(10);
+
+            $writer = new SvgWriter();
+            $result = $writer->write($qrCode);
+
+            $path = 'qrcodes/' . $bookingCode . '.svg';
+            Storage::disk('public')->put($path, $result->getString());
+
+            return $path;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function lookup(string $bookingCode): JsonResponse
@@ -89,6 +117,7 @@ class ReservationController extends Controller
             'quantity'       => $reservation->quantity,
             'payment_status' => $reservation->payment_status,
             'entry_status'   => $reservation->entry_status,
+            'qr_code_url'    => $reservation->qr_code ? asset('storage/' . $reservation->qr_code) : null,
         ]);
     }
 
