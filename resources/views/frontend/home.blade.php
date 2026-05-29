@@ -3,101 +3,122 @@
 @section('content')
 
 <style>
-/* ===== HERO ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --navy: #0B1220;
+    --blue: #1E88FF;
+    --gold: #FFD700;
+    --white: #FFFFFF;
+}
+
+body {
+    background: var(--navy);
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--white);
+}
+
+/* NAV */
+nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(11,18,32,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(30,136,255,0.15);
+}
+
+.nav-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    color: var(--white);
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-btn {
+    background: var(--blue);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover { background: var(--gold); color: var(--navy); }
+
+/* HERO */
 .hero {
     min-height: 100vh;
     position: relative;
-    overflow: hidden;
     display: flex;
     align-items: center;
-    background: linear-gradient(160deg, #043527 0%, #07B9ED 60%, #36BA9C 100%);
-}
-
-.hero-bg-animated {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 70% 60% at 10% 50%, rgba(7,185,237,0.4) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 70% at 90% 30%, rgba(54,186,156,0.3) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 50% 90%, rgba(4,53,39,0.6) 0%, transparent 60%);
-    animation: heroBgPulse 10s ease-in-out infinite alternate;
-}
-
-@keyframes heroBgPulse {
-    0% { opacity: 1; }
-    100% { opacity: 0.7; filter: hue-rotate(10deg); }
-}
-
-.hero-waves {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
+    justify-content: center;
+    text-align: center;
     overflow: hidden;
-    line-height: 0;
 }
 
-.hero-waves svg {
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 80px;
-}
-
-.particles {
+.hero-bg {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.p-dot {
-    position: absolute;
-    border-radius: 50%;
-    animation: floatUp linear infinite;
-    opacity: 0;
-}
-
-@keyframes floatUp {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-100px) scale(1) translateX(var(--dx)); opacity: 0; }
-}
-
-.hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 80px 80px;
+    background: 
+        linear-gradient(rgba(11,18,32,0.7), rgba(11,18,32,0.85)),
+        url('/images/minieh-bg.webp') center/cover no-repeat;
 }
 
 .hero-content {
     position: relative;
     z-index: 10;
-    width: 100%;
-    padding: 140px 0 120px;
+    max-width: 900px;
+    padding: 0 30px;
 }
 
-.live-badge {
+.hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: white;
-    padding: 10px 22px;
+    background: rgba(30,136,255,0.15);
+    border: 1px solid rgba(30,136,255,0.4);
+    padding: 8px 20px;
     border-radius: 50px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 35px;
+    color: var(--blue);
+    margin-bottom: 30px;
 }
 
-.live-dot {
+.hero-badge-dot {
     width: 8px; height: 8px;
-    background: #E7E640;
+    background: var(--blue);
     border-radius: 50%;
     animation: blink 1s infinite;
 }
@@ -106,223 +127,370 @@
 
 .hero-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: clamp(3.5rem, 11vw, 9rem);
+    font-size: clamp(4rem, 12vw, 10rem);
     line-height: 0.9;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-}
-
-.hero-title .line-white { color: white; display: block; }
-.hero-title .line-yellow { display: block; color: #E7E640; }
-.hero-title .line-outline {
-    display: block;
-    color: transparent;
-    -webkit-text-stroke: 2px rgba(255,255,255,0.6);
-}
-
-.container-festival {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 30px;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Instrument Sans', sans-serif; }
-a { text-decoration: none; }
-
-.btn-festival {
-    font-family: 'Bebas Neue', cursive;
     letter-spacing: 3px;
-    background: #E7E640;
-    color: #043527;
-    padding: 16px 45px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    display: inline-block;
-    transition: all 0.3s;
+    margin-bottom: 25px;
 }
 
-.btn-festival:hover { background: white; }
+.hero-title .gold { color: var(--gold); }
 
-.btn-outline {
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 3px;
-    background: transparent;
-    color: white;
-    padding: 16px 45px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    border: 1px solid rgba(255,255,255,0.4);
-    display: inline-block;
-    transition: all 0.3s;
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto 40px;
 }
 
 .hero-btns {
     display: flex;
     gap: 15px;
+    justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 60px;
+    margin-bottom: 70px;
 }
 
-.hero-stats {
-    display: flex;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 12px;
-    overflow: hidden;
-    max-width: 520px;
-}
-
-.stat-box {
-    flex: 1;
-    padding: 20px 25px;
-    text-align: center;
-    border-right: 1px solid rgba(255,255,255,0.1);
-}
-
-.stat-box:last-child { border-right: none; }
-
-.stat-num {
+.btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 16px 45px;
+    border-radius: 6px;
     font-family: 'Bebas Neue', cursive;
-    font-size: 2.2rem;
-    color: #E7E640;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.btn-primary:hover { background: white; transform: translateY(-2px); }
+
+.btn-secondary {
+    background: transparent;
+    color: white;
+    padding: 16px 45px;
+    border-radius: 6px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+/* COUNTDOWN */
+.countdown {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.countdown-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(30,136,255,0.2);
+    border-radius: 12px;
+    padding: 20px 25px;
+    min-width: 90px;
+    text-align: center;
+}
+
+.countdown-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem;
+    color: var(--gold);
     line-height: 1;
     display: block;
 }
 
-.stat-lbl {
-    font-size: 0.62rem;
-    font-weight: 600;
+.countdown-lbl {
+    font-size: 0.6rem;
+    font-weight: 700;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.4);
     text-transform: uppercase;
     margin-top: 5px;
     display: block;
 }
 
-.date-strip {
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 12px 25px;
-    border-radius: 8px;
-    margin-bottom: 45px;
+/* STATS */
+.stats-section {
+    padding: 80px 60px;
+    background: rgba(30,136,255,0.05);
+    border-top: 1px solid rgba(30,136,255,0.1);
+    border-bottom: 1px solid rgba(30,136,255,0.1);
 }
 
-.date-strip span {
-    font-size: 0.78rem;
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3.5rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+}
+
+.stat-lbl {
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255,255,255,0.4);
     text-transform: uppercase;
+    margin-top: 8px;
+    display: block;
 }
 
-.date-strip .sep {
-    width: 4px; height: 4px;
-    background: #E7E640;
-    border-radius: 50%;
+/* FEATURES */
+.features-section {
+    padding: 120px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.hero-desc {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.75);
-    line-height: 1.9;
-    max-width: 540px;
-    margin-bottom: 45px;
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--blue);
+    text-transform: uppercase;
+    display: block;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--white);
+}
+
+.section-title span { color: var(--gold); }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(30,136,255,0.1);
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.4s;
+}
+
+.feature-card:hover {
+    background: rgba(30,136,255,0.08);
+    border-color: rgba(30,136,255,0.3);
+    transform: translateY(-8px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.feature-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.feature-desc {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+}
+
+/* CTA */
+.cta-section {
+    padding: 120px 60px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(30,136,255,0.1), rgba(255,215,0,0.05));
+    border-top: 1px solid rgba(30,136,255,0.1);
+}
+
+.cta-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 8vw, 7rem);
+    letter-spacing: 2px;
+    line-height: 0.9;
+    margin-bottom: 25px;
+}
+
+/* FOOTER */
+footer {
+    padding: 40px 60px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.3);
+    font-size: 0.85rem;
 }
 </style>
 
+{{-- NAV --}}
+<nav>
+    <div class="nav-logo">MINIEH <span>FAN ZONE</span></div>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/matches">Matches</a></li>
+        <li><a href="/tickets">Tickets</a></li>
+        <li><a href="/venue">Venue</a></li>
+    </ul>
+    <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
+</nav>
+
 {{-- HERO --}}
 <section class="hero">
-    <div class="hero-bg-animated"></div>
-    <div class="hero-grid"></div>
-    <div class="particles" id="particles"></div>
-
-    <div class="container-festival hero-content">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
-            <div>
-                <div class="live-badge">
-                    <span class="live-dot"></span>
-                    June 11 — July 19, 2026
-                </div>
-
-                <h1 class="hero-title">
-                    <span class="line-white">MINIEH</span>
-                    <span class="line-yellow">WORLD CUP</span>
-                    <span class="line-outline">CORNICHE</span>
-                    <span class="line-white" style="font-size:0.55em;letter-spacing:8px;color:rgba(255,255,255,0.7);">FESTIVAL</span>
-                </h1>
-
-                <div class="date-strip">
-                    <span>📍 Minieh Corniche</span>
-                    <span class="sep"></span>
-                    <span>🇱🇧 Lebanon</span>
-                    <span class="sep"></span>
-                    <span>⚽ 39 Days</span>
-                </div>
-
-                <p class="hero-desc">
-                    Where Football Meets the Sea. Lebanon's first large-scale World Cup fan destination — giant screen over the water, live shows, and an atmosphere unlike anything you've ever experienced.
-                </p>
-
-                <div class="hero-btns">
-                    <a href="/book-now" class="btn-festival">🎟️ Book Tickets</a>
-                    <a href="#experience" class="btn-outline">Explore Experience</a>
-                </div>
-
-                <div class="hero-stats">
-                    <div class="stat-box">
-                        <span class="stat-num">70K+</span>
-                        <span class="stat-lbl">Visitors</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-num">39</span>
-                        <span class="stat-lbl">Days</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-num">64</span>
-                        <span class="stat-lbl">Matches</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-num">1</span>
-                        <span class="stat-lbl">Epic Venue</span>
-                    </div>
-                </div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Official FIFA World Cup 2026 Viewing Experience
+        </div>
+        <h1 class="hero-title">
+            MINIEH<br>
+            <span class="gold">FAN ZONE</span><br>
+            2026
+        </h1>
+        <p class="hero-subtitle">Watch every FIFA World Cup match live on a giant screen with thousands of football fans on the beautiful Minieh Corniche.</p>
+        <div class="hero-btns">
+            <a href="/reserve" class="btn-primary">🎟️ Reserve Tickets</a>
+            <a href="/matches" class="btn-secondary">📅 View Matches</a>
+        </div>
+        <div class="countdown" id="countdown">
+            <div class="countdown-box">
+                <span class="countdown-num" id="days">00</span>
+                <span class="countdown-lbl">Days</span>
             </div>
-
-            <div style="display:flex;align-items:center;justify-content:center;">
-                <div style="font-size:10rem;animation:ballFloat 4s ease-in-out infinite;">⚽</div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="hours">00</span>
+                <span class="countdown-lbl">Hours</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="minutes">00</span>
+                <span class="countdown-lbl">Minutes</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="seconds">00</span>
+                <span class="countdown-lbl">Seconds</span>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="hero-waves">
-        <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#ffffff"/>
-        </svg>
+{{-- STATS --}}
+<section class="stats-section">
+    <div class="stats-grid">
+        <div>
+            <span class="stat-num">70K+</span>
+            <span class="stat-lbl">Expected Visitors</span>
+        </div>
+        <div>
+            <span class="stat-num">39</span>
+            <span class="stat-lbl">Days of Football</span>
+        </div>
+        <div>
+            <span class="stat-num">64</span>
+            <span class="stat-lbl">World Cup Matches</span>
+        </div>
+        <div>
+            <span class="stat-num">4</span>
+            <span class="stat-lbl">Seating Levels</span>
+        </div>
     </div>
 </section>
 
+{{-- FEATURES --}}
+<section class="features-section">
+    <span class="section-label">The Experience</span>
+    <h2 class="section-title">Everything You <span>Need</span></h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">📺</span>
+            <h3 class="feature-title">Giant LED Screen</h3>
+            <p class="feature-desc">A massive screen over the Mediterranean sea. Experience every goal like you're in the stadium.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🎟️</span>
+            <h3 class="feature-title">Online Booking</h3>
+            <p class="feature-desc">Reserve your seat in minutes. Get a digital ticket with QR code sent directly to your email.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">👑</span>
+            <h3 class="feature-title">VIP Experience</h3>
+            <p class="feature-desc">Luxury tables, premium service, and the best views. The ultimate World Cup experience in Lebanon.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🍔</span>
+            <h3 class="feature-title">Food & Drinks</h3>
+            <p class="feature-desc">Best local and international food and drinks. Everything you need for the perfect match night.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🎵</span>
+            <h3 class="feature-title">Live Entertainment</h3>
+            <p class="feature-desc">Top DJs and live music every night. The party doesn't stop even at half time.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🌊</span>
+            <h3 class="feature-title">Seaside Location</h3>
+            <p class="feature-desc">Right on the Minieh Corniche. Sea breeze, stunning views, and thousands of passionate fans.</p>
+        </div>
+    </div>
+</section>
+
+{{-- CTA --}}
+<section class="cta-section">
+    <h2 class="cta-title">DON'T MISS<br><span style="color:var(--gold);">THE FESTIVAL</span></h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:1rem;max-width:500px;margin:0 auto 40px;line-height:1.9;">Limited seats available. Book now to secure your spot at the biggest event in North Lebanon.</p>
+    <div class="hero-btns">
+        <a href="/reserve" class="btn-primary">🎟️ Book Now</a>
+        <a href="/matches" class="btn-secondary">View Matches</a>
+    </div>
+</section>
+
+{{-- FOOTER --}}
+<footer>
+    <p>© 2026 Minieh Fan Zone. All rights reserved. 🇱🇧</p>
+</footer>
+
 <script>
-const pc = document.getElementById('particles');
-for(let i=0;i<50;i++){
-    const p=document.createElement('div');
-    p.className='p-dot';
-    const size=Math.random()*5+2;
-    p.style.cssText=`
-        left:${Math.random()*100}%;
-        width:${size}px;height:${size}px;
-        background:${['rgba(255,255,255,0.6)','rgba(231,230,64,0.6)','rgba(160,218,219,0.6)'][Math.floor(Math.random()*3)]};
-        animation-duration:${Math.random()*15+8}s;
-        animation-delay:${Math.random()*10}s;
-        --dx:${(Math.random()-0.5)*150}px;
-    `;
-    pc.appendChild(p);
+// Countdown to June 11, 2026
+function updateCountdown() {
+    const target = new Date('2026-06-11T19:00:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) return;
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById('days').textContent = String(days).padStart(2,'0');
+    document.getElementById('hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2,'0');
 }
+setInterval(updateCountdown, 1000);
+updateCountdown();
 </script>
 
 @endsection
