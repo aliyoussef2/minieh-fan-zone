@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::dropIfExists('matches');
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
             $table->string('team_a');
