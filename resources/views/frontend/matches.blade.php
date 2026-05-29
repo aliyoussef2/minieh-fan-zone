@@ -95,7 +95,6 @@ nav {
     font-size: 1rem;
 }
 
-/* FILTERS */
 .filters {
     padding: 30px 60px;
     display: flex;
@@ -130,7 +129,6 @@ nav {
     color: white;
 }
 
-/* SEARCH */
 .search-bar {
     padding: 20px 60px;
     display: flex;
@@ -157,7 +155,6 @@ nav {
 
 .search-input::placeholder { color: rgba(255,255,255,0.3); }
 
-/* MATCHES */
 .matches-container {
     padding: 30px 60px 80px;
     max-width: 1200px;
@@ -220,8 +217,11 @@ nav {
 }
 
 .team-flag {
-    font-size: 2.5rem;
-    line-height: 1;
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .team-name {
@@ -306,58 +306,50 @@ nav {
     <input type="text" class="search-input" placeholder="🔍 Search by team or date..." oninput="searchMatches(this.value)">
 </div>
 
-<div class="matches-container" id="matchesContainer">
-</div>
+<div class="matches-container" id="matchesContainer"></div>
 
 <script>
 const matches = [
-    // GROUP STAGE
-    { id:1, stage:'Group Stage', group:'Group A', teamA:'Mexico', flagA:'🇲🇽', teamB:'Ecuador', flagB:'🇪🇨', date:'Jun 11', time:'7:00 PM' },
-    { id:2, stage:'Group Stage', group:'Group A', teamA:'United States', flagA:'🇺🇸', teamB:'Canada', flagB:'🇨🇦', date:'Jun 12', time:'7:00 PM' },
-    { id:3, stage:'Group Stage', group:'Group B', teamA:'Argentina', flagA:'🇦🇷', teamB:'Morocco', flagB:'🇲🇦', date:'Jun 12', time:'4:00 PM' },
-    { id:4, stage:'Group Stage', group:'Group B', teamA:'France', flagA:'🇫🇷', teamB:'Saudi Arabia', flagB:'🇸🇦', date:'Jun 13', time:'7:00 PM' },
-    { id:5, stage:'Group Stage', group:'Group C', teamA:'England', flagA:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', teamB:'Serbia', flagB:'🇷🇸', date:'Jun 13', time:'4:00 PM' },
-    { id:6, stage:'Group Stage', group:'Group C', teamA:'Spain', flagA:'🇪🇸', teamB:'Australia', flagB:'🇦🇺', date:'Jun 14', time:'7:00 PM' },
-    { id:7, stage:'Group Stage', group:'Group D', teamA:'Germany', flagA:'🇩🇪', teamB:'Japan', flagB:'🇯🇵', date:'Jun 14', time:'4:00 PM' },
-    { id:8, stage:'Group Stage', group:'Group D', teamA:'Brazil', flagA:'🇧🇷', teamB:'Colombia', flagB:'🇨🇴', date:'Jun 15', time:'7:00 PM' },
-    { id:9, stage:'Group Stage', group:'Group E', teamA:'Portugal', flagA:'🇵🇹', teamB:'Nigeria', flagB:'🇳🇬', date:'Jun 15', time:'4:00 PM' },
-    { id:10, stage:'Group Stage', group:'Group E', teamA:'Netherlands', flagA:'🇳🇱', teamB:'Senegal', flagB:'🇸🇳', date:'Jun 16', time:'7:00 PM' },
-    { id:11, stage:'Group Stage', group:'Group F', teamA:'Belgium', flagA:'🇧🇪', teamB:'Uruguay', flagB:'🇺🇾', date:'Jun 16', time:'4:00 PM' },
-    { id:12, stage:'Group Stage', group:'Group F', teamA:'Croatia', flagA:'🇭🇷', teamB:'South Korea', flagB:'🇰🇷', date:'Jun 17', time:'7:00 PM' },
-    { id:13, stage:'Group Stage', group:'Group G', teamA:'Italy', flagA:'🇮🇹', teamB:'Ecuador', flagB:'🇪🇨', date:'Jun 17', time:'4:00 PM' },
-    { id:14, stage:'Group Stage', group:'Group G', teamA:'Switzerland', flagA:'🇨🇭', teamB:'Cameroon', flagB:'🇨🇲', date:'Jun 18', time:'7:00 PM' },
-    { id:15, stage:'Group Stage', group:'Group H', teamA:'Denmark', flagA:'🇩🇰', teamB:'Tunisia', flagB:'🇹🇳', date:'Jun 18', time:'4:00 PM' },
-    { id:16, stage:'Group Stage', group:'Group H', teamA:'Mexico', flagA:'🇲🇽', teamB:'Poland', flagB:'🇵🇱', date:'Jun 19', time:'7:00 PM' },
-    { id:17, stage:'Group Stage', group:'Group I', teamA:'Argentina', flagA:'🇦🇷', teamB:'Saudi Arabia', flagB:'🇸🇦', date:'Jun 19', time:'4:00 PM' },
-    { id:18, stage:'Group Stage', group:'Group I', teamA:'France', flagA:'🇫🇷', teamB:'Morocco', flagB:'🇲🇦', date:'Jun 20', time:'7:00 PM' },
-    { id:19, stage:'Group Stage', group:'Group J', teamA:'England', flagA:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', teamB:'Australia', flagB:'🇦🇺', date:'Jun 20', time:'4:00 PM' },
-    { id:20, stage:'Group Stage', group:'Group J', teamA:'Spain', flagA:'🇪🇸', teamB:'Serbia', flagB:'🇷🇸', date:'Jun 21', time:'7:00 PM' },
-    { id:21, stage:'Group Stage', group:'Group K', teamA:'Germany', flagA:'🇩🇪', teamB:'Colombia', flagB:'🇨🇴', date:'Jun 21', time:'4:00 PM' },
-    { id:22, stage:'Group Stage', group:'Group K', teamA:'Brazil', flagA:'🇧🇷', teamB:'Japan', flagB:'🇯🇵', date:'Jun 22', time:'7:00 PM' },
-    { id:23, stage:'Group Stage', group:'Group L', teamA:'Portugal', flagA:'🇵🇹', teamB:'Senegal', flagB:'🇸🇳', date:'Jun 22', time:'4:00 PM' },
-    { id:24, stage:'Group Stage', group:'Group L', teamA:'Netherlands', flagA:'🇳🇱', teamB:'Nigeria', flagB:'🇳🇬', date:'Jun 23', time:'7:00 PM' },
-    // ROUND OF 32
-    { id:25, stage:'Round of 32', teamA:'Winner A1', flagA:'⚽', teamB:'Runner B2', flagB:'⚽', date:'Jul 1', time:'7:00 PM' },
-    { id:26, stage:'Round of 32', teamA:'Winner B1', flagA:'⚽', teamB:'Runner A2', flagB:'⚽', date:'Jul 1', time:'4:00 PM' },
-    { id:27, stage:'Round of 32', teamA:'Winner C1', flagA:'⚽', teamB:'Runner D2', flagB:'⚽', date:'Jul 2', time:'7:00 PM' },
-    { id:28, stage:'Round of 32', teamA:'Winner D1', flagA:'⚽', teamB:'Runner C2', flagB:'⚽', date:'Jul 2', time:'4:00 PM' },
-    // ROUND OF 16
-    { id:29, stage:'Round of 16', teamA:'Winner R32-1', flagA:'⚽', teamB:'Winner R32-2', flagB:'⚽', date:'Jul 4', time:'7:00 PM' },
-    { id:30, stage:'Round of 16', teamA:'Winner R32-3', flagA:'⚽', teamB:'Winner R32-4', flagB:'⚽', date:'Jul 4', time:'4:00 PM' },
-    { id:31, stage:'Round of 16', teamA:'Winner R32-5', flagA:'⚽', teamB:'Winner R32-6', flagB:'⚽', date:'Jul 5', time:'7:00 PM' },
-    { id:32, stage:'Round of 16', teamA:'Winner R32-7', flagA:'⚽', teamB:'Winner R32-8', flagB:'⚽', date:'Jul 5', time:'4:00 PM' },
-    // QUARTER FINALS
-    { id:33, stage:'Quarter Final', teamA:'Winner QF-1', flagA:'⚽', teamB:'Winner QF-2', flagB:'⚽', date:'Jul 9', time:'7:00 PM' },
-    { id:34, stage:'Quarter Final', teamA:'Winner QF-3', flagA:'⚽', teamB:'Winner QF-4', flagB:'⚽', date:'Jul 9', time:'4:00 PM' },
-    { id:35, stage:'Quarter Final', teamA:'Winner QF-5', flagA:'⚽', teamB:'Winner QF-6', flagB:'⚽', date:'Jul 10', time:'7:00 PM' },
-    { id:36, stage:'Quarter Final', teamA:'Winner QF-7', flagA:'⚽', teamB:'Winner QF-8', flagB:'⚽', date:'Jul 10', time:'4:00 PM' },
-    // SEMI FINALS
-    { id:37, stage:'Semi Final', teamA:'Winner SF-1', flagA:'⚽', teamB:'Winner SF-2', flagB:'⚽', date:'Jul 14', time:'7:00 PM' },
-    { id:38, stage:'Semi Final', teamA:'Winner SF-3', flagA:'⚽', teamB:'Winner SF-4', flagB:'⚽', date:'Jul 15', time:'7:00 PM' },
-    // THIRD PLACE
-    { id:39, stage:'Third Place', teamA:'Loser SF-1', flagA:'⚽', teamB:'Loser SF-2', flagB:'⚽', date:'Jul 18', time:'5:00 PM' },
-    // FINAL
-    { id:40, stage:'Final', teamA:'Winner SF-1', flagA:'🏆', teamB:'Winner SF-2', flagB:'🏆', date:'Jul 19', time:'7:00 PM' },
+    { id:1, stage:'Group Stage', group:'Group A', teamA:'Mexico', flagA:'https://flagcdn.com/w80/mx.png', teamB:'Ecuador', flagB:'https://flagcdn.com/w80/ec.png', date:'Jun 11', time:'7:00 PM' },
+    { id:2, stage:'Group Stage', group:'Group A', teamA:'United States', flagA:'https://flagcdn.com/w80/us.png', teamB:'Canada', flagB:'https://flagcdn.com/w80/ca.png', date:'Jun 12', time:'7:00 PM' },
+    { id:3, stage:'Group Stage', group:'Group B', teamA:'Argentina', flagA:'https://flagcdn.com/w80/ar.png', teamB:'Morocco', flagB:'https://flagcdn.com/w80/ma.png', date:'Jun 12', time:'4:00 PM' },
+    { id:4, stage:'Group Stage', group:'Group B', teamA:'France', flagA:'https://flagcdn.com/w80/fr.png', teamB:'Saudi Arabia', flagB:'https://flagcdn.com/w80/sa.png', date:'Jun 13', time:'7:00 PM' },
+    { id:5, stage:'Group Stage', group:'Group C', teamA:'England', flagA:'https://flagcdn.com/w80/gb-eng.png', teamB:'Serbia', flagB:'https://flagcdn.com/w80/rs.png', date:'Jun 13', time:'4:00 PM' },
+    { id:6, stage:'Group Stage', group:'Group C', teamA:'Spain', flagA:'https://flagcdn.com/w80/es.png', teamB:'Australia', flagB:'https://flagcdn.com/w80/au.png', date:'Jun 14', time:'7:00 PM' },
+    { id:7, stage:'Group Stage', group:'Group D', teamA:'Germany', flagA:'https://flagcdn.com/w80/de.png', teamB:'Japan', flagB:'https://flagcdn.com/w80/jp.png', date:'Jun 14', time:'4:00 PM' },
+    { id:8, stage:'Group Stage', group:'Group D', teamA:'Brazil', flagA:'https://flagcdn.com/w80/br.png', teamB:'Colombia', flagB:'https://flagcdn.com/w80/co.png', date:'Jun 15', time:'7:00 PM' },
+    { id:9, stage:'Group Stage', group:'Group E', teamA:'Portugal', flagA:'https://flagcdn.com/w80/pt.png', teamB:'Nigeria', flagB:'https://flagcdn.com/w80/ng.png', date:'Jun 15', time:'4:00 PM' },
+    { id:10, stage:'Group Stage', group:'Group E', teamA:'Netherlands', flagA:'https://flagcdn.com/w80/nl.png', teamB:'Senegal', flagB:'https://flagcdn.com/w80/sn.png', date:'Jun 16', time:'7:00 PM' },
+    { id:11, stage:'Group Stage', group:'Group F', teamA:'Belgium', flagA:'https://flagcdn.com/w80/be.png', teamB:'Uruguay', flagB:'https://flagcdn.com/w80/uy.png', date:'Jun 16', time:'4:00 PM' },
+    { id:12, stage:'Group Stage', group:'Group F', teamA:'Croatia', flagA:'https://flagcdn.com/w80/hr.png', teamB:'South Korea', flagB:'https://flagcdn.com/w80/kr.png', date:'Jun 17', time:'7:00 PM' },
+    { id:13, stage:'Group Stage', group:'Group G', teamA:'Italy', flagA:'https://flagcdn.com/w80/it.png', teamB:'Ecuador', flagB:'https://flagcdn.com/w80/ec.png', date:'Jun 17', time:'4:00 PM' },
+    { id:14, stage:'Group Stage', group:'Group G', teamA:'Switzerland', flagA:'https://flagcdn.com/w80/ch.png', teamB:'Cameroon', flagB:'https://flagcdn.com/w80/cm.png', date:'Jun 18', time:'7:00 PM' },
+    { id:15, stage:'Group Stage', group:'Group H', teamA:'Denmark', flagA:'https://flagcdn.com/w80/dk.png', teamB:'Tunisia', flagB:'https://flagcdn.com/w80/tn.png', date:'Jun 18', time:'4:00 PM' },
+    { id:16, stage:'Group Stage', group:'Group H', teamA:'Mexico', flagA:'https://flagcdn.com/w80/mx.png', teamB:'Poland', flagB:'https://flagcdn.com/w80/pl.png', date:'Jun 19', time:'7:00 PM' },
+    { id:17, stage:'Group Stage', group:'Group I', teamA:'Argentina', flagA:'https://flagcdn.com/w80/ar.png', teamB:'Saudi Arabia', flagB:'https://flagcdn.com/w80/sa.png', date:'Jun 19', time:'4:00 PM' },
+    { id:18, stage:'Group Stage', group:'Group I', teamA:'France', flagA:'https://flagcdn.com/w80/fr.png', teamB:'Morocco', flagB:'https://flagcdn.com/w80/ma.png', date:'Jun 20', time:'7:00 PM' },
+    { id:19, stage:'Group Stage', group:'Group J', teamA:'England', flagA:'https://flagcdn.com/w80/gb-eng.png', teamB:'Australia', flagB:'https://flagcdn.com/w80/au.png', date:'Jun 20', time:'4:00 PM' },
+    { id:20, stage:'Group Stage', group:'Group J', teamA:'Spain', flagA:'https://flagcdn.com/w80/es.png', teamB:'Serbia', flagB:'https://flagcdn.com/w80/rs.png', date:'Jun 21', time:'7:00 PM' },
+    { id:21, stage:'Group Stage', group:'Group K', teamA:'Germany', flagA:'https://flagcdn.com/w80/de.png', teamB:'Colombia', flagB:'https://flagcdn.com/w80/co.png', date:'Jun 21', time:'4:00 PM' },
+    { id:22, stage:'Group Stage', group:'Group K', teamA:'Brazil', flagA:'https://flagcdn.com/w80/br.png', teamB:'Japan', flagB:'https://flagcdn.com/w80/jp.png', date:'Jun 22', time:'7:00 PM' },
+    { id:23, stage:'Group Stage', group:'Group L', teamA:'Portugal', flagA:'https://flagcdn.com/w80/pt.png', teamB:'Senegal', flagB:'https://flagcdn.com/w80/sn.png', date:'Jun 22', time:'4:00 PM' },
+    { id:24, stage:'Group Stage', group:'Group L', teamA:'Netherlands', flagA:'https://flagcdn.com/w80/nl.png', teamB:'Nigeria', flagB:'https://flagcdn.com/w80/ng.png', date:'Jun 23', time:'7:00 PM' },
+    { id:25, stage:'Round of 32', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 1', time:'7:00 PM' },
+    { id:26, stage:'Round of 32', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 1', time:'4:00 PM' },
+    { id:27, stage:'Round of 32', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 2', time:'7:00 PM' },
+    { id:28, stage:'Round of 32', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 2', time:'4:00 PM' },
+    { id:29, stage:'Round of 16', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 4', time:'7:00 PM' },
+    { id:30, stage:'Round of 16', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 4', time:'4:00 PM' },
+    { id:31, stage:'Round of 16', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 5', time:'7:00 PM' },
+    { id:32, stage:'Round of 16', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 5', time:'4:00 PM' },
+    { id:33, stage:'Quarter Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 9', time:'7:00 PM' },
+    { id:34, stage:'Quarter Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 9', time:'4:00 PM' },
+    { id:35, stage:'Quarter Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 10', time:'7:00 PM' },
+    { id:36, stage:'Quarter Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 10', time:'4:00 PM' },
+    { id:37, stage:'Semi Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 14', time:'7:00 PM' },
+    { id:38, stage:'Semi Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 15', time:'7:00 PM' },
+    { id:39, stage:'Third Place', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 18', time:'5:00 PM' },
+    { id:40, stage:'Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 19', time:'7:00 PM' },
 ];
 
 let currentFilter = 'all';
@@ -366,22 +358,14 @@ let currentSearch = '';
 function renderMatches() {
     const container = document.getElementById('matchesContainer');
     let filtered = matches;
-
-    if (currentFilter !== 'all') {
-        filtered = filtered.filter(m => m.stage === currentFilter);
-    }
-
-    if (currentSearch) {
-        filtered = filtered.filter(m =>
-            m.teamA.toLowerCase().includes(currentSearch) ||
-            m.teamB.toLowerCase().includes(currentSearch) ||
-            m.date.toLowerCase().includes(currentSearch)
-        );
-    }
-
+    if (currentFilter !== 'all') filtered = filtered.filter(m => m.stage === currentFilter);
+    if (currentSearch) filtered = filtered.filter(m =>
+        m.teamA.toLowerCase().includes(currentSearch) ||
+        m.teamB.toLowerCase().includes(currentSearch) ||
+        m.date.toLowerCase().includes(currentSearch)
+    );
     const stages = [...new Set(filtered.map(m => m.stage))];
     container.innerHTML = '';
-
     stages.forEach(stage => {
         const stageMatches = filtered.filter(m => m.stage === stage);
         const stageDiv = document.createElement('div');
@@ -391,12 +375,12 @@ function renderMatches() {
                     <div class="match-stage">${m.group || m.stage}</div>
                     <div class="match-teams">
                         <div class="team">
-                            <span class="team-flag">${m.flagA}</span>
+                            <img class="team-flag" src="${m.flagA}" alt="${m.teamA}">
                             <span class="team-name">${m.teamA}</span>
                         </div>
                         <span class="vs">VS</span>
                         <div class="team">
-                            <span class="team-flag">${m.flagB}</span>
+                            <img class="team-flag" src="${m.flagB}" alt="${m.teamB}">
                             <span class="team-name">${m.teamB}</span>
                         </div>
                     </div>
