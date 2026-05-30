@@ -389,7 +389,7 @@ function renderMatches() {
                             <span>${m.date}, 2026</span>
                             ${m.time}
                         </div>
-                        <a href="/reserve" class="btn-reserve">Reserve Now</a>
+                        <a href="/reserve?match_id=${m.id}" class="btn-reserve">Reserve Now</a>
                     </div>
                 </div>
             `).join('')
