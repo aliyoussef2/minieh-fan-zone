@@ -19,10 +19,14 @@ use Endroid\QrCode\Writer\SvgWriter;
 class ReservationController extends Controller
 {
     public function index()
-    {
+{
+    try {
         $matches = FootballMatch::upcoming()->get();
-        return view('frontend.reserve', compact('matches'));
+    } catch (\Exception $e) {
+        $matches = collect();
     }
+    return view('frontend.reserve', compact('matches'));
+}
 
     public function store(Request $request): JsonResponse
     {
