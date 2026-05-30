@@ -108,6 +108,17 @@ footer { padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,
 }
 @media (max-width: 480px) {
     .features-grid { grid-template-columns: 1fr; }
+    /* FAQ */
+.faq-section { padding: 80px 20px; max-width: 800px; margin: 0 auto; }
+.faq-inner { width: 100%; }
+.faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 0; }
+.faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; transition: border-color 0.3s; }
+.faq-item:hover { border-color: rgba(255,215,0,0.25); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--white); gap: 15px; }
+.faq-icon { font-size: 1.4rem; color: var(--gold); flex-shrink: 0; transition: transform 0.3s; font-weight: 300; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.8; padding: 0 24px; }
+.faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
 }
 </style>
  
@@ -167,7 +178,57 @@ footer { padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,
         <div class="feature-card"><span class="feature-icon">🌊</span><h3 class="feature-title">Seaside Location</h3><p class="feature-desc">Right on the Minieh Corniche. Sea breeze, stunning views, and thousands of passionate fans.</p></div>
     </div>
 </section>
- 
+ <!-- FAQ -->
+<section class="faq-section">
+    <div class="faq-inner">
+        <span class="section-label">Got Questions?</span>
+        <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>How do I reserve a seat?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">Click "Reserve Now" or "Book Now" on any page. Choose your match, select your exact table or seat on the map, fill in your details, and pay via WhishMoney. You'll receive a confirmation with your booking code instantly.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>What payment methods are accepted?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">We currently accept payment via <strong>WhishMoney</strong> — Lebanon's trusted mobile payment platform. After transferring the amount, paste your transaction reference number to confirm your reservation.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>Can I cancel or change my reservation?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">For changes or cancellations, please contact us via WhatsApp at +961 03 527 382 as soon as possible. We'll do our best to accommodate your request depending on availability.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>When does the festival start?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">The Minieh World Cup Corniche Festival runs from <strong>June 11 to July 19, 2026</strong>, along the Minieh Corniche. Doors open before every match — check the Matches page for the full schedule.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>Is there parking available?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">Yes, parking is available near the Minieh Corniche. We recommend arriving early on match days as the area gets busy. You can also use the location on our About page for directions.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <span>What's the difference between VIP and Standard?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-a">VIP sections feature luxury couch seating for 6 people with premium table service and the best elevated views of the giant screen. Standard tables seat 4 people with regular chairs and great viewing angles. Single seats are individual spots at the front row.</div>
+            </div>
+        </div>
+    </div>
+</section>
 <section class="cta-section">
     <h2 class="cta-title">DON'T MISS<br><span style="color:var(--gold);">THE FESTIVAL</span></h2>
     <p style="color:rgba(255,255,255,0.5);font-size:1rem;max-width:500px;margin:0 auto 40px;line-height:1.9;">Limited seats available. Book now to secure your spot at the biggest event in North Lebanon.</p>
@@ -205,6 +266,12 @@ const observer=new IntersectionObserver((entries)=>{
     });
 },{threshold:0.1});
 document.querySelectorAll('.feature-card').forEach(card=>observer.observe(card));
+function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+}
 </script>
  
 @endsection
