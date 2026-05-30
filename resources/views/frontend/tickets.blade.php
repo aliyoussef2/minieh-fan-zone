@@ -48,8 +48,7 @@ nav {
 .row-grid { display:flex; flex-direction:column; gap:3px; }
 .row-line { display:flex; flex-direction:row; gap:3px; justify-content:center; }
 
-.cu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:2px; border-radius:4px; transition:transform 0.12s; transform:rotate(90deg); }..cu:hover { transform:rotate(90deg) scale(1.12); z-index:10; filter:brightness(1.3); }
-.cu.sel { transform:rotate(90deg) scale(1.12); z-index:10; filter:brightness(1.3); }
+.cu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:2px; border-radius:4px; transition:transform 0.12s; }..cu:hover,.cu.sel { transform:rotate(90deg) scale(1.12); z-index:10; filter:brightness(1.3); }
 .sofa-big { width:6px; height:22px; border-radius:3px; border:1.5px solid; overflow:hidden; display:flex; flex-direction:column; padding:1px; gap:1px; }
 .sofa-big-back { width:100%; height:5px; border-radius:1px; opacity:0.8; }
 .sofa-big-seat { width:100%; flex:1; border-radius:1px; opacity:0.4; }
@@ -295,8 +294,8 @@ function nC(n,p,sc,ss,tc,ts){return Array.from({length:n},()=>C(p,sc,ss,tc,ts));
 function nT(n,p){return Array.from({length:n},()=>T(p));}
 function nS(n,p,c,s){return Array.from({length:n},()=>S(p,c,s));}
 
-_cn=0;buildRowGrid('g-vtl',[nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1)]);
-_cn=0;buildRowGrid('g-vtr',[nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1)]);
+_cn=0;buildRowGrid('g-vtl',[nC(5,'VTL',VC1,VS1,VT1,VTS1),nC(5,'VTL',VC1,VS1,VT1,VTS1),nC(5,'VTL',VC1,VS1,VT1,VTS1)]);
+_cn=0;buildRowGrid('g-vtr',[nC(5,'VTR',VC1,VS1,VT1,VTS1),nC(5,'VTR',VC1,VS1,VT1,VTS1),nC(5,'VTR',VC1,VS1,VT1,VTS1)]);
 _cn=0;buildRowGrid('g-vml',[nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(2,'VML',VC2,VS2,VT2,VTS2)]);
 _cn=0;buildRowGrid('g-vmr',[nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(2,'VMR',VC2,VS2,VT2,VTS2)]);
 _tn=0;buildRowGrid('g-tl',[nT(6,'TL'),nT(6,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL')]);
