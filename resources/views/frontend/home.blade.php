@@ -161,7 +161,7 @@ nav {
 
 .hero-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: clamp(3.5rem, 12vw, 7rem);
+    font-size: clamp(3rem, 8vw, 5.5rem);
     line-height: 0.9;
     letter-spacing: 3px;
     margin-bottom: 25px;

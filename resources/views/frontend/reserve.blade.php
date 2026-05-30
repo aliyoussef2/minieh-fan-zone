@@ -1,188 +1,169 @@
 @extends('layouts.app')
-
+ 
 @section('title', 'Reserve Your Spot — Minieh Fan Zone 2026')
-
+ 
 @section('styles')
 <style>
 :root {
-    --navy:   #0B1220;
-    --navy2:  #111827;
-    --navy3:  #0d1728;
-    --blue:   #1E88FF;
-    --gold:   #FFD700;
-    --white:  #FFFFFF;
-    --muted:  rgba(255,255,255,0.45);
-    --border: rgba(255,255,255,0.08);
+    --navy:#0B1220;--navy2:#111827;--navy3:#0d1728;--blue:#1E88FF;--gold:#FFD700;--white:#FFFFFF;--muted:rgba(255,255,255,0.45);--border:rgba(255,255,255,0.08);
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--navy); color: var(--white); font-family: 'Instrument Sans', sans-serif; min-height: 100vh; }
-
-nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 60px; display: flex; align-items: center; justify-content: space-between;
-    background: rgba(11,18,32,0.95); backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(30,136,255,0.15);
-}
-.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; color: var(--white); text-decoration: none; white-space: nowrap; }
-.nav-logo span { color: var(--gold); }
-.nav-links { display: flex; gap: 35px; list-style: none; }
-.nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
-.nav-links a:hover, .nav-links a.active { color: var(--gold); }
-.nav-btn { background: var(--blue); color: white; padding: 10px 25px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; white-space: nowrap; }
-.nav-btn:hover { background: var(--gold); color: var(--navy); }
-.nav-hamburger { display: none; background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--white); font-size: 1.3rem; cursor: pointer; padding: 6px 12px; border-radius: 6px; }
-
-.res-header { text-align: center; padding: 5.5rem 1rem 2.5rem; background: linear-gradient(180deg,#060c17 0%,var(--navy) 100%); }
-.res-header .eye { font-family:'Bebas Neue',sans-serif; letter-spacing:.3em; font-size:.78rem; color:var(--gold); margin-bottom:.5rem; }
-.res-header h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,5vw,4rem); letter-spacing:.05em; line-height:1; margin-bottom:.6rem; }
-.res-header p { color:var(--muted); font-size:.9rem; }
-
-.progress-wrap { max-width:720px; margin:0 auto; padding:2rem 1.5rem 0; }
-.progress-steps { display:flex; align-items:center; position:relative; }
-.step-item { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
-.step-item:not(:last-child)::after { content:''; position:absolute; top:17px; left:50%; width:100%; height:2px; background:var(--border); z-index:0; transition:background .4s; }
-.step-item.done:not(:last-child)::after { background:var(--gold); }
-.step-dot { width:34px; height:34px; border-radius:50%; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:.85rem; color:var(--muted); background:var(--navy2); position:relative; z-index:1; transition:all .3s; }
-.step-item.active .step-dot { border-color:var(--gold); color:var(--gold); box-shadow:0 0 0 4px rgba(255,215,0,0.12); }
-.step-item.done .step-dot { border-color:var(--gold); background:var(--gold); color:#0B1220; }
-.step-lbl { font-size:.62rem; color:var(--muted); margin-top:.4rem; letter-spacing:.04em; text-transform:uppercase; text-align:center; transition:color .3s; }
-.step-item.active .step-lbl { color:var(--gold); }
-.step-item.done .step-lbl { color:rgba(255,215,0,0.7); }
-
-.res-body { max-width:720px; margin:2rem auto 6rem; padding:0 1.5rem; }
-.res-card { background:var(--navy2); border:1px solid rgba(255,215,0,0.15); border-radius:18px; overflow:hidden; }
-.res-card-header { padding:1.75rem 2rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem; }
-.step-num-big { width:52px; height:52px; border-radius:12px; background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.3); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--gold); flex-shrink:0; }
-.res-card-header h2 { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:.05em; line-height:1.1; }
-.res-card-header p { font-size:.8rem; color:var(--muted); margin-top:3px; }
-.res-card-body { padding:1.75rem 2rem; }
-
-.step-panel { display:none; }
-.step-panel.active { display:block; }
-
-.match-search { width:100%; padding:.75rem 1rem; background:var(--navy3); border:1px solid var(--border); border-radius:10px; color:var(--white); font-family:'Instrument Sans',sans-serif; font-size:.9rem; outline:none; margin-bottom:1.25rem; transition:border-color .2s; }
-.match-search::placeholder { color:var(--muted); }
-.match-search:focus { border-color:rgba(255,215,0,0.4); }
-
-.filter-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
-.ftab { padding:.35rem .85rem; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:.75rem; cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .2s; }
-.ftab.active, .ftab:hover { border-color:var(--gold); color:var(--gold); background:rgba(255,215,0,0.12); }
-
-.match-list { display:flex; flex-direction:column; gap:.65rem; max-height:380px; overflow-y:auto; padding-right:4px; }
-.match-list::-webkit-scrollbar { width:4px; }
-.match-list::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.3); border-radius:2px; }
-
-.match-item { display:flex; align-items:center; gap:1rem; padding:.9rem 1rem; background:var(--navy3); border:1px solid var(--border); border-radius:10px; cursor:pointer; transition:all .2s; }
-.match-item:hover { border-color:rgba(255,215,0,0.3); }
-.match-item.selected { border-color:var(--gold); background:rgba(255,215,0,0.08); }
-.match-item .teams { flex:1; }
-.match-item .teams strong { font-size:.95rem; display:block; }
-.match-item .teams span { font-size:.72rem; color:var(--muted); margin-top:2px; display:block; }
-.match-item .stage-badge { font-size:.65rem; padding:.25rem .6rem; border-radius:20px; border:1px solid var(--border); color:var(--muted); white-space:nowrap; }
-.match-item .flag-pair { display:flex; align-items:center; gap:4px; }
-.match-item .flag-pair img { width:28px; height:20px; object-fit:cover; border-radius:2px; }
-.match-item .vs { font-size:.65rem; color:var(--muted); }
-
-.section-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
-.section-opt { padding:1.1rem .75rem; border-radius:12px; border:1.5px solid var(--border); background:var(--navy3); cursor:pointer; text-align:center; transition:all .25s; }
-.section-opt:hover { border-color:rgba(255,215,0,0.35); }
-.section-opt.selected { border-color:var(--gold); background:rgba(255,215,0,0.08); }
-.section-opt .sec-letter { font-family:'Bebas Neue',sans-serif; font-size:2rem; line-height:1; }
-.section-opt .sec-type { font-size:.7rem; color:var(--muted); margin:.3rem 0 .15rem; }
-.section-opt .sec-cap { font-size:.68rem; color:rgba(255,215,0,0.6); }
-.section-opt.vip .sec-letter { color:#9B4DCA; }
-.section-opt.high .sec-letter { color:#1E88FF; }
-.section-opt.std .sec-letter { color:#4CAF50; }
-.section-opt.single .sec-letter { color:#FF9800; }
-
-.qty-wrap { display:flex; flex-direction:column; gap:1.25rem; }
-.qty-info-card { background:var(--navy3); border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.25rem; display:flex; gap:1rem; align-items:center; }
-.qty-control { display:flex; align-items:center; gap:1.5rem; justify-content:center; padding:1.5rem 0; }
-.qty-btn { width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(255,215,0,0.4); background:rgba(255,215,0,0.12); color:var(--gold); font-size:1.4rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-.qty-btn:hover { background:rgba(255,215,0,0.2); }
-.qty-btn:disabled { opacity:.3; cursor:not-allowed; }
-.qty-num { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--gold); min-width:80px; text-align:center; line-height:1; }
-
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-.form-group { display:flex; flex-direction:column; gap:.45rem; }
-.form-group label { font-size:.78rem; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; }
-.form-group input { padding:.75rem 1rem; background:var(--navy3); border:1px solid var(--border); border-radius:10px; color:var(--white); font-family:'Instrument Sans',sans-serif; font-size:.9rem; outline:none; transition:border-color .2s; width:100%; }
-.form-group input::placeholder { color:var(--muted); }
-.form-group input:focus { border-color:rgba(255,215,0,0.45); }
-
-.payment-info { background:var(--navy3); border:1px solid rgba(30,136,255,0.3); border-radius:14px; padding:1.4rem 1.5rem; margin-bottom:1.25rem; }
-.payment-info h3 { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.05em; margin-bottom:.75rem; color:var(--blue); }
-.pay-step { display:flex; gap:.85rem; padding:.6rem 0; border-bottom:1px solid var(--border); font-size:.85rem; align-items:flex-start; }
-.pay-step:last-child { border-bottom:none; }
-.pay-step .n { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--blue); flex-shrink:0; width:20px; }
-.pay-step .t { line-height:1.5; }
-.pay-step .t span { color:var(--muted); font-size:.8rem; display:block; }
-.whish-logo { display:flex; align-items:center; gap:.6rem; padding:1rem 1.25rem; background:rgba(30,136,255,0.08); border:1px solid rgba(30,136,255,0.25); border-radius:10px; margin-bottom:1rem; }
-.whish-logo .wico { font-size:1.8rem; }
-.whish-logo p { font-size:.8rem; color:var(--muted); line-height:1.4; }
-.whish-logo p strong { color:var(--white); font-size:.95rem; display:block; }
-.ref-input-wrap { display:flex; flex-direction:column; gap:.45rem; }
-.ref-input-wrap label { font-size:.78rem; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; }
-.ref-input-wrap input { padding:.75rem 1rem; background:var(--navy3); border:1px solid var(--border); border-radius:10px; color:var(--white); font-family:'Instrument Sans',sans-serif; font-size:.9rem; outline:none; transition:border-color .2s; }
-.ref-input-wrap input:focus { border-color:rgba(255,215,0,0.45); }
-
-.order-summary { background:var(--navy3); border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:1.1rem 1.25rem; margin-bottom:1.25rem; }
-.order-summary h4 { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.05em; color:var(--gold); margin-bottom:.85rem; }
-.os-row { display:flex; justify-content:space-between; font-size:.82rem; padding:.35rem 0; border-bottom:1px solid var(--border); }
-.os-row:last-child { border-bottom:none; }
-.os-row .k { color:var(--muted); }
-.os-row .v { font-weight:600; }
-
-.confirm-wrap { text-align:center; padding:1rem 0; }
-.confirm-icon { font-size:3.5rem; margin-bottom:1rem; display:block; }
-.confirm-wrap h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:.05em; color:var(--gold); margin-bottom:.5rem; }
-.confirm-wrap p { color:var(--muted); font-size:.88rem; line-height:1.6; max-width:400px; margin:0 auto 1.5rem; }
-.qr-placeholder { width:160px; height:160px; background:var(--white); border-radius:12px; margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#111; text-align:center; padding:.5rem; }
-.booking-code { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.2em; color:var(--gold); background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.3); border-radius:10px; padding:.6rem 1.5rem; display:inline-block; margin-bottom:1.5rem; }
-.confirm-details { background:var(--navy3); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; text-align:left; margin-bottom:1.5rem; }
-.confirm-details .cd-row { display:flex; justify-content:space-between; font-size:.82rem; padding:.35rem 0; border-bottom:1px solid var(--border); }
-.confirm-details .cd-row:last-child { border-bottom:none; }
-.confirm-details .cd-row .k { color:var(--muted); }
-.confirm-details .cd-row .v { font-weight:600; }
-
-.step-nav { display:flex; gap:.75rem; margin-top:1.75rem; }
-.btn-back { padding:.8rem 1.5rem; border:1px solid var(--border); background:transparent; color:var(--muted); border-radius:10px; font-family:'Instrument Sans',sans-serif; font-size:.9rem; cursor:pointer; transition:all .2s; }
-.btn-back:hover { border-color:rgba(255,255,255,0.25); color:var(--white); }
-.btn-next { flex:1; padding:.85rem; background:var(--gold); color:#0B1220; border:none; border-radius:10px; font-family:'Bebas Neue',sans-serif; font-size:1.05rem; letter-spacing:.1em; cursor:pointer; transition:all .2s; }
-.btn-next:hover { opacity:.88; transform:translateY(-1px); }
-.btn-next:disabled { opacity:.4; cursor:not-allowed; transform:none; }
-
-.alert-err { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:.7rem 1rem; font-size:.8rem; color:#f87171; margin-top:.75rem; display:none; }
-
-@media(max-width:768px) {
-    nav { padding: 15px 20px; flex-wrap: wrap; gap: 8px; }
-    .nav-hamburger { display: block; }
-    .nav-btn { display: none; }
-    .nav-links { display: none; flex-direction: column; width: 100%; gap: 12px; padding: 15px 0 5px; border-top: 1px solid rgba(255,255,255,0.08); }
-    .nav-links.open { display: flex; }
-    .section-grid { grid-template-columns:repeat(2,1fr); }
-    .form-grid { grid-template-columns:1fr; }
-    .res-card-header, .res-card-body { padding:1.25rem; }
-    .r2zone{border-radius:8px;padding:6px;display:flex;flex-direction:column;gap:3px;flex:1}
-.r2zname{font-size:6.5px;letter-spacing:1px;text-align:center;font-weight:500;text-transform:uppercase;margin-bottom:2px}
-.r2grid{display:flex;flex-direction:column;gap:3px}
-.r2row{display:flex;flex-direction:row;gap:3px;justify-content:center}
-.z-vip{background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2)}
-.z-vip .r2zname{color:#f87171}
-.z-vipc{background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.25)}
-.z-vipc .r2zname{color:#fcd34d}
-.z-high{background:rgba(20,184,166,0.07);border:1px solid rgba(20,184,166,0.2)}
-.z-high .r2zname{color:#2dd4bf}
-.z-seat{background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2)}
-.z-seat .r2zname{color:#60a5fa}
-.z-midseat{background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.2)}
-.z-midseat .r2zname{color:#c084fc}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--navy);color:var(--white);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,18,32,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(30,136,255,0.15);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--white);text-decoration:none;white-space:nowrap;}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:35px;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-btn{background:var(--blue);color:white;padding:10px 25px;border-radius:6px;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all 0.3s;white-space:nowrap;}
+.nav-btn:hover{background:var(--gold);color:var(--navy);}
+.nav-hamburger{display:none;background:none;border:1px solid rgba(255,255,255,0.2);color:var(--white);font-size:1.3rem;cursor:pointer;padding:6px 12px;border-radius:6px;}
+.res-header{text-align:center;padding:5.5rem 1rem 2.5rem;background:linear-gradient(180deg,#060c17 0%,var(--navy) 100%);}
+.res-header .eye{font-family:'Bebas Neue',sans-serif;letter-spacing:.3em;font-size:.78rem;color:var(--gold);margin-bottom:.5rem;}
+.res-header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,4rem);letter-spacing:.05em;line-height:1;margin-bottom:.6rem;}
+.res-header p{color:var(--muted);font-size:.9rem;}
+.progress-wrap{max-width:720px;margin:0 auto;padding:2rem 1.5rem 0;}
+.progress-steps{display:flex;align-items:center;position:relative;}
+.step-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.step-item:not(:last-child)::after{content:'';position:absolute;top:17px;left:50%;width:100%;height:2px;background:var(--border);z-index:0;transition:background .4s;}
+.step-item.done:not(:last-child)::after{background:var(--gold);}
+.step-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--muted);background:var(--navy2);position:relative;z-index:1;transition:all .3s;}
+.step-item.active .step-dot{border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 4px rgba(255,215,0,0.12);}
+.step-item.done .step-dot{border-color:var(--gold);background:var(--gold);color:#0B1220;}
+.step-lbl{font-size:.62rem;color:var(--muted);margin-top:.4rem;letter-spacing:.04em;text-transform:uppercase;text-align:center;transition:color .3s;}
+.step-item.active .step-lbl{color:var(--gold);}
+.step-item.done .step-lbl{color:rgba(255,215,0,0.7);}
+.res-body{max-width:720px;margin:2rem auto 6rem;padding:0 1.5rem;}
+.res-card{background:var(--navy2);border:1px solid rgba(255,215,0,0.15);border-radius:18px;overflow:hidden;}
+.res-card-header{padding:1.75rem 2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+.step-num-big{width:52px;height:52px;border-radius:12px;background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);flex-shrink:0;}
+.res-card-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.05em;line-height:1.1;}
+.res-card-header p{font-size:.8rem;color:var(--muted);margin-top:3px;}
+.res-card-body{padding:1.75rem 2rem;}
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+.match-search{width:100%;padding:.75rem 1rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Instrument Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:1.25rem;transition:border-color .2s;}
+.match-search::placeholder{color:var(--muted);}
+.match-search:focus{border-color:rgba(255,215,0,0.4);}
+.filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.ftab{padding:.35rem .85rem;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.75rem;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .2s;}
+.ftab.active,.ftab:hover{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.12);}
+.match-list{display:flex;flex-direction:column;gap:.65rem;max-height:380px;overflow-y:auto;padding-right:4px;}
+.match-list::-webkit-scrollbar{width:4px;}
+.match-list::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.3);border-radius:2px;}
+.match-item{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;}
+.match-item:hover{border-color:rgba(255,215,0,0.3);}
+.match-item.selected{border-color:var(--gold);background:rgba(255,215,0,0.08);}
+.match-item .teams{flex:1;}
+.match-item .teams strong{font-size:.95rem;display:block;}
+.match-item .teams span{font-size:.72rem;color:var(--muted);margin-top:2px;display:block;}
+.match-item .stage-badge{font-size:.65rem;padding:.25rem .6rem;border-radius:20px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;}
+.match-item .flag-pair{display:flex;align-items:center;gap:4px;}
+.match-item .flag-pair img{width:28px;height:20px;object-fit:cover;border-radius:2px;}
+.match-item .vs{font-size:.65rem;color:var(--muted);}
+ 
+/* Map zone styles */
+.r2zone{border-radius:8px;padding:6px;display:flex;flex-direction:column;gap:3px;flex:1;}
+.r2zname{font-size:6.5px;letter-spacing:1px;text-align:center;font-weight:500;text-transform:uppercase;margin-bottom:2px;}
+.r2grid{display:flex;flex-direction:column;gap:3px;}
+.r2row{display:flex;flex-direction:row;gap:3px;justify-content:center;}
+.z-vip{background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2);}
+.z-vip .r2zname{color:#f87171;}
+.z-vipc{background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.25);}
+.z-vipc .r2zname{color:#fcd34d;}
+.z-high{background:rgba(20,184,166,0.07);border:1px solid rgba(20,184,166,0.2);}
+.z-high .r2zname{color:#2dd4bf;}
+.z-seat{background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2);}
+.z-seat .r2zname{color:#60a5fa;}
+.z-midseat{background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.2);}
+.z-midseat .r2zname{color:#c084fc;}
+ 
+/* Couch & table styles */
+.cu{display:inline-flex;align-items:center;gap:1px;cursor:pointer;padding:2px;border-radius:4px;transition:transform 0.12s;}
+.cu:hover,.cu.sel{transform:scale(1.12);z-index:10;filter:brightness(1.3);}
+.sofa-big{width:6px;height:22px;border-radius:3px;border:1.5px solid;overflow:hidden;display:flex;flex-direction:column;padding:1px;gap:1px;}
+.sofa-big-back{width:100%;height:5px;border-radius:1px;opacity:0.8;}
+.sofa-big-seat{width:100%;flex:1;border-radius:1px;opacity:0.4;}
+.ctbl-wrap{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.sofa-small{width:11px;height:4px;border-radius:2px 2px 1px 1px;border:1.5px solid;opacity:0.75;}
+.ctbl{width:11px;height:15px;border-radius:2px;border:1.5px solid;}
+.tu{display:inline-flex;align-items:center;gap:1px;cursor:pointer;padding:1px;border-radius:3px;transition:transform 0.12s;}
+.tu:hover,.tu.sel{transform:scale(1.15);z-index:10;filter:brightness(1.3);}
+.chairs-side{display:flex;flex-direction:column;gap:2px;}
+.chair{width:5px;height:6px;border-radius:1.5px;border:1.5px solid;opacity:0.7;}
+.tbl-top{width:13px;height:17px;border-radius:2px;border:1.5px solid;}
+.su{width:10px;height:10px;border-radius:2px;border:1.5px solid;cursor:pointer;transition:transform 0.12s;}
+.su:hover,.su.sel{transform:scale(1.25);filter:brightness(1.3);}
+.tech-cell{width:13px;height:17px;border-radius:2px;background:rgba(100,116,139,0.08);border:1px dashed rgba(100,116,139,0.2);}
+ 
+.qty-wrap{display:flex;flex-direction:column;gap:1.25rem;}
+.qty-info-card{background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem;display:flex;gap:1rem;align-items:center;}
+.qty-control{display:flex;align-items:center;gap:1.5rem;justify-content:center;padding:1.5rem 0;}
+.qty-btn{width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,215,0,0.4);background:rgba(255,215,0,0.12);color:var(--gold);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qty-btn:hover{background:rgba(255,215,0,0.2);}
+.qty-btn:disabled{opacity:.3;cursor:not-allowed;}
+.qty-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--gold);min-width:80px;text-align:center;line-height:1;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:.45rem;}
+.form-group label{font-size:.78rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
+.form-group input{padding:.75rem 1rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Instrument Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;width:100%;}
+.form-group input::placeholder{color:var(--muted);}
+.form-group input:focus{border-color:rgba(255,215,0,0.45);}
+.payment-info{background:var(--navy3);border:1px solid rgba(30,136,255,0.3);border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.25rem;}
+.payment-info h3{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;margin-bottom:.75rem;color:var(--blue);}
+.pay-step{display:flex;gap:.85rem;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.85rem;align-items:flex-start;}
+.pay-step:last-child{border-bottom:none;}
+.pay-step .n{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--blue);flex-shrink:0;width:20px;}
+.pay-step .t{line-height:1.5;}
+.pay-step .t span{color:var(--muted);font-size:.8rem;display:block;}
+.whish-logo{display:flex;align-items:center;gap:.6rem;padding:1rem 1.25rem;background:rgba(30,136,255,0.08);border:1px solid rgba(30,136,255,0.25);border-radius:10px;margin-bottom:1rem;}
+.whish-logo .wico{font-size:1.8rem;}
+.whish-logo p{font-size:.8rem;color:var(--muted);line-height:1.4;}
+.whish-logo p strong{color:var(--white);font-size:.95rem;display:block;}
+.ref-input-wrap{display:flex;flex-direction:column;gap:.45rem;}
+.ref-input-wrap label{font-size:.78rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
+.ref-input-wrap input{padding:.75rem 1rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Instrument Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.ref-input-wrap input:focus{border-color:rgba(255,215,0,0.45);}
+.order-summary{background:var(--navy3);border:1px solid rgba(255,215,0,0.15);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:1.25rem;}
+.order-summary h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.05em;color:var(--gold);margin-bottom:.85rem;}
+.os-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.35rem 0;border-bottom:1px solid var(--border);}
+.os-row:last-child{border-bottom:none;}
+.os-row .k{color:var(--muted);}
+.os-row .v{font-weight:600;}
+.confirm-wrap{text-align:center;padding:1rem 0;}
+.confirm-icon{font-size:3.5rem;margin-bottom:1rem;display:block;}
+.confirm-wrap h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.05em;color:var(--gold);margin-bottom:.5rem;}
+.confirm-wrap p{color:var(--muted);font-size:.88rem;line-height:1.6;max-width:400px;margin:0 auto 1.5rem;}
+.qr-placeholder{width:160px;height:160px;background:var(--white);border-radius:12px;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#111;text-align:center;padding:.5rem;}
+.booking-code{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.2em;color:var(--gold);background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:10px;padding:.6rem 1.5rem;display:inline-block;margin-bottom:1.5rem;}
+.confirm-details{background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;text-align:left;margin-bottom:1.5rem;}
+.confirm-details .cd-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.35rem 0;border-bottom:1px solid var(--border);}
+.confirm-details .cd-row:last-child{border-bottom:none;}
+.confirm-details .cd-row .k{color:var(--muted);}
+.confirm-details .cd-row .v{font-weight:600;}
+.step-nav{display:flex;gap:.75rem;margin-top:1.75rem;}
+.btn-back{padding:.8rem 1.5rem;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:.9rem;cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:rgba(255,255,255,0.25);color:var(--white);}
+.btn-next{flex:1;padding:.85rem;background:var(--gold);color:#0B1220;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;}
+.btn-next:hover{opacity:.88;transform:translateY(-1px);}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.alert-err{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:.7rem 1rem;font-size:.8rem;color:#f87171;margin-top:.75rem;display:none;}
+.tt{position:fixed;background:#1a2535;color:#fff;font-size:9px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9999;display:none;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);}
+ 
+@media(max-width:768px){
+    nav{padding:15px 20px;flex-wrap:wrap;gap:8px;}
+    .nav-hamburger{display:block;}
+    .nav-btn{display:none;}
+    .nav-links{display:none;flex-direction:column;width:100%;gap:12px;padding:15px 0 5px;border-top:1px solid rgba(255,255,255,0.08);}
+    .nav-links.open{display:flex;}
+    .form-grid{grid-template-columns:1fr;}
+    .res-card-header,.res-card-body{padding:1.25rem;}
 }
 </style>
 @endsection
-
+ 
 @section('content')
-
+ 
 <nav>
     <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
     <ul class="nav-links" id="nav-links">
@@ -194,27 +175,28 @@ nav {
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
     <button class="nav-hamburger" onclick="toggleNav()">☰</button>
 </nav>
-
+ 
 <div class="res-header">
     <p class="eye">Minieh Fan Zone 2026</p>
     <h1>Reserve Your Spot</h1>
     <p>Secure your seat in 6 easy steps. Takes less than 3 minutes.</p>
 </div>
-
+ 
 <div class="progress-wrap">
     <div class="progress-steps">
         <div class="step-item active" id="prog-1"><div class="step-dot">1</div><div class="step-lbl">Match</div></div>
-        <div class="step-item" id="prog-2"><div class="step-dot">2</div><div class="step-lbl">Section</div></div>
+        <div class="step-item" id="prog-2"><div class="step-dot">2</div><div class="step-lbl">Spot</div></div>
         <div class="step-item" id="prog-3"><div class="step-dot">3</div><div class="step-lbl">Quantity</div></div>
         <div class="step-item" id="prog-4"><div class="step-dot">4</div><div class="step-lbl">Your Info</div></div>
         <div class="step-item" id="prog-5"><div class="step-dot">5</div><div class="step-lbl">Payment</div></div>
         <div class="step-item" id="prog-6"><div class="step-dot">✓</div><div class="step-lbl">Confirmed</div></div>
     </div>
 </div>
-
+ 
 <div class="res-body">
 <div class="res-card">
-
+ 
+<!-- STEP 1: Match -->
 <div class="step-panel active" id="step-1">
     <div class="res-card-header">
         <div class="step-num-big">1</div>
@@ -222,7 +204,7 @@ nav {
     </div>
     <div class="res-card-body">
         <input type="text" class="match-search" id="match-search" placeholder="Search by team name or date…" oninput="filterMatches()">
-        <div class="filter-tabs" id="stage-tabs">
+        <div class="filter-tabs">
             <button class="ftab active" onclick="setStageFilter('all',this)">All</button>
             <button class="ftab" onclick="setStageFilter('Group Stage',this)">Group Stage</button>
             <button class="ftab" onclick="setStageFilter('Round of 32',this)">R32</button>
@@ -234,21 +216,21 @@ nav {
         <div class="match-list" id="match-list"></div>
         <div class="alert-err" id="err-1">Please select a match to continue.</div>
         <div class="step-nav">
-            <button class="btn-next" onclick="goStep(2)">Continue → Select Section</button>
+            <button class="btn-next" onclick="goStep(2)">Continue → Choose Your Spot</button>
         </div>
     </div>
 </div>
-
+ 
+<!-- STEP 2: Interactive Map -->
 <div class="step-panel" id="step-2">
     <div class="res-card-header">
         <div class="step-num-big">2</div>
         <div><h2>Choose Your Spot</h2><p>Click your exact table or seat on the map</p></div>
     </div>
     <div class="res-card-body" style="padding:1rem;">
-        <div style="display:flex;flex-direction:column;gap:5px;" id="map-outer-2">
+        <div style="display:flex;flex-direction:column;gap:5px;">
             <div style="background:linear-gradient(90deg,#1565C0,#1E88FF);color:#fff;text-align:center;padding:8px;border-radius:7px;font-size:9px;letter-spacing:3px;font-weight:500;">▶ GIANT LED SCREEN — ABOVE THE SEA</div>
             <div style="background:#0d1520;border:1px solid rgba(255,215,0,0.35);text-align:center;padding:5px;border-radius:5px;font-size:8px;color:#FFD700;letter-spacing:2px;">🎬 STAGE & CATWALK</div>
-
             <div style="display:flex;gap:0;align-items:stretch;">
                 <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">VIP L4</div>
                 <div style="flex:1;display:flex;gap:4px;">
@@ -258,7 +240,6 @@ nav {
                     <div class="r2zone z-vip"><div class="r2zname">VIP Right (15)</div><div class="r2grid" id="r2-vtr"></div></div>
                 </div>
             </div>
-
             <div style="display:flex;gap:0;align-items:stretch;">
                 <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">Tables L3</div>
                 <div style="flex:1;display:flex;gap:4px;">
@@ -268,7 +249,6 @@ nav {
                     <div class="r2zone z-high"><div class="r2zname">Right (42)</div><div class="r2grid" id="r2-tr"></div></div>
                 </div>
             </div>
-
             <div style="display:flex;gap:0;align-items:stretch;">
                 <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">Seats L1</div>
                 <div style="flex:1;display:flex;gap:4px;">
@@ -278,7 +258,6 @@ nav {
                     <div class="r2zone z-seat"><div class="r2zname">Right (60)</div><div class="r2grid" id="r2-sr"></div></div>
                 </div>
             </div>
-
             <div style="background:#0a1018;border:1.5px solid rgba(255,215,0,0.5);text-align:center;padding:8px;border-radius:7px;font-size:9px;color:#FFD700;letter-spacing:2px;">STAGE 14 × 3.6m</div>
         </div>
         <div id="r2-selected-info" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:8px;font-size:13px;">
@@ -291,34 +270,12 @@ nav {
         </div>
     </div>
 </div>
-    <div class="res-card-header">
-        <div class="step-num-big">2</div>
-        <div><h2>Choose Your Section</h2><p>Pick a seating category that suits you</p></div>
-    </div>
-    <div class="res-card-body">
-        <div class="section-grid">
-            <div class="section-opt vip" onclick="selectSection('A','VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax')"><div class="sec-letter">A</div><div class="sec-type">VIP Lounge</div><div class="sec-cap">Left Wing · 108 pax</div></div>
-            <div class="section-opt vip" onclick="selectSection('B','VIP Lounge','Couch / Sofa Seating','16 tables · 96 pax')"><div class="sec-letter">B</div><div class="sec-type">VIP Lounge</div><div class="sec-cap">Center Front · 96 pax</div></div>
-            <div class="section-opt vip" onclick="selectSection('C','VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax')"><div class="sec-letter">C</div><div class="sec-type">VIP Lounge</div><div class="sec-cap">Right Wing · 108 pax</div></div>
-            <div class="section-opt high" onclick="selectSection('D','High Tables','High Chair Seating','24 tables · 96 pax')"><div class="sec-letter">D</div><div class="sec-type">High Tables</div><div class="sec-cap">Left Wing · 96 pax</div></div>
-            <div class="section-opt high" onclick="selectSection('E','High Tables','High Chair Seating','22 tables · 88 pax')"><div class="sec-letter">E</div><div class="sec-type">High Tables</div><div class="sec-cap">Center Mid · 88 pax</div></div>
-            <div class="section-opt high" onclick="selectSection('F','High Tables','High Chair Seating','24 tables · 96 pax')"><div class="sec-letter">F</div><div class="sec-type">High Tables</div><div class="sec-cap">Right Wing · 96 pax</div></div>
-            <div class="section-opt std" onclick="selectSection('G','Standard Tables','Regular Chair Seating','36 tables · 144 pax')"><div class="sec-letter">G</div><div class="sec-type">Standard Tables</div><div class="sec-cap">Left Back · 144 pax</div></div>
-            <div class="section-opt std" onclick="selectSection('H','Standard Tables','Regular Chair Seating','36 tables · 144 pax')"><div class="sec-letter">H</div><div class="sec-type">Standard Tables</div><div class="sec-cap">Right Back · 144 pax</div></div>
-            <div class="section-opt single" onclick="selectSection('I','Single Seats','Individual Chair','162 seats')"><div class="sec-letter">I</div><div class="sec-type">Single Seats</div><div class="sec-cap">Back Rows · 162 pax</div></div>
-        </div>
-        <div class="alert-err" id="err-2">Please select a section to continue.</div>
-        <div class="step-nav">
-            <button class="btn-back" onclick="goStep(1)">← Back</button>
-            <button class="btn-next" onclick="goStep(3)">Continue → Choose Quantity</button>
-        </div>
-    </div>
-</div>
-
+ 
+<!-- STEP 3: Quantity -->
 <div class="step-panel" id="step-3">
     <div class="res-card-header">
         <div class="step-num-big">3</div>
-        <div><h2>How Many Seats?</h2><p>Select the number of people attending</p></div>
+        <div><h2>How Many?</h2><p>Select the number of people attending</p></div>
     </div>
     <div class="res-card-body">
         <div class="qty-wrap">
@@ -326,17 +283,15 @@ nav {
                 <div style="font-size:1.5rem;flex-shrink:0">ℹ️</div>
                 <p id="qty-section-note" style="font-size:.82rem;color:var(--muted);line-height:1.5">Select quantity below.</p>
             </div>
-            <div>
-                <div class="qty-control">
-                    <button class="qty-btn" id="qty-minus" onclick="changeQty(-1)">−</button>
-                    <div class="qty-num" id="qty-display">1</div>
-                    <button class="qty-btn" id="qty-plus" onclick="changeQty(1)">+</button>
-                </div>
+            <div class="qty-control">
+                <button class="qty-btn" id="qty-minus" onclick="changeQty(-1)">−</button>
+                <div class="qty-num" id="qty-display">1</div>
+                <button class="qty-btn" id="qty-plus" onclick="changeQty(1)">+</button>
             </div>
-            <div class="order-summary" id="qty-summary">
+            <div class="order-summary">
                 <h4>Summary</h4>
                 <div class="os-row"><span class="k">Match</span><span class="v" id="os-match">—</span></div>
-                <div class="os-row"><span class="k">Section</span><span class="v" id="os-section">—</span></div>
+                <div class="os-row"><span class="k">Spot</span><span class="v" id="os-section">—</span></div>
                 <div class="os-row"><span class="k">Quantity</span><span class="v" id="os-qty">—</span></div>
             </div>
         </div>
@@ -346,7 +301,8 @@ nav {
         </div>
     </div>
 </div>
-
+ 
+<!-- STEP 4: Info -->
 <div class="step-panel" id="step-4">
     <div class="res-card-header">
         <div class="step-num-big">4</div>
@@ -368,43 +324,45 @@ nav {
         </div>
     </div>
 </div>
-
+ 
+<!-- STEP 5: Payment -->
 <div class="step-panel" id="step-5">
     <div class="res-card-header">
         <div class="step-num-big">5</div>
-        <div><h2>Payment</h2><p>Pay securely via Whish Money</p></div>
+        <div><h2>Payment</h2><p>Pay securely via WhishMoney</p></div>
     </div>
     <div class="res-card-body">
         <div class="order-summary" style="margin-bottom:1.25rem;">
             <h4>Order Summary</h4>
             <div class="os-row"><span class="k">Match</span><span class="v" id="pay-match">—</span></div>
-            <div class="os-row"><span class="k">Section</span><span class="v" id="pay-section">—</span></div>
+            <div class="os-row"><span class="k">Spot</span><span class="v" id="pay-section">—</span></div>
             <div class="os-row"><span class="k">Quantity</span><span class="v" id="pay-qty">—</span></div>
             <div class="os-row"><span class="k">Name</span><span class="v" id="pay-name">—</span></div>
         </div>
         <div class="whish-logo">
             <div class="wico">💳</div>
-            <div><p><strong>Whish Money</strong>Lebanon's trusted mobile payment platform</p><p>Transfer to the account shown below, then paste your reference number.</p></div>
+            <div><p><strong>WhishMoney</strong>Lebanon's trusted mobile payment platform</p><p>Transfer to the account shown below, then paste your reference number.</p></div>
         </div>
         <div class="payment-info">
             <h3>How to Pay</h3>
-            <div class="pay-step"><div class="n">1</div><div class="t">Open your <strong>Whish Money</strong> app and tap <em>Send Money</em><span>Make sure you have sufficient balance</span></div></div>
+            <div class="pay-step"><div class="n">1</div><div class="t">Open your <strong>WhishMoney</strong> app and tap <em>Send Money</em><span>Make sure you have sufficient balance</span></div></div>
             <div class="pay-step"><div class="n">2</div><div class="t">Send the exact amount to: <strong>+961 XX XXX XXX</strong><span>Account name: Minieh Fan Zone 2026</span></div></div>
             <div class="pay-step"><div class="n">3</div><div class="t">Copy the <strong>Transaction Reference Number</strong> from the app<span>It looks like: WM-2026-XXXXXXXX</span></div></div>
             <div class="pay-step"><div class="n">4</div><div class="t">Paste it below and click <strong>Confirm Reservation</strong><span>Our team will verify and send your QR ticket within 30 minutes</span></div></div>
         </div>
         <div class="ref-input-wrap">
-            <label>Whish Money Transaction Reference</label>
+            <label>WhishMoney Transaction Reference</label>
             <input type="text" id="f-ref" placeholder="e.g. WM-2026-12345678">
         </div>
-        <div class="alert-err" id="err-5">Please enter your Whish Money transaction reference.</div>
+        <div class="alert-err" id="err-5">Please enter your WhishMoney transaction reference.</div>
         <div class="step-nav">
             <button class="btn-back" onclick="goStep(4)">← Back</button>
             <button class="btn-next" id="confirm-btn" onclick="submitReservation()">Confirm Reservation →</button>
         </div>
     </div>
 </div>
-
+ 
+<!-- STEP 6: Confirmation -->
 <div class="step-panel" id="step-6">
     <div class="res-card-header">
         <div class="step-num-big" style="background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.3);color:#4ade80;">✓</div>
@@ -414,12 +372,12 @@ nav {
         <div class="confirm-wrap">
             <span class="confirm-icon">🎉</span>
             <h2>You're All Set!</h2>
-            <p>Your reservation has been submitted. Once we verify your Whish Money payment, your digital QR ticket will be sent to your email and phone.</p>
+            <p>Your reservation has been submitted. Once we verify your WhishMoney payment, your digital QR ticket will be sent to your email and phone.</p>
             <div class="qr-placeholder"><span>QR ticket will appear here after payment verification</span></div>
             <div class="booking-code" id="conf-booking-code">MFZ-000000</div>
             <div class="confirm-details">
                 <div class="cd-row"><span class="k">Match</span><span class="v" id="conf-match">—</span></div>
-                <div class="cd-row"><span class="k">Section</span><span class="v" id="conf-section">—</span></div>
+                <div class="cd-row"><span class="k">Spot</span><span class="v" id="conf-section">—</span></div>
                 <div class="cd-row"><span class="k">Quantity</span><span class="v" id="conf-qty">—</span></div>
                 <div class="cd-row"><span class="k">Name</span><span class="v" id="conf-name">—</span></div>
                 <div class="cd-row"><span class="k">Email</span><span class="v" id="conf-email">—</span></div>
@@ -431,14 +389,16 @@ nav {
         </div>
     </div>
 </div>
-
+ 
 </div>
 </div>
-
+ 
+<div class="tt" id="tt"></div>
+ 
 <script>
 function toggleNav(){document.getElementById('nav-links').classList.toggle('open');}
-
-const MATCHES = [
+ 
+const MATCHES=[
     {id:1,teamA:'Mexico',teamB:'Ecuador',codeA:'mx',codeB:'ec',date:'Jun 11',time:'19:00',stage:'Group Stage'},
     {id:2,teamA:'USA',teamB:'Canada',codeA:'us',codeB:'ca',date:'Jun 12',time:'22:00',stage:'Group Stage'},
     {id:3,teamA:'Argentina',teamB:'TBD',codeA:'ar',codeB:'',date:'Jun 12',time:'13:00',stage:'Group Stage'},
@@ -457,11 +417,11 @@ const MATCHES = [
     {id:63,teamA:'TBD',teamB:'TBD',codeA:'',codeB:'',date:'Jul 18',time:'21:00',stage:'Semi Final'},
     {id:64,teamA:'TBD',teamB:'TBD',codeA:'',codeB:'',date:'Jul 22',time:'21:00',stage:'Final'},
 ];
-
-const SECTION_MAX={A:6,B:6,C:6,D:4,E:4,F:4,G:4,H:4,I:1};
-let state={step:1,matchId:null,matchLabel:'',section:null,sectionType:'',sectionStyle:'',sectionCap:'',qty:1,fname:'',lname:'',phone:'',email:'',ref:''};
+ 
+const SECTION_MAX={'VIP Left':6,'VIP Right':6,'VIP Mid Left':6,'VIP Mid Right':6,'Tables Left':4,'Tables Right':4,'Mid Left Tables':4,'Mid Right Tables':4,'Left Seats':1,'Right Seats':1,'Mid Left Seats':1,'Mid Right Seats':1};
+let state={step:1,matchId:null,matchLabel:'',section:null,sectionType:'',sectionCap:'',qty:1,fname:'',lname:'',phone:'',email:'',ref:''};
 let stageFilter='all';
-
+ 
 function goStep(n){
     if(n>state.step){
         if(state.step===1&&!state.matchId){showErr('err-1');return;}
@@ -482,14 +442,14 @@ function goStep(n){
     if(n===5)updatePaySummary();
     window.scrollTo({top:0,behavior:'smooth'});
 }
-
+ 
 function renderMatches(){
     const q=document.getElementById('match-search').value.toLowerCase();
     const list=document.getElementById('match-list');
     const filtered=MATCHES.filter(m=>{
-        const matchStage=stageFilter==='all'||m.stage===stageFilter;
-        const matchQ=!q||m.teamA.toLowerCase().includes(q)||m.teamB.toLowerCase().includes(q)||m.date.toLowerCase().includes(q);
-        return matchStage&&matchQ;
+        const ms=stageFilter==='all'||m.stage===stageFilter;
+        const mq=!q||m.teamA.toLowerCase().includes(q)||m.teamB.toLowerCase().includes(q)||m.date.toLowerCase().includes(q);
+        return ms&&mq;
     });
     if(!filtered.length){list.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;">No matches found</div>';return;}
     list.innerHTML=filtered.map(m=>`
@@ -507,7 +467,7 @@ function renderMatches(){
         </div>
     `).join('');
 }
-
+ 
 function pickMatch(id,label){state.matchId=id;state.matchLabel=label;renderMatches();}
 function filterMatches(){renderMatches();}
 function setStageFilter(val,el){
@@ -516,35 +476,28 @@ function setStageFilter(val,el){
     el.classList.add('active');
     renderMatches();
 }
-
-function selectSection(key,type,style,cap){
-    state.section=key;state.sectionType=type;state.sectionStyle=style;state.sectionCap=cap;
-    state.qty=1;
-    document.getElementById('qty-display').textContent=1;
-    document.querySelectorAll('.section-opt').forEach(o=>o.classList.remove('selected'));
-    event.currentTarget.classList.add('selected');
-}
-
+ 
 function changeQty(d){
-    const max=SECTION_MAX[state.section]||6;
-    const isSingle=state.section==='I';
+    const isSeat=state.sectionType&&state.sectionType.includes('Seats');
+    const max=isSeat?1:6;
     const newQty=state.qty+d;
-    if(newQty<1||newQty>(isSingle?10:max))return;
+    if(newQty<1||newQty>max)return;
     state.qty=newQty;
     document.getElementById('qty-display').textContent=state.qty;
     document.getElementById('qty-minus').disabled=state.qty<=1;
-    document.getElementById('qty-plus').disabled=state.qty>=(isSingle?10:max);
+    document.getElementById('qty-plus').disabled=state.qty>=max;
     updateQtySummary();
 }
-
+ 
 function updateQtySummary(){
     document.getElementById('os-match').textContent=state.matchLabel||'—';
-    document.getElementById('os-section').textContent=state.section?`Section ${state.section} — ${state.sectionType}`:'—';
-    document.getElementById('os-qty').textContent=state.qty+(state.section==='I'?' seat(s)':' person(s)');
+    document.getElementById('os-section').textContent=state.section||'—';
+    document.getElementById('os-qty').textContent=state.qty+' person(s)';
     document.getElementById('qty-minus').disabled=state.qty<=1;
-    document.getElementById('qty-plus').disabled=state.qty>=(state.section==='I'?10:SECTION_MAX[state.section]||6);
+    const isSeat=state.sectionType&&state.sectionType.includes('Seats');
+    document.getElementById('qty-plus').disabled=state.qty>=(isSeat?1:6);
 }
-
+ 
 function validateInfo(){
     const fn=document.getElementById('f-fname').value.trim();
     const ln=document.getElementById('f-lname').value.trim();
@@ -555,14 +508,14 @@ function validateInfo(){
     state.fname=fn;state.lname=ln;state.phone=ph;state.email=em;
     return true;
 }
-
+ 
 function updatePaySummary(){
     document.getElementById('pay-match').textContent=state.matchLabel;
-    document.getElementById('pay-section').textContent=`Section ${state.section} — ${state.sectionType}`;
-    document.getElementById('pay-qty').textContent=state.qty+(state.section==='I'?' seat(s)':' person(s)');
+    document.getElementById('pay-section').textContent=state.section;
+    document.getElementById('pay-qty').textContent=state.qty+' person(s)';
     document.getElementById('pay-name').textContent=`${state.fname} ${state.lname}`;
 }
-
+ 
 function submitReservation(){
     const ref=document.getElementById('f-ref').value.trim();
     if(!ref){showErr('err-5');return;}
@@ -582,41 +535,40 @@ function submitReservation(){
     })
     .catch(()=>{showConfirmation('MFZ-'+Math.random().toString(36).substr(2,6).toUpperCase());});
 }
-
+ 
 function showConfirmation(code){
     document.getElementById('conf-booking-code').textContent=code;
     document.getElementById('conf-match').textContent=state.matchLabel;
-    document.getElementById('conf-section').textContent=`Section ${state.section} — ${state.sectionType}`;
-    document.getElementById('conf-qty').textContent=state.qty+(state.section==='I'?' seat(s)':' person(s)');
+    document.getElementById('conf-section').textContent=state.section;
+    document.getElementById('conf-qty').textContent=state.qty+' person(s)';
     document.getElementById('conf-name').textContent=`${state.fname} ${state.lname}`;
     document.getElementById('conf-email').textContent=state.email;
     document.getElementById('conf-phone').textContent=state.phone;
     document.getElementById('conf-ref').textContent=state.ref;
     goStep(6);
 }
-
+ 
 function showErr(id){document.getElementById(id).style.display='block';}
 function hideAllErrs(){document.querySelectorAll('.alert-err').forEach(e=>e.style.display='none');}
-
+ 
 // Step 2 map
+const r2tt=document.getElementById('tt');
 let r2sel=null;
-const r2tt=document.getElementById('tt')||document.createElement('div');
-
 function r2tip(e,t){r2tt.style.display='block';r2tt.textContent=t;r2tt.style.left=(e.clientX+10)+'px';r2tt.style.top=(e.clientY-20)+'px';}
 function r2hide(){r2tt.style.display='none';}
-
-function r2toggle(id,pax,label,color,el,sectionType){
+ 
+function r2toggle(id,pax,label,color,el,sType){
     if(r2sel&&r2sel.el!==el){r2sel.el.classList.remove('sel');}
     if(r2sel&&r2sel.el===el){r2sel=null;el.classList.remove('sel');document.getElementById('r2-selected-info').style.display='none';state.section=null;state.sectionType='';return;}
-    r2sel={id,pax,label,color,el,sectionType};
+    r2sel={id,pax,label,color,el,sType};
     el.classList.add('sel');
     state.section=id;
-    state.sectionType=sectionType;
+    state.sectionType=sType;
     state.sectionCap=pax+' pax';
     document.getElementById('r2-selected-label').textContent=label+' · '+pax+' pax';
     document.getElementById('r2-selected-info').style.display='block';
 }
-
+ 
 function r2makeCouch(id,sofaC,sofaS,tblC,tblS,sType){
     const u=document.createElement('div');u.className='cu';
     const sl=document.createElement('div');sl.className='sofa-big';sl.style.cssText='background:'+sofaC+';border-color:'+sofaS;
@@ -638,7 +590,11 @@ function r2makeCouch(id,sofaC,sofaS,tblC,tblS,sType){
     u.addEventListener('click',()=>r2toggle(id,6,id,sofaS,u,sType));
     return u;
 }
-
+ 
+const TC='rgba(20,184,166,0.25)',TS='#14b8a6',CC='rgba(20,184,166,0.5)',CS='#0d9488';
+const VC1='rgba(220,38,38,0.35)',VS1='#dc2626',VT1='rgba(90,10,10,0.4)',VTS1='#991b1b';
+const VC2='rgba(234,179,8,0.35)',VS2='#eab308',VT2='rgba(90,60,0,0.4)',VTS2='#ca8a04';
+ 
 function r2makeTable(id,tblC,tblS,chairC,chairS,sType){
     const u=document.createElement('div');u.className='tu';
     const cl=document.createElement('div');cl.className='chairs-side';
@@ -653,7 +609,7 @@ function r2makeTable(id,tblC,tblS,chairC,chairS,sType){
     u.addEventListener('click',()=>r2toggle(id,4,id,tblS,u,sType));
     return u;
 }
-
+ 
 function r2makeSeat(id,color,stroke,sType){
     const u=document.createElement('div');u.className='su';
     u.style.cssText='background:'+color+';border-color:'+stroke;
@@ -663,19 +619,18 @@ function r2makeSeat(id,color,stroke,sType){
     u.addEventListener('click',()=>r2toggle(id,1,id,stroke,u,sType));
     return u;
 }
-
+ 
 function r2techCell(){const d=document.createElement('div');d.className='tech-cell';return d;}
-
+ 
 function r2buildRowGrid(gridId,rows){
-    const g=document.getElementById(gridId);
-    if(!g)return;
+    const g=document.getElementById(gridId);if(!g)return;
     rows.forEach(rowItems=>{
         const r=document.createElement('div');r.className='r2row';
         rowItems.forEach(el=>{if(el)r.appendChild(el);});
         g.appendChild(r);
     });
 }
-
+ 
 let r2cn=0,r2tn=0,r2sn=0;
 function R2C(p,sc,ss,tc,ts,st){r2cn++;return r2makeCouch(p+r2cn,sc,ss,tc,ts,st);}
 function R2T(p,st){r2tn++;return r2makeTable(p+r2tn,TC,TS,CC,CS,st);}
@@ -683,7 +638,7 @@ function R2S(p,c,s,st){r2sn++;return r2makeSeat(p+r2sn,c,s,st);}
 function nR2C(n,p,sc,ss,tc,ts,st){return Array.from({length:n},()=>R2C(p,sc,ss,tc,ts,st));}
 function nR2T(n,p,st){return Array.from({length:n},()=>R2T(p,st));}
 function nR2S(n,p,c,s,st){return Array.from({length:n},()=>R2S(p,c,s,st));}
-
+ 
 function initR2Map(){
     r2cn=0;r2buildRowGrid('r2-vtl',[nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left'),nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left'),nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left')]);
     r2cn=0;r2buildRowGrid('r2-vtr',[nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right'),nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right'),nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right')]);
@@ -698,25 +653,11 @@ function initR2Map(){
     r2sn=0;r2buildRowGrid('r2-sml',[nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats'),nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats'),nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats')]);
     r2sn=0;r2buildRowGrid('r2-smr',[nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats'),nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats'),nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats')]);
 }
-
+ 
 document.addEventListener('DOMContentLoaded',()=>{
     renderMatches();
     initR2Map();
-    const params=new URLSearchParams(window.location.search);
-    const preSection=params.get('section');
-    if(preSection){
-        const sectionMap={A:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],B:['VIP Lounge','Couch / Sofa Seating','16 tables · 96 pax'],C:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],D:['High Tables','High Chair Seating','24 tables · 96 pax'],E:['High Tables','High Chair Seating','22 tables · 88 pax'],F:['High Tables','High Chair Seating','24 tables · 96 pax'],G:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],H:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],I:['Single Seats','Individual Chair','162 seats']};
-        if(sectionMap[preSection]){state.section=preSection;state.sectionType=sectionMap[preSection][0];state.sectionStyle=sectionMap[preSection][1];state.sectionCap=sectionMap[preSection][2];}
-    }
-});
-    const params=new URLSearchParams(window.location.search);
-    const preSection=params.get('section');
-    if(preSection){
-        const sectionMap={A:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],B:['VIP Lounge','Couch / Sofa Seating','16 tables · 96 pax'],C:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],D:['High Tables','High Chair Seating','24 tables · 96 pax'],E:['High Tables','High Chair Seating','22 tables · 88 pax'],F:['High Tables','High Chair Seating','24 tables · 96 pax'],G:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],H:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],I:['Single Seats','Individual Chair','162 seats']};
-        if(sectionMap[preSection]){state.section=preSection;state.sectionType=sectionMap[preSection][0];state.sectionStyle=sectionMap[preSection][1];state.sectionCap=sectionMap[preSection][2];}
-    }
-
 });
 </script>
-
+ 
 @endsection
