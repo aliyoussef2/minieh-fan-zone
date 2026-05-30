@@ -48,8 +48,8 @@ nav {
 .row-grid { display:flex; flex-direction:column; gap:3px; }
 .row-line { display:flex; flex-direction:row; gap:3px; justify-content:center; }
 
-.cu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:2px; border-radius:4px; transition:transform 0.12s; }
-.cu:hover,.cu.sel { transform:scale(1.12); z-index:10; filter:brightness(1.3); }
+.cu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:2px; border-radius:4px; transition:transform 0.12s; transform:rotate(90deg); }..cu:hover { transform:rotate(90deg) scale(1.12); z-index:10; filter:brightness(1.3); }
+.cu.sel { transform:rotate(90deg) scale(1.12); z-index:10; filter:brightness(1.3); }
 .sofa-big { width:6px; height:22px; border-radius:3px; border:1.5px solid; overflow:hidden; display:flex; flex-direction:column; padding:1px; gap:1px; }
 .sofa-big-back { width:100%; height:5px; border-radius:1px; opacity:0.8; }
 .sofa-big-seat { width:100%; flex:1; border-radius:1px; opacity:0.4; }
