@@ -163,6 +163,20 @@ nav {
     .section-grid { grid-template-columns:repeat(2,1fr); }
     .form-grid { grid-template-columns:1fr; }
     .res-card-header, .res-card-body { padding:1.25rem; }
+    .r2zone{border-radius:8px;padding:6px;display:flex;flex-direction:column;gap:3px;flex:1}
+.r2zname{font-size:6.5px;letter-spacing:1px;text-align:center;font-weight:500;text-transform:uppercase;margin-bottom:2px}
+.r2grid{display:flex;flex-direction:column;gap:3px}
+.r2row{display:flex;flex-direction:row;gap:3px;justify-content:center}
+.z-vip{background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2)}
+.z-vip .r2zname{color:#f87171}
+.z-vipc{background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.25)}
+.z-vipc .r2zname{color:#fcd34d}
+.z-high{background:rgba(20,184,166,0.07);border:1px solid rgba(20,184,166,0.2)}
+.z-high .r2zname{color:#2dd4bf}
+.z-seat{background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2)}
+.z-seat .r2zname{color:#60a5fa}
+.z-midseat{background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.2)}
+.z-midseat .r2zname{color:#c084fc}
 }
 </style>
 @endsection
@@ -226,6 +240,57 @@ nav {
 </div>
 
 <div class="step-panel" id="step-2">
+    <div class="res-card-header">
+        <div class="step-num-big">2</div>
+        <div><h2>Choose Your Spot</h2><p>Click your exact table or seat on the map</p></div>
+    </div>
+    <div class="res-card-body" style="padding:1rem;">
+        <div style="display:flex;flex-direction:column;gap:5px;" id="map-outer-2">
+            <div style="background:linear-gradient(90deg,#1565C0,#1E88FF);color:#fff;text-align:center;padding:8px;border-radius:7px;font-size:9px;letter-spacing:3px;font-weight:500;">▶ GIANT LED SCREEN — ABOVE THE SEA</div>
+            <div style="background:#0d1520;border:1px solid rgba(255,215,0,0.35);text-align:center;padding:5px;border-radius:5px;font-size:8px;color:#FFD700;letter-spacing:2px;">🎬 STAGE & CATWALK</div>
+
+            <div style="display:flex;gap:0;align-items:stretch;">
+                <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">VIP L4</div>
+                <div style="flex:1;display:flex;gap:4px;">
+                    <div class="r2zone z-vip"><div class="r2zname">VIP Left (15)</div><div class="r2grid" id="r2-vtl"></div></div>
+                    <div class="r2zone z-vipc"><div class="r2zname">VIP Mid Left (11)</div><div class="r2grid" id="r2-vml"></div></div>
+                    <div class="r2zone z-vipc"><div class="r2zname">VIP Mid Right (11)</div><div class="r2grid" id="r2-vmr"></div></div>
+                    <div class="r2zone z-vip"><div class="r2zname">VIP Right (15)</div><div class="r2grid" id="r2-vtr"></div></div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:0;align-items:stretch;">
+                <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">Tables L3</div>
+                <div style="flex:1;display:flex;gap:4px;">
+                    <div class="r2zone z-high"><div class="r2zname">Left (42)</div><div class="r2grid" id="r2-tl"></div></div>
+                    <div class="r2zone z-high"><div class="r2zname">Mid Left (28)</div><div class="r2grid" id="r2-tml"></div></div>
+                    <div class="r2zone z-high"><div class="r2zname">Mid Right (30)</div><div class="r2grid" id="r2-tmr"></div></div>
+                    <div class="r2zone z-high"><div class="r2zname">Right (42)</div><div class="r2grid" id="r2-tr"></div></div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:0;align-items:stretch;">
+                <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;padding:4px 3px;display:flex;align-items:center;justify-content:center;min-width:16px;">Seats L1</div>
+                <div style="flex:1;display:flex;gap:4px;">
+                    <div class="r2zone z-seat"><div class="r2zname">Left (60)</div><div class="r2grid" id="r2-sl"></div></div>
+                    <div class="r2zone z-midseat"><div class="r2zname">Mid Left (21)</div><div class="r2grid" id="r2-sml"></div></div>
+                    <div class="r2zone z-midseat"><div class="r2zname">Mid Right (21)</div><div class="r2grid" id="r2-smr"></div></div>
+                    <div class="r2zone z-seat"><div class="r2zname">Right (60)</div><div class="r2grid" id="r2-sr"></div></div>
+                </div>
+            </div>
+
+            <div style="background:#0a1018;border:1.5px solid rgba(255,215,0,0.5);text-align:center;padding:8px;border-radius:7px;font-size:9px;color:#FFD700;letter-spacing:2px;">STAGE 14 × 3.6m</div>
+        </div>
+        <div id="r2-selected-info" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:8px;font-size:13px;">
+            ✅ Selected: <strong id="r2-selected-label" style="color:#FFD700;"></strong>
+        </div>
+        <div class="alert-err" id="err-2">Please select a table or seat to continue.</div>
+        <div class="step-nav">
+            <button class="btn-back" onclick="goStep(1)">← Back</button>
+            <button class="btn-next" onclick="goStep(3)">Continue → Choose Quantity</button>
+        </div>
+    </div>
+</div>
     <div class="res-card-header">
         <div class="step-num-big">2</div>
         <div><h2>Choose Your Section</h2><p>Pick a seating category that suits you</p></div>
@@ -533,14 +598,124 @@ function showConfirmation(code){
 function showErr(id){document.getElementById(id).style.display='block';}
 function hideAllErrs(){document.querySelectorAll('.alert-err').forEach(e=>e.style.display='none');}
 
+// Step 2 map
+let r2sel=null;
+const r2tt=document.getElementById('tt')||document.createElement('div');
+
+function r2tip(e,t){r2tt.style.display='block';r2tt.textContent=t;r2tt.style.left=(e.clientX+10)+'px';r2tt.style.top=(e.clientY-20)+'px';}
+function r2hide(){r2tt.style.display='none';}
+
+function r2toggle(id,pax,label,color,el,sectionType){
+    if(r2sel&&r2sel.el!==el){r2sel.el.classList.remove('sel');}
+    if(r2sel&&r2sel.el===el){r2sel=null;el.classList.remove('sel');document.getElementById('r2-selected-info').style.display='none';state.section=null;state.sectionType='';return;}
+    r2sel={id,pax,label,color,el,sectionType};
+    el.classList.add('sel');
+    state.section=id;
+    state.sectionType=sectionType;
+    state.sectionCap=pax+' pax';
+    document.getElementById('r2-selected-label').textContent=label+' · '+pax+' pax';
+    document.getElementById('r2-selected-info').style.display='block';
+}
+
+function r2makeCouch(id,sofaC,sofaS,tblC,tblS,sType){
+    const u=document.createElement('div');u.className='cu';
+    const sl=document.createElement('div');sl.className='sofa-big';sl.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+    const slb=document.createElement('div');slb.className='sofa-big-back';slb.style.background=sofaS;
+    const sls=document.createElement('div');sls.className='sofa-big-seat';sls.style.background=sofaS;
+    sl.appendChild(slb);sl.appendChild(sls);
+    const cw=document.createElement('div');cw.className='ctbl-wrap';
+    const ss=document.createElement('div');ss.className='sofa-small';ss.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+    const ct=document.createElement('div');ct.className='ctbl';ct.style.cssText='background:'+tblC+';border-color:'+tblS;
+    cw.appendChild(ss);cw.appendChild(ct);
+    const sr=document.createElement('div');sr.className='sofa-big';sr.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+    const srb=document.createElement('div');srb.className='sofa-big-back';srb.style.background=sofaS;
+    const srs=document.createElement('div');srs.className='sofa-big-seat';srs.style.background=sofaS;
+    sr.appendChild(srb);sr.appendChild(srs);
+    u.appendChild(sl);u.appendChild(cw);u.appendChild(sr);
+    u.addEventListener('mouseenter',e=>r2tip(e,id+' · 6 pax'));
+    u.addEventListener('mousemove',e=>{r2tt.style.left=(e.clientX+10)+'px';r2tt.style.top=(e.clientY-20)+'px';});
+    u.addEventListener('mouseleave',r2hide);
+    u.addEventListener('click',()=>r2toggle(id,6,id,sofaS,u,sType));
+    return u;
+}
+
+function r2makeTable(id,tblC,tblS,chairC,chairS,sType){
+    const u=document.createElement('div');u.className='tu';
+    const cl=document.createElement('div');cl.className='chairs-side';
+    for(let j=0;j<2;j++){const c=document.createElement('div');c.className='chair';c.style.cssText='background:'+chairC+';border-color:'+chairS;cl.appendChild(c);}
+    const tb=document.createElement('div');tb.className='tbl-top';tb.style.cssText='background:'+tblC+';border-color:'+tblS;
+    const cr=document.createElement('div');cr.className='chairs-side';
+    for(let j=0;j<2;j++){const c=document.createElement('div');c.className='chair';c.style.cssText='background:'+chairC+';border-color:'+chairS;cr.appendChild(c);}
+    u.appendChild(cl);u.appendChild(tb);u.appendChild(cr);
+    u.addEventListener('mouseenter',e=>r2tip(e,id+' · 4 pax'));
+    u.addEventListener('mousemove',e=>{r2tt.style.left=(e.clientX+10)+'px';r2tt.style.top=(e.clientY-20)+'px';});
+    u.addEventListener('mouseleave',r2hide);
+    u.addEventListener('click',()=>r2toggle(id,4,id,tblS,u,sType));
+    return u;
+}
+
+function r2makeSeat(id,color,stroke,sType){
+    const u=document.createElement('div');u.className='su';
+    u.style.cssText='background:'+color+';border-color:'+stroke;
+    u.addEventListener('mouseenter',e=>r2tip(e,id+' · 1 pax'));
+    u.addEventListener('mousemove',e=>{r2tt.style.left=(e.clientX+10)+'px';r2tt.style.top=(e.clientY-20)+'px';});
+    u.addEventListener('mouseleave',r2hide);
+    u.addEventListener('click',()=>r2toggle(id,1,id,stroke,u,sType));
+    return u;
+}
+
+function r2techCell(){const d=document.createElement('div');d.className='tech-cell';return d;}
+
+function r2buildRowGrid(gridId,rows){
+    const g=document.getElementById(gridId);
+    if(!g)return;
+    rows.forEach(rowItems=>{
+        const r=document.createElement('div');r.className='r2row';
+        rowItems.forEach(el=>{if(el)r.appendChild(el);});
+        g.appendChild(r);
+    });
+}
+
+let r2cn=0,r2tn=0,r2sn=0;
+function R2C(p,sc,ss,tc,ts,st){r2cn++;return r2makeCouch(p+r2cn,sc,ss,tc,ts,st);}
+function R2T(p,st){r2tn++;return r2makeTable(p+r2tn,TC,TS,CC,CS,st);}
+function R2S(p,c,s,st){r2sn++;return r2makeSeat(p+r2sn,c,s,st);}
+function nR2C(n,p,sc,ss,tc,ts,st){return Array.from({length:n},()=>R2C(p,sc,ss,tc,ts,st));}
+function nR2T(n,p,st){return Array.from({length:n},()=>R2T(p,st));}
+function nR2S(n,p,c,s,st){return Array.from({length:n},()=>R2S(p,c,s,st));}
+
+function initR2Map(){
+    r2cn=0;r2buildRowGrid('r2-vtl',[nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left'),nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left'),nR2C(5,'R2VTL',VC1,VS1,VT1,VTS1,'VIP Left')]);
+    r2cn=0;r2buildRowGrid('r2-vtr',[nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right'),nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right'),nR2C(5,'R2VTR',VC1,VS1,VT1,VTS1,'VIP Right')]);
+    r2cn=0;r2buildRowGrid('r2-vml',[nR2C(4,'R2VML',VC2,VS2,VT2,VTS2,'VIP Mid Left'),nR2C(4,'R2VML',VC2,VS2,VT2,VTS2,'VIP Mid Left'),nR2C(3,'R2VML',VC2,VS2,VT2,VTS2,'VIP Mid Left')]);
+    r2cn=0;r2buildRowGrid('r2-vmr',[nR2C(4,'R2VMR',VC2,VS2,VT2,VTS2,'VIP Mid Right'),nR2C(4,'R2VMR',VC2,VS2,VT2,VTS2,'VIP Mid Right'),nR2C(3,'R2VMR',VC2,VS2,VT2,VTS2,'VIP Mid Right')]);
+    r2tn=0;r2buildRowGrid('r2-tl',[nR2T(6,'R2TL','Tables Left'),nR2T(6,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left'),nR2T(5,'R2TL','Tables Left')]);
+    r2tn=0;r2buildRowGrid('r2-tr',[nR2T(6,'R2TR','Tables Right'),nR2T(6,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right'),nR2T(5,'R2TR','Tables Right')]);
+    r2tn=0;r2buildRowGrid('r2-tml',[nR2T(4,'R2TML','Mid Left Tables'),nR2T(4,'R2TML','Mid Left Tables'),nR2T(4,'R2TML','Mid Left Tables'),nR2T(4,'R2TML','Mid Left Tables'),nR2T(4,'R2TML','Mid Left Tables'),nR2T(4,'R2TML','Mid Left Tables'),[R2T('R2TML','Mid Left Tables'),r2techCell(),r2techCell()],[R2T('R2TML','Mid Left Tables'),R2T('R2TML','Mid Left Tables'),R2T('R2TML','Mid Left Tables')]]);
+    r2tn=0;r2buildRowGrid('r2-tmr',[nR2T(4,'R2TMR','Mid Right Tables'),nR2T(4,'R2TMR','Mid Right Tables'),nR2T(4,'R2TMR','Mid Right Tables'),nR2T(4,'R2TMR','Mid Right Tables'),nR2T(4,'R2TMR','Mid Right Tables'),nR2T(4,'R2TMR','Mid Right Tables'),nR2T(3,'R2TMR','Mid Right Tables'),nR2T(3,'R2TMR','Mid Right Tables')]);
+    r2sn=0;r2buildRowGrid('r2-sl',[nR2S(20,'R2SL','rgba(59,130,246,0.25)','#3b82f6','Left Seats'),nR2S(20,'R2SL','rgba(59,130,246,0.25)','#3b82f6','Left Seats'),nR2S(20,'R2SL','rgba(59,130,246,0.25)','#3b82f6','Left Seats')]);
+    r2sn=0;r2buildRowGrid('r2-sr',[nR2S(20,'R2SR','rgba(59,130,246,0.25)','#3b82f6','Right Seats'),nR2S(20,'R2SR','rgba(59,130,246,0.25)','#3b82f6','Right Seats'),nR2S(20,'R2SR','rgba(59,130,246,0.25)','#3b82f6','Right Seats')]);
+    r2sn=0;r2buildRowGrid('r2-sml',[nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats'),nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats'),nR2S(7,'R2SML','rgba(168,85,247,0.25)','#a855f7','Mid Left Seats')]);
+    r2sn=0;r2buildRowGrid('r2-smr',[nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats'),nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats'),nR2S(7,'R2SMR','rgba(168,85,247,0.25)','#a855f7','Mid Right Seats')]);
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
     renderMatches();
+    initR2Map();
     const params=new URLSearchParams(window.location.search);
     const preSection=params.get('section');
     if(preSection){
         const sectionMap={A:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],B:['VIP Lounge','Couch / Sofa Seating','16 tables · 96 pax'],C:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],D:['High Tables','High Chair Seating','24 tables · 96 pax'],E:['High Tables','High Chair Seating','22 tables · 88 pax'],F:['High Tables','High Chair Seating','24 tables · 96 pax'],G:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],H:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],I:['Single Seats','Individual Chair','162 seats']};
         if(sectionMap[preSection]){state.section=preSection;state.sectionType=sectionMap[preSection][0];state.sectionStyle=sectionMap[preSection][1];state.sectionCap=sectionMap[preSection][2];}
     }
+});
+    const params=new URLSearchParams(window.location.search);
+    const preSection=params.get('section');
+    if(preSection){
+        const sectionMap={A:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],B:['VIP Lounge','Couch / Sofa Seating','16 tables · 96 pax'],C:['VIP Lounge','Couch / Sofa Seating','18 tables · 108 pax'],D:['High Tables','High Chair Seating','24 tables · 96 pax'],E:['High Tables','High Chair Seating','22 tables · 88 pax'],F:['High Tables','High Chair Seating','24 tables · 96 pax'],G:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],H:['Standard Tables','Regular Chair Seating','36 tables · 144 pax'],I:['Single Seats','Individual Chair','162 seats']};
+        if(sectionMap[preSection]){state.section=preSection;state.sectionType=sectionMap[preSection][0];state.sectionStyle=sectionMap[preSection][1];state.sectionCap=sectionMap[preSection][2];}
+    }
+
 });
 </script>
 
