@@ -1,23 +1,23 @@
 @extends('layouts.app')
-
+ 
 @section('content')
-
+ 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
 :root {
     --navy: #0B1220;
     --blue: #1E88FF;
     --gold: #FFD700;
     --white: #FFFFFF;
 }
-
+ 
 body {
     background: var(--navy);
     font-family: 'Instrument Sans', sans-serif;
     color: var(--white);
 }
-
+ 
 nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -30,441 +30,100 @@ nav {
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(30,136,255,0.15);
 }
-
-.nav-logo {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    color: var(--white);
-    text-decoration: none;
-}
-
+.nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
 .nav-logo span { color: var(--gold); }
-
-.nav-links {
-    display: flex;
-    gap: 35px;
-    list-style: none;
-}
-
-.nav-links a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-}
-
+.nav-links { display: flex; gap: 35px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
 .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-
-.nav-btn {
-    background: var(--blue);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
+.nav-btn { background: var(--blue); color: white; padding: 10px 25px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
 .nav-btn:hover { background: var(--gold); color: var(--navy); }
-
+ 
 .page-header {
-    padding: 140px 60px 60px;
+    padding: 140px 60px 40px;
     text-align: center;
     background: linear-gradient(180deg, rgba(255,215,0,0.06) 0%, transparent 100%);
     border-bottom: 1px solid rgba(255,215,0,0.1);
 }
-
-.page-header h1 {
-    font-family: 'Bebas Neue', cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    letter-spacing: 3px;
-    margin-bottom: 15px;
-}
-
+.page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; margin-bottom: 15px; }
 .page-header h1 span { color: var(--gold); }
 .page-header p { color: rgba(255,255,255,0.5); font-size: 1rem; }
-
+ 
 /* MAIN LAYOUT */
 .venue-layout {
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 40px;
-    padding: 60px;
+    grid-template-columns: 1fr 220px;
+    gap: 20px;
+    padding: 30px 40px 60px;
     max-width: 1400px;
     margin: 0 auto;
 }
-
-/* MAP */
-.map-container {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 20px;
-    padding: 40px;
-}
-
-.map-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.3rem;
-    letter-spacing: 3px;
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.screen-label {
-    background: linear-gradient(90deg, var(--blue), #1565d8);
-    color: white;
-    text-align: center;
-    padding: 12px;
-    border-radius: 8px;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.1rem;
-    letter-spacing: 4px;
-    margin-bottom: 25px;
-    box-shadow: 0 0 30px rgba(30,136,255,0.4);
-}
-
-/* SECTIONS */
-.venue-map {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.map-row {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
-.section {
-    border-radius: 10px;
-    padding: 15px 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: 2px solid transparent;
-    position: relative;
-    user-select: none;
-}
-
-.section:hover {
-    transform: scale(1.05);
-    z-index: 10;
-}
-
-.section.selected {
-    transform: scale(1.05);
-    z-index: 10;
-}
-
-.section-label {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-    display: block;
-}
-
-.section-type {
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.8;
-    display: block;
-    margin-top: 3px;
-}
-
-.section-cap {
-    font-size: 0.65rem;
-    opacity: 0.6;
-    display: block;
-    margin-top: 2px;
-}
-
-/* VIP sections */
-.vip-section {
-    background: rgba(255,215,0,0.1);
-    border-color: rgba(255,215,0,0.3);
-    color: var(--gold);
-}
-
-.vip-section:hover, .vip-section.selected {
-    background: rgba(255,215,0,0.25);
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(255,215,0,0.3);
-}
-
-/* High table sections */
-.high-section {
-    background: rgba(30,136,255,0.1);
-    border-color: rgba(30,136,255,0.3);
-    color: var(--blue);
-}
-
-.high-section:hover, .high-section.selected {
-    background: rgba(30,136,255,0.25);
-    border-color: var(--blue);
-    box-shadow: 0 0 20px rgba(30,136,255,0.3);
-}
-
-/* Standard sections */
-.standard-section {
-    background: rgba(34,197,94,0.1);
-    border-color: rgba(34,197,94,0.3);
-    color: #22c55e;
-}
-
-.standard-section:hover, .standard-section.selected {
-    background: rgba(34,197,94,0.25);
-    border-color: #22c55e;
-    box-shadow: 0 0 20px rgba(34,197,94,0.3);
-}
-
-/* Single seats */
-.single-section {
-    background: rgba(168,85,247,0.1);
-    border-color: rgba(168,85,247,0.3);
-    color: #a855f7;
-}
-
-.single-section:hover, .single-section.selected {
-    background: rgba(168,85,247,0.25);
-    border-color: #a855f7;
-    box-shadow: 0 0 20px rgba(168,85,247,0.3);
-}
-
-.catwalk {
-    background: rgba(255,255,255,0.03);
-    border: 1px dashed rgba(255,255,255,0.1);
-    border-radius: 6px;
-    padding: 8px;
-    text-align: center;
-    font-size: 0.65rem;
-    letter-spacing: 3px;
-    color: rgba(255,255,255,0.2);
-    text-transform: uppercase;
-    margin: 5px 0;
-}
-
-.stage-box {
-    background: rgba(30,136,255,0.05);
-    border: 1px solid rgba(30,136,255,0.15);
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1rem;
-    letter-spacing: 3px;
-    color: rgba(30,136,255,0.5);
-    margin-top: 5px;
-}
-
-/* LEGEND */
-.map-legend {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.5);
-}
-
-.legend-dot {
-    width: 12px; height: 12px;
-    border-radius: 3px;
-}
-
+ 
+/* MAP STYLES */
+.map-outer { display: flex; flex-direction: column; gap: 5px; }
+.screen-bar { background: linear-gradient(90deg,#1565C0,#1E88FF); color:#fff; text-align:center; padding:8px; border-radius:7px; font-size:9px; letter-spacing:3px; font-weight:500; }
+.catwalk-bar { background:#0d1520; border:1px solid rgba(255,215,0,0.35); text-align:center; padding:5px; border-radius:5px; font-size:8px; color:#FFD700; letter-spacing:2px; }
+.stage-bar { background:#0a1018; border:1.5px solid rgba(255,215,0,0.5); text-align:center; padding:8px; border-radius:7px; font-size:9px; color:#FFD700; letter-spacing:2px; }
+.level-row { display:flex; gap:0; align-items:stretch; }
+.level-tag { writing-mode:vertical-rl; transform:rotate(180deg); font-size:7px; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; padding:4px 3px; display:flex; align-items:center; justify-content:center; min-width:16px; }
+.zones { flex:1; display:flex; gap:4px; }
+.zone { border-radius:8px; padding:6px; display:flex; flex-direction:column; gap:3px; flex:1; }
+.zone-name { font-size:6.5px; letter-spacing:1px; text-align:center; font-weight:500; text-transform:uppercase; margin-bottom:2px; }
+.row-grid { display:flex; flex-direction:column; gap:3px; }
+.row-line { display:flex; flex-direction:row; gap:3px; justify-content:center; }
+ 
+/* COUCH */
+.cu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:2px; border-radius:4px; transition:transform 0.12s; }
+.cu:hover,.cu.sel { transform:scale(1.12); z-index:10; filter:brightness(1.3); }
+.sofa-big { width:6px; height:22px; border-radius:3px; border:1.5px solid; overflow:hidden; display:flex; flex-direction:column; padding:1px; gap:1px; }
+.sofa-big-back { width:100%; height:5px; border-radius:1px; opacity:0.8; }
+.sofa-big-seat { width:100%; flex:1; border-radius:1px; opacity:0.4; }
+.ctbl-wrap { display:flex; flex-direction:column; align-items:center; gap:1px; }
+.sofa-small { width:11px; height:4px; border-radius:2px 2px 1px 1px; border:1.5px solid; opacity:0.75; }
+.ctbl { width:11px; height:15px; border-radius:2px; border:1.5px solid; }
+ 
+/* TABLE */
+.tu { display:inline-flex; align-items:center; gap:1px; cursor:pointer; padding:1px; border-radius:3px; transition:transform 0.12s; }
+.tu:hover,.tu.sel { transform:scale(1.15); z-index:10; filter:brightness(1.3); }
+.chairs-side { display:flex; flex-direction:column; gap:2px; }
+.chair { width:5px; height:6px; border-radius:1.5px; border:1.5px solid; opacity:0.7; }
+.tbl-top { width:13px; height:17px; border-radius:2px; border:1.5px solid; }
+ 
+/* SEAT */
+.su { width:10px; height:10px; border-radius:2px; border:1.5px solid; cursor:pointer; transition:transform 0.12s; }
+.su:hover,.su.sel { transform:scale(1.25); filter:brightness(1.3); }
+.tech-cell { width:13px; height:17px; border-radius:2px; background:rgba(100,116,139,0.08); border:1px dashed rgba(100,116,139,0.2); }
+ 
+/* ZONE COLORS */
+.z-vip { background:rgba(220,38,38,0.07); border:1px solid rgba(220,38,38,0.2); }
+.z-vip .zone-name { color:#f87171; }
+.z-vipc { background:rgba(234,179,8,0.07); border:1px solid rgba(234,179,8,0.25); }
+.z-vipc .zone-name { color:#fcd34d; }
+.z-high { background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.2); }
+.z-high .zone-name { color:#2dd4bf; }
+.z-seat { background:rgba(59,130,246,0.07); border:1px solid rgba(59,130,246,0.2); }
+.z-seat .zone-name { color:#60a5fa; }
+.z-midseat { background:rgba(168,85,247,0.07); border:1px solid rgba(168,85,247,0.2); }
+.z-midseat .zone-name { color:#c084fc; }
+ 
 /* SIDEBAR */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.section-info {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 30px;
-    transition: all 0.3s;
-}
-
-.section-info.active {
-    border-color: var(--gold);
-    background: rgba(255,215,0,0.05);
-}
-
-.info-placeholder {
-    text-align: center;
-    padding: 40px 20px;
-    color: rgba(255,255,255,0.3);
-}
-
-.info-placeholder .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-.info-placeholder p { font-size: 0.9rem; line-height: 1.6; }
-
-.info-section-name {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 3rem;
-    letter-spacing: 4px;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.info-type-badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 50px;
-    margin-bottom: 20px;
-}
-
-.info-desc {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.55);
-    line-height: 1.7;
-    margin-bottom: 20px;
-}
-
-.info-features {
-    list-style: none;
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.info-features li {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.7);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.info-features li::before {
-    content: '✓';
-    font-weight: 700;
-    font-size: 0.75rem;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: rgba(255,215,0,0.2);
-    color: var(--gold);
-}
-
-.info-capacity {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.cap-stat span:first-child {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.8rem;
-    color: var(--gold);
-    display: block;
-    line-height: 1;
-}
-
-.cap-stat span:last-child {
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.3);
-    text-transform: uppercase;
-}
-
-.btn-book-section {
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1rem;
-    letter-spacing: 3px;
-    text-decoration: none;
-    text-align: center;
-    display: block;
-    background: var(--gold);
-    color: var(--navy);
-    transition: all 0.3s;
-}
-
-.btn-book-section:hover { background: white; }
-
-/* ALL TICKETS */
-.all-tickets {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.all-tickets h3 {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    color: rgba(255,255,255,0.6);
-}
-
-.ticket-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.ticket-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: 1px solid transparent;
-}
-
-.ticket-item:hover { background: rgba(255,255,255,0.05); }
-
-.ticket-item-name {
-    font-weight: 600;
-    font-size: 0.88rem;
-}
-
-.ticket-item-cap {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.4);
-}
+.map-sidebar { display:flex; flex-direction:column; gap:12px; position:sticky; top:90px; align-self:flex-start; }
+.sel-card { background:#111827; border:1px solid rgba(255,215,0,0.2); border-radius:12px; padding:14px; }
+.sel-title { font-size:8px; color:rgba(255,255,255,0.4); letter-spacing:2px; margin-bottom:4px; }
+.sel-count { font-family:'Bebas Neue',cursive; font-size:32px; color:#FFD700; line-height:1; }
+.sel-pax { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; }
+.sel-tags { display:flex; flex-wrap:wrap; gap:2px; margin-top:6px; max-height:100px; overflow-y:auto; }
+.tag { font-size:8px; padding:2px 6px; border-radius:3px; cursor:pointer; display:flex; align-items:center; gap:3px; }
+.book-btn { width:100%; padding:12px; background:#FFD700; color:#0B1220; border:none; border-radius:9px; font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:.15em; cursor:pointer; transition:opacity .2s; }
+.book-btn:hover { opacity:.88; }
+.book-btn:disabled { opacity:.3; cursor:not-allowed; }
+.clear-btn { width:100%; padding:7px; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:7px; font-size:10px; color:rgba(255,255,255,0.4); cursor:pointer; font-family:'Instrument Sans',sans-serif; }
+.clear-btn:hover { border-color:rgba(255,255,255,0.25); color:#fff; }
+.leg { padding:8px; background:#111827; border-radius:8px; display:flex; flex-direction:column; gap:4px; }
+.li { display:flex; align-items:center; gap:6px; font-size:8px; color:rgba(255,255,255,0.5); }
+.ld { width:9px; height:9px; border-radius:1px; flex-shrink:0; }
+.tt { position:fixed; background:#1a2535; color:#fff; font-size:9px; padding:3px 8px; border-radius:4px; pointer-events:none; z-index:9999; display:none; white-space:nowrap; border:1px solid rgba(255,255,255,0.1); }
 </style>
-
+ 
 <nav>
     <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
     <ul class="nav-links">
@@ -475,347 +134,197 @@ nav {
     </ul>
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
 </nav>
-
+ 
 <div class="page-header">
-    <h1>SELECT YOUR <span>SECTION</span></h1>
-    <p>Click on a section to view details and reserve your spot</p>
+    <h1>SELECT YOUR <span>SPOT</span></h1>
+    <p>Click any table or seat to select it — then book your spot</p>
 </div>
-
+ 
 <div class="venue-layout">
-    <!-- MAP -->
-    <div class="map-container">
-        <div class="map-title">🏟️ MINIEH FAN ZONE — VENUE MAP</div>
-        <div class="screen-label">📺 GIANT LED SCREEN — ABOVE THE SEA</div>
-
-        <div class="venue-map">
-            <!-- VIP ROW -->
-            <div class="map-row">
-                <div class="section vip-section" style="flex:1;" onclick="selectSection('A')" id="sec-A">
-                    <span class="section-label">A</span>
-                    <span class="section-type">VIP Lounge</span>
-                    <span class="section-cap">18 tables · 108 pax</span>
-                </div>
-                <div class="section vip-section" style="flex:1.5;" onclick="selectSection('B')" id="sec-B">
-                    <span class="section-label">B</span>
-                    <span class="section-type">VIP Lounge</span>
-                    <span class="section-cap">16 tables · 96 pax</span>
-                </div>
-                <div class="section vip-section" style="flex:1;" onclick="selectSection('C')" id="sec-C">
-                    <span class="section-label">C</span>
-                    <span class="section-type">VIP Lounge</span>
-                    <span class="section-cap">18 tables · 108 pax</span>
-                </div>
-            </div>
-
-            <!-- HIGH TABLES ROW -->
-            <div class="map-row">
-                <div class="section high-section" style="flex:1;" onclick="selectSection('D')" id="sec-D">
-                    <span class="section-label">D</span>
-                    <span class="section-type">High Tables</span>
-                    <span class="section-cap">24 tables · 96 pax</span>
-                </div>
-                <div class="section high-section" style="flex:1.5;" onclick="selectSection('E')" id="sec-E">
-                    <span class="section-label">E</span>
-                    <span class="section-type">High Tables</span>
-                    <span class="section-cap">22 tables · 88 pax</span>
-                </div>
-                <div class="section high-section" style="flex:1;" onclick="selectSection('F')" id="sec-F">
-                    <span class="section-label">F</span>
-                    <span class="section-type">High Tables</span>
-                    <span class="section-cap">24 tables · 96 pax</span>
-                </div>
-            </div>
-
-            <!-- STANDARD TABLES ROW -->
-            <div class="map-row">
-                <div class="section standard-section" style="flex:1;" onclick="selectSection('G')" id="sec-G">
-                    <span class="section-label">G</span>
-                    <span class="section-type">Standard Tables</span>
-                    <span class="section-cap">36 tables · 144 pax</span>
-                </div>
-                <div class="section standard-section" style="flex:1;" onclick="selectSection('H')" id="sec-H">
-                    <span class="section-label">H</span>
-                    <span class="section-type">Standard Tables</span>
-                    <span class="section-cap">36 tables · 144 pax</span>
-                </div>
-            </div>
-
-            <!-- SINGLE SEATS -->
-            <div class="catwalk">Catwalk</div>
-            <div class="map-row">
-                <div class="section single-section" style="flex:2;" onclick="selectSection('I')" id="sec-I">
-                    <span class="section-label">I</span>
-                    <span class="section-type">Single Seats</span>
-                    <span class="section-cap">162 individual seats</span>
-                </div>
-            </div>
-
-            <div class="stage-box">🎬 STAGE & SCAFFOLD</div>
-        </div>
-
-        <div class="map-legend">
-            <div class="legend-item">
-                <div class="legend-dot" style="background:#FFD700;"></div>
-                VIP Lounge (A, B, C)
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background:#1E88FF;"></div>
-                High Tables (D, E, F)
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background:#22c55e;"></div>
-                Standard Tables (G, H)
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background:#a855f7;"></div>
-                Single Seats (I)
+    <div class="map-outer">
+        <div class="screen-bar">▶ GIANT LED SCREEN — ABOVE THE SEA</div>
+        <div class="catwalk-bar">🎬 STAGE & CATWALK</div>
+ 
+        <!-- VIP L4 -->
+        <div class="level-row">
+            <div class="level-tag">VIP L4</div>
+            <div class="zones">
+                <div class="zone z-vip"><div class="zone-name">VIP Left (15)</div><div class="row-grid" id="g-vtl"></div></div>
+                <div class="zone z-vipc"><div class="zone-name">VIP Mid Left (11)</div><div class="row-grid" id="g-vml"></div></div>
+                <div class="zone z-vipc"><div class="zone-name">VIP Mid Right (11)</div><div class="row-grid" id="g-vmr"></div></div>
+                <div class="zone z-vip"><div class="zone-name">VIP Right (15)</div><div class="row-grid" id="g-vtr"></div></div>
             </div>
         </div>
+ 
+        <!-- Tables L3 -->
+        <div class="level-row">
+            <div class="level-tag">Tables L3</div>
+            <div class="zones">
+                <div class="zone z-high"><div class="zone-name">Left (42)</div><div class="row-grid" id="g-tl"></div></div>
+                <div class="zone z-high"><div class="zone-name">Mid Left (28)</div><div class="row-grid" id="g-tml"></div></div>
+                <div class="zone z-high"><div class="zone-name">Mid Right (30)</div><div class="row-grid" id="g-tmr"></div></div>
+                <div class="zone z-high"><div class="zone-name">Right (42)</div><div class="row-grid" id="g-tr"></div></div>
+            </div>
+        </div>
+ 
+        <!-- Seats L1 -->
+        <div class="level-row">
+            <div class="level-tag">Seats L1</div>
+            <div class="zones">
+                <div class="zone z-seat"><div class="zone-name">Left (60)</div><div class="row-grid" id="g-sl"></div></div>
+                <div class="zone z-midseat"><div class="zone-name">Mid Left (21)</div><div class="row-grid" id="g-sml"></div></div>
+                <div class="zone z-midseat"><div class="zone-name">Mid Right (21)</div><div class="row-grid" id="g-smr"></div></div>
+                <div class="zone z-seat"><div class="zone-name">Right (60)</div><div class="row-grid" id="g-sr"></div></div>
+            </div>
+        </div>
+ 
+        <div class="stage-bar">STAGE 14 × 3.6m</div>
     </div>
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="section-info" id="sectionInfo">
-            <div class="info-placeholder">
-                <span class="icon">👆</span>
-                <p>Click on any section on the map to view details, pricing, and availability</p>
-            </div>
+ 
+    <!-- Sidebar -->
+    <div class="map-sidebar">
+        <div class="sel-card">
+            <div class="sel-title">YOUR SELECTION</div>
+            <div class="sel-count" id="sc">0</div>
+            <div class="sel-pax" id="sp">items · 0 pax</div>
+            <div class="sel-tags" id="st"></div>
         </div>
-
-        <div class="all-tickets">
-            <h3>All Sections</h3>
-            <div class="ticket-list">
-                <div class="ticket-item" onclick="selectSection('A')" style="border-color:rgba(255,215,0,0.2);">
-                    <span class="ticket-item-name" style="color:#FFD700;">Section A — VIP Lounge</span>
-                    <span class="ticket-item-cap">108 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('B')" style="border-color:rgba(255,215,0,0.2);">
-                    <span class="ticket-item-name" style="color:#FFD700;">Section B — VIP Lounge</span>
-                    <span class="ticket-item-cap">96 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('C')" style="border-color:rgba(255,215,0,0.2);">
-                    <span class="ticket-item-name" style="color:#FFD700;">Section C — VIP Lounge</span>
-                    <span class="ticket-item-cap">108 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('D')" style="border-color:rgba(30,136,255,0.2);">
-                    <span class="ticket-item-name" style="color:#1E88FF;">Section D — High Tables</span>
-                    <span class="ticket-item-cap">96 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('E')" style="border-color:rgba(30,136,255,0.2);">
-                    <span class="ticket-item-name" style="color:#1E88FF;">Section E — High Tables</span>
-                    <span class="ticket-item-cap">88 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('F')" style="border-color:rgba(30,136,255,0.2);">
-                    <span class="ticket-item-name" style="color:#1E88FF;">Section F — High Tables</span>
-                    <span class="ticket-item-cap">96 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('G')" style="border-color:rgba(34,197,94,0.2);">
-                    <span class="ticket-item-name" style="color:#22c55e;">Section G — Standard Tables</span>
-                    <span class="ticket-item-cap">144 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('H')" style="border-color:rgba(34,197,94,0.2);">
-                    <span class="ticket-item-name" style="color:#22c55e;">Section H — Standard Tables</span>
-                    <span class="ticket-item-cap">144 pax</span>
-                </div>
-                <div class="ticket-item" onclick="selectSection('I')" style="border-color:rgba(168,85,247,0.2);">
-                    <span class="ticket-item-name" style="color:#a855f7;">Section I — Single Seats</span>
-                    <span class="ticket-item-cap">162 pax</span>
-                </div>
-            </div>
+        <button class="book-btn" id="bb" disabled onclick="bookNow()">BOOK NOW</button>
+        <button class="clear-btn" onclick="clearAll()">Clear all</button>
+        <div class="leg">
+            <div class="li"><div class="ld" style="background:#dc2626"></div>VIP couch — 6 pax</div>
+            <div class="li"><div class="ld" style="background:#eab308"></div>VIP Mid — 6 pax</div>
+            <div class="li"><div class="ld" style="background:#14b8a6"></div>Table — 4 pax</div>
+            <div class="li"><div class="ld" style="background:#a855f7;border-radius:50%"></div>Mid seat — 1 pax</div>
+            <div class="li"><div class="ld" style="background:#3b82f6;border-radius:2px"></div>Seat — 1 pax</div>
         </div>
     </div>
 </div>
-
+ 
 <footer style="padding:40px 60px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.3);font-size:0.85rem;">
     <p>© 2026 Minieh Fan Zone. All rights reserved. 🇱🇧</p>
 </footer>
-
+ 
+<div class="tt" id="tt"></div>
+ 
 <script>
-const sectionData = {
-    A: {
-        name: 'Section A',
-        type: 'VIP Lounge',
-        color: '#FFD700',
-        bgColor: 'rgba(255,215,0,0.05)',
-        borderColor: '#FFD700',
-        icon: '👑',
-        badge: 'VIP',
-        badgeBg: 'rgba(255,215,0,0.15)',
-        desc: 'Premium VIP lounge section on the left side of the venue. Luxury couch seating with the best elevated views.',
-        features: ['Luxury couch seating for 6', 'Elevated view of the screen', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
-        tables: 18,
-        perTable: 6,
-        total: 108,
-    },
-    B: {
-        name: 'Section B',
-        type: 'VIP Lounge',
-        color: '#FFD700',
-        bgColor: 'rgba(255,215,0,0.05)',
-        borderColor: '#FFD700',
-        icon: '👑',
-        badge: 'VIP',
-        badgeBg: 'rgba(255,215,0,0.15)',
-        desc: 'Premium VIP lounge center section. Best central view of the giant screen with luxury couch seating.',
-        features: ['Luxury couch seating for 6', 'Best central screen view', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
-        tables: 16,
-        perTable: 6,
-        total: 96,
-    },
-    C: {
-        name: 'Section C',
-        type: 'VIP Lounge',
-        color: '#FFD700',
-        bgColor: 'rgba(255,215,0,0.05)',
-        borderColor: '#FFD700',
-        icon: '👑',
-        badge: 'VIP',
-        badgeBg: 'rgba(255,215,0,0.15)',
-        desc: 'Premium VIP lounge section on the right side. Luxury couch seating with elevated views.',
-        features: ['Luxury couch seating for 6', 'Elevated view of the screen', 'Premium table service', 'Dedicated VIP entrance', 'Welcome drinks included'],
-        tables: 18,
-        perTable: 6,
-        total: 108,
-    },
-    D: {
-        name: 'Section D',
-        type: 'High Tables',
-        color: '#1E88FF',
-        bgColor: 'rgba(30,136,255,0.05)',
-        borderColor: '#1E88FF',
-        icon: '🍺',
-        badge: 'Popular',
-        badgeBg: 'rgba(30,136,255,0.15)',
-        desc: 'High tables on the left side with great elevated viewing angle and social atmosphere.',
-        features: ['High table for 4', 'High chairs included', 'Great viewing angle', 'Food & drinks service', 'Social atmosphere'],
-        tables: 24,
-        perTable: 4,
-        total: 96,
-    },
-    E: {
-        name: 'Section E',
-        type: 'High Tables',
-        color: '#1E88FF',
-        bgColor: 'rgba(30,136,255,0.05)',
-        borderColor: '#1E88FF',
-        icon: '🍺',
-        badge: 'Popular',
-        badgeBg: 'rgba(30,136,255,0.15)',
-        desc: 'Center high tables with the best central view of the giant screen.',
-        features: ['High table for 4', 'High chairs included', 'Central screen view', 'Food & drinks service', 'Prime location'],
-        tables: 22,
-        perTable: 4,
-        total: 88,
-    },
-    F: {
-        name: 'Section F',
-        type: 'High Tables',
-        color: '#1E88FF',
-        bgColor: 'rgba(30,136,255,0.05)',
-        borderColor: '#1E88FF',
-        icon: '🍺',
-        badge: 'Popular',
-        badgeBg: 'rgba(30,136,255,0.15)',
-        desc: 'High tables on the right side with great elevated viewing angle.',
-        features: ['High table for 4', 'High chairs included', 'Great viewing angle', 'Food & drinks service', 'Social atmosphere'],
-        tables: 24,
-        perTable: 4,
-        total: 96,
-    },
-    G: {
-        name: 'Section G',
-        type: 'Standard Tables',
-        color: '#22c55e',
-        bgColor: 'rgba(34,197,94,0.05)',
-        borderColor: '#22c55e',
-        icon: '🪑',
-        badge: 'Standard',
-        badgeBg: 'rgba(34,197,94,0.15)',
-        desc: 'Standard tables on the left side. Comfortable seating with great value.',
-        features: ['Standard table for 4', 'Regular chairs', 'Good screen view', 'Food & drinks available', 'Great value'],
-        tables: 36,
-        perTable: 4,
-        total: 144,
-    },
-    H: {
-        name: 'Section H',
-        type: 'Standard Tables',
-        color: '#22c55e',
-        bgColor: 'rgba(34,197,94,0.05)',
-        borderColor: '#22c55e',
-        icon: '🪑',
-        badge: 'Standard',
-        badgeBg: 'rgba(34,197,94,0.15)',
-        desc: 'Standard tables on the right side. Comfortable seating with great value.',
-        features: ['Standard table for 4', 'Regular chairs', 'Good screen view', 'Food & drinks available', 'Great value'],
-        tables: 36,
-        perTable: 4,
-        total: 144,
-    },
-    I: {
-        name: 'Section I',
-        type: 'Single Seats',
-        color: '#a855f7',
-        bgColor: 'rgba(168,85,247,0.05)',
-        borderColor: '#a855f7',
-        icon: '🎯',
-        badge: 'Individual',
-        badgeBg: 'rgba(168,85,247,0.15)',
-        desc: 'Individual seats at the front, closest to the giant screen. Best immersion experience.',
-        features: ['Individual seat', 'Closest to the screen', 'Best immersion', 'Access to food court', 'Perfect for solo fans'],
-        tables: 162,
-        perTable: 1,
-        total: 162,
-    },
-};
-
-let selectedSection = null;
-
-function selectSection(id) {
-    // Remove previous selection
-    if (selectedSection) {
-        document.getElementById('sec-' + selectedSection).classList.remove('selected');
-    }
-
-    selectedSection = id;
-    document.getElementById('sec-' + id).classList.add('selected');
-
-    const s = sectionData[id];
-    const info = document.getElementById('sectionInfo');
-    info.classList.add('active');
-    info.style.borderColor = s.borderColor;
-    info.style.background = s.bgColor;
-
-    info.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;">
-            <span style="font-size:2.5rem;">${s.icon}</span>
-            <span style="font-size:0.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 12px;border-radius:50px;background:${s.badgeBg};color:${s.color};">${s.badge}</span>
-        </div>
-        <div class="info-section-name" style="color:${s.color};">${s.name}</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:15px;">${s.type}</div>
-        <p class="info-desc">${s.desc}</p>
-        <ul class="info-features">
-            ${s.features.map(f => `<li style="::before{background:rgba(${s.color},0.2);}">${f}</li>`).join('')}
-        </ul>
-        <div class="info-capacity">
-            <div class="cap-stat">
-                <span style="color:${s.color};">${s.total}</span>
-                <span>Total Seats</span>
-            </div>
-            <div class="cap-stat">
-                <span style="color:${s.color};">${s.tables}</span>
-                <span>${s.type === 'Single Seats' ? 'Seats' : 'Tables'}</span>
-            </div>
-            <div class="cap-stat">
-                <span style="color:${s.color};">${s.perTable}</span>
-                <span>Per Table</span>
-            </div>
-        </div>
-        <a href="/reserve?section=${id}" class="btn-book-section" style="background:${s.color};color:#0B1220;">
-            🎟️ Book ${s.name}
-        </a>
-    `;
+const sel={};
+const tt=document.getElementById('tt');
+function tip(e,t){tt.style.display='block';tt.textContent=t;tt.style.left=(e.clientX+10)+'px';tt.style.top=(e.clientY-20)+'px';}
+function hideTip(){tt.style.display='none';}
+function toggle(id,pax,label,color,el){
+  if(sel[id]){delete sel[id];el.classList.remove('sel');}
+  else{sel[id]={pax,label,color,el};el.classList.add('sel');}
+  upd();
 }
+function upd(){
+  const keys=Object.keys(sel);
+  const tp=keys.reduce((a,k)=>a+sel[k].pax,0);
+  document.getElementById('sc').textContent=keys.length;
+  document.getElementById('sp').textContent='items · '+tp+' pax';
+  const st=document.getElementById('st');st.innerHTML='';
+  keys.slice(-12).forEach(k=>{
+    const t=document.createElement('div');t.className='tag';
+    t.style.cssText='background:'+sel[k].color+'22;color:'+sel[k].color+';border:0.5px solid '+sel[k].color;
+    t.innerHTML=sel[k].label+' <span onclick="rm(\''+k+'\')" style="cursor:pointer;opacity:0.6">✕</span>';
+    st.appendChild(t);
+  });
+  document.getElementById('bb').disabled=keys.length===0;
+}
+window.rm=function(id){if(!sel[id])return;sel[id].el.classList.remove('sel');delete sel[id];upd();};
+function clearAll(){Object.keys(sel).forEach(k=>rm(k));}
+function bookNow(){
+  const keys=Object.keys(sel);
+  if(!keys.length)return;
+  const items=keys.map(k=>sel[k].label).join(',');
+  window.location.href='/reserve?items='+encodeURIComponent(items);
+}
+ 
+let _cn=0,_tn=0,_sn=0;
+ 
+function makeCouch(id,sofaC,sofaS,tblC,tblS){
+  const u=document.createElement('div');u.className='cu';
+  const sl=document.createElement('div');sl.className='sofa-big';sl.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+  const slb=document.createElement('div');slb.className='sofa-big-back';slb.style.background=sofaS;
+  const sls=document.createElement('div');sls.className='sofa-big-seat';sls.style.background=sofaS;
+  sl.appendChild(slb);sl.appendChild(sls);
+  const cw=document.createElement('div');cw.className='ctbl-wrap';
+  const ss=document.createElement('div');ss.className='sofa-small';ss.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+  const ct=document.createElement('div');ct.className='ctbl';ct.style.cssText='background:'+tblC+';border-color:'+tblS;
+  cw.appendChild(ss);cw.appendChild(ct);
+  const sr=document.createElement('div');sr.className='sofa-big';sr.style.cssText='background:'+sofaC+';border-color:'+sofaS;
+  const srb=document.createElement('div');srb.className='sofa-big-back';srb.style.background=sofaS;
+  const srs=document.createElement('div');srs.className='sofa-big-seat';srs.style.background=sofaS;
+  sr.appendChild(srb);sr.appendChild(srs);
+  u.appendChild(sl);u.appendChild(cw);u.appendChild(sr);
+  u.addEventListener('mouseenter',e=>tip(e,id+' · 6 pax'));
+  u.addEventListener('mousemove',e=>{tt.style.left=(e.clientX+10)+'px';tt.style.top=(e.clientY-20)+'px';});
+  u.addEventListener('mouseleave',hideTip);
+  u.addEventListener('click',()=>toggle(id,6,id,sofaS,u));
+  return u;
+}
+ 
+function makeTable(id,tblC,tblS,chairC,chairS){
+  const u=document.createElement('div');u.className='tu';
+  const cl=document.createElement('div');cl.className='chairs-side';
+  for(let j=0;j<2;j++){const c=document.createElement('div');c.className='chair';c.style.cssText='background:'+chairC+';border-color:'+chairS;cl.appendChild(c);}
+  const tb=document.createElement('div');tb.className='tbl-top';tb.style.cssText='background:'+tblC+';border-color:'+tblS;
+  const cr=document.createElement('div');cr.className='chairs-side';
+  for(let j=0;j<2;j++){const c=document.createElement('div');c.className='chair';c.style.cssText='background:'+chairC+';border-color:'+chairS;cr.appendChild(c);}
+  u.appendChild(cl);u.appendChild(tb);u.appendChild(cr);
+  u.addEventListener('mouseenter',e=>tip(e,id+' · 4 pax'));
+  u.addEventListener('mousemove',e=>{tt.style.left=(e.clientX+10)+'px';tt.style.top=(e.clientY-20)+'px';});
+  u.addEventListener('mouseleave',hideTip);
+  u.addEventListener('click',()=>toggle(id,4,id,tblS,u));
+  return u;
+}
+ 
+function makeSeat(id,color,stroke){
+  const u=document.createElement('div');u.className='su';
+  u.style.cssText='background:'+color+';border-color:'+stroke;
+  u.addEventListener('mouseenter',e=>tip(e,id+' · 1 pax'));
+  u.addEventListener('mousemove',e=>{tt.style.left=(e.clientX+10)+'px';tt.style.top=(e.clientY-20)+'px';});
+  u.addEventListener('mouseleave',hideTip);
+  u.addEventListener('click',()=>toggle(id,1,id,stroke,u));
+  return u;
+}
+ 
+function techCell(){const d=document.createElement('div');d.className='tech-cell';return d;}
+ 
+function buildRowGrid(gridId,rows){
+  const g=document.getElementById(gridId);
+  rows.forEach(rowItems=>{
+    const r=document.createElement('div');r.className='row-line';
+    rowItems.forEach(el=>{if(el)r.appendChild(el);});
+    g.appendChild(r);
+  });
+}
+ 
+const VC1='rgba(220,38,38,0.35)',VS1='#dc2626',VT1='rgba(90,10,10,0.4)',VTS1='#991b1b';
+const VC2='rgba(234,179,8,0.35)',VS2='#eab308',VT2='rgba(90,60,0,0.4)',VTS2='#ca8a04';
+const TC='rgba(20,184,166,0.25)',TS='#14b8a6',CC='rgba(20,184,166,0.5)',CS='#0d9488';
+ 
+function C(p,sc,ss,tc,ts){_cn++;return makeCouch(p+_cn,sc,ss,tc,ts);}
+function T(p){_tn++;return makeTable(p+_tn,TC,TS,CC,CS);}
+function S(p,c,s){_sn++;return makeSeat(p+_sn,c,s);}
+function nC(n,p,sc,ss,tc,ts){return Array.from({length:n},()=>C(p,sc,ss,tc,ts));}
+function nT(n,p){return Array.from({length:n},()=>T(p));}
+function nS(n,p,c,s){return Array.from({length:n},()=>S(p,c,s));}
+ 
+_cn=0;buildRowGrid('g-vtl',[nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1),nC(3,'VTL',VC1,VS1,VT1,VTS1)]);
+_cn=0;buildRowGrid('g-vtr',[nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1),nC(3,'VTR',VC1,VS1,VT1,VTS1)]);
+_cn=0;buildRowGrid('g-vml',[nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(2,'VML',VC2,VS2,VT2,VTS2)]);
+_cn=0;buildRowGrid('g-vmr',[nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(2,'VMR',VC2,VS2,VT2,VTS2)]);
+ 
+_tn=0;buildRowGrid('g-tl',[nT(6,'TL'),nT(6,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL')]);
+_tn=0;buildRowGrid('g-tr',[nT(6,'TR'),nT(6,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR')]);
+_tn=0;buildRowGrid('g-tml',[nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),[T('TML'),techCell(),techCell()],[T('TML'),T('TML'),T('TML')]]);
+_tn=0;buildRowGrid('g-tmr',[nT(4,'TMR'),nT(4,'TMR'),nT(4,'TMR'),nT(4,'TMR'),nT(4,'TMR'),nT(4,'TMR'),nT(3,'TMR'),nT(3,'TMR')]);
+ 
+_sn=0;buildRowGrid('g-sl',[nS(20,'SL','rgba(59,130,246,0.25)','#3b82f6'),nS(20,'SL','rgba(59,130,246,0.25)','#3b82f6'),nS(20,'SL','rgba(59,130,246,0.25)','#3b82f6')]);
+_sn=0;buildRowGrid('g-sr',[nS(20,'SR','rgba(59,130,246,0.25)','#3b82f6'),nS(20,'SR','rgba(59,130,246,0.25)','#3b82f6'),nS(20,'SR','rgba(59,130,246,0.25)','#3b82f6')]);
+_sn=0;buildRowGrid('g-sml',[nS(7,'SML','rgba(168,85,247,0.25)','#a855f7'),nS(7,'SML','rgba(168,85,247,0.25)','#a855f7'),nS(7,'SML','rgba(168,85,247,0.25)','#a855f7')]);
+_sn=0;buildRowGrid('g-smr',[nS(7,'SMR','rgba(168,85,247,0.25)','#a855f7'),nS(7,'SMR','rgba(168,85,247,0.25)','#a855f7'),nS(7,'SMR','rgba(168,85,247,0.25)','#a855f7')]);
 </script>
-
+ 
 @endsection
