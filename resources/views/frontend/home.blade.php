@@ -1,8 +1,14 @@
 @extends('layouts.app')
  
 @section('content')
+@php
+$soldOut = \App\Models\TicketCategory::where('sold_out', true)->pluck('section')->toArray();
+@endphp
  
 <style>
+    .sold-out-overlay { position:relative; }
+.sold-out-overlay::after { content:'SOLD OUT'; position:absolute; inset:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',cursive; font-size:11px; letter-spacing:2px; color:#f87171; border-radius:8px; pointer-events:none; }
+.sold-out-overlay * { pointer-events:none !important; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
  
 :root {
@@ -302,6 +308,24 @@ function toggleFaq(el){
     start();
     track.addEventListener('mouseenter',stop);
     track.addEventListener('mouseleave',start);
+    // Mark sold out zones
+const soldOutSections = @json($soldOut ?? []);
+soldOutSections.forEach(section => {
+    const map = {
+        'A': 'g-vtl', 'B': 'g-vml',
+        'C': 'g-vmr', 'D': 'g-vtr',
+        'E': 'g-tl',  'F': 'g-tml',
+        'G': 'g-tmr', 'H': 'g-tr',
+        'I': 'g-sl'
+    };
+    const gridId = map[section];
+    if(gridId) {
+        const zone = document.getElementById(gridId);
+        if(zone) {
+            zone.closest('.zone').classList.add('sold-out-overlay');
+        }
+    }
+});
 })();
 </script>
  

@@ -9,12 +9,14 @@ class TicketCategory extends Model
 {
     protected $fillable = [
         'section', 'name', 'seating_style', 'tables_count',
-        'per_table', 'total_capacity', 'price', 'location_label', 'is_available',
+        'per_table', 'total_capacity', 'price', 'location_label',
+        'is_available', 'sold_out',
     ];
 
     protected $casts = [
         'price'        => 'decimal:2',
         'is_available' => 'boolean',
+        'sold_out'     => 'boolean',
     ];
 
     public function reservations(): HasMany

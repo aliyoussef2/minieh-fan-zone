@@ -77,6 +77,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
 .badge-rejected{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.25);}
 .badge-entered{background:rgba(30,136,255,0.12);color:var(--blue);border:1px solid rgba(30,136,255,0.25);}
 .badge-not-entered{background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--border);}
+.badge-soldout{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.25);}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:200;padding:1rem;display:none;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--navy2);border:1px solid rgba(255,215,0,0.2);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;}
@@ -107,10 +108,13 @@ tr:hover td{background:rgba(255,255,255,0.02);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{border-color:rgba(34,197,94,0.4);}
 .toast.error{border-color:rgba(239,68,68,0.4);}
+/* Sold out toggle */
+.btn-soldout{padding:.3rem .65rem;font-size:.72rem;border-radius:6px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-weight:600;transition:all .2s;background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+.btn-soldout.is-soldout{background:rgba(239,68,68,0.1);color:var(--red);border-color:rgba(239,68,68,0.3);}
 </style>
 </head>
 <body>
-
+ 
 <div class="sidebar">
     <div class="sidebar-logo">
         <div class="brand">Minieh Fan Zone</div>
@@ -126,9 +130,10 @@ tr:hover td{background:rgba(255,255,255,0.02);}
     <div class="nav-item" onclick="showPanel('sections',this)"><span class="ico">🗺️</span> Sections & Pricing</div>
     <div class="nav-section">Operations</div>
     <div class="nav-item" onclick="showPanel('scanner',this)"><span class="ico">📷</span> QR Scanner</div>
+    <div class="nav-item" onclick="window.location.href='/admin/ads'"><span class="ico">📸</span> Ads</div>
     <div class="sidebar-footer">Logged in as <strong>Admin</strong></div>
 </div>
-
+ 
 <div class="main">
     <div class="topbar">
         <h1 id="topbar-title">Dashboard</h1>
@@ -140,9 +145,9 @@ tr:hover td{background:rgba(255,255,255,0.02);}
             </form>
         </div>
     </div>
-
+ 
     <div class="content">
-
+ 
     {{-- OVERVIEW --}}
     <div class="panel active" id="panel-overview">
         <div class="stats-grid">
@@ -161,7 +166,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
                         <td><code style="color:var(--gold);font-size:.78rem;">{{ $r->booking_code }}</code></td>
                         <td>{{ $r->customer->full_name }}</td>
                         <td style="font-size:.75rem;">{{ $r->footballMatch->label }}</td>
-                        <td>Section {{ $r->ticketCategory->section }}</td>
+                        <td>{{ $r->notes ?? 'Section ' . ($r->ticketCategory->section ?? '—') }}</td>
                         <td>{{ $r->quantity }}</td>
                         <td><span class="badge badge-{{ $r->payment_status }}">{{ ucfirst($r->payment_status) }}</span></td>
                         <td style="color:var(--muted);">{{ $r->created_at->format('M j, H:i') }}</td>
@@ -173,7 +178,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
             </table>
         </div>
     </div>
-
+ 
     {{-- RESERVATIONS --}}
     <div class="panel" id="panel-reservations">
         <div class="sec-head"><h2>All Reservations</h2></div>
@@ -186,23 +191,16 @@ tr:hover td{background:rgba(255,255,255,0.02);}
                     <option value="verified">Verified</option>
                     <option value="rejected">Rejected</option>
                 </select>
-                <select class="filter-select" onchange="filterReservationsBySection(this.value)">
-                    <option value="">All Sections</option>
-                    <option>A</option><option>B</option><option>C</option>
-                    <option>D</option><option>E</option><option>F</option>
-                    <option>G</option><option>H</option><option>I</option>
-                </select>
             </div>
             <table>
-                <thead><tr><th>Booking Code</th><th>Customer</th><th>Phone</th><th>Match</th><th>Section</th><th>Qty</th><th>Payment Ref</th><th>Status</th><th>Entry</th><th>Actions</th></tr></thead>
+                <thead><tr><th>Booking Code</th><th>Customer</th><th>Phone</th><th>Spot</th><th>Qty</th><th>Payment Ref</th><th>Status</th><th>Entry</th><th>Actions</th></tr></thead>
                 <tbody id="res-tbody">
                     @forelse($reservations ?? [] as $r)
-                    <tr data-status="{{ $r->payment_status }}" data-section="{{ $r->ticketCategory->section }}" data-search="{{ strtolower($r->customer->full_name . ' ' . $r->booking_code . ' ' . $r->customer->email) }}">
+                    <tr data-status="{{ $r->payment_status }}" data-search="{{ strtolower($r->customer->full_name . ' ' . $r->booking_code . ' ' . $r->customer->email) }}">
                         <td><code style="color:var(--gold);font-size:.75rem;">{{ $r->booking_code }}</code></td>
                         <td><div style="font-weight:500;">{{ $r->customer->full_name }}</div><div style="font-size:.72rem;color:var(--muted);">{{ $r->customer->email }}</div></td>
                         <td style="color:var(--muted);font-size:.78rem;">{{ $r->customer->phone }}</td>
-                        <td style="font-size:.75rem;">{{ $r->footballMatch->label }}<br><span style="color:var(--muted);">{{ $r->footballMatch->match_date->format('M j') }}</span></td>
-                        <td><strong>{{ $r->ticketCategory->section }}</strong><br><span style="font-size:.7rem;color:var(--muted);">{{ $r->ticketCategory->name }}</span></td>
+                        <td style="font-size:.75rem;">{{ $r->notes ?? 'Section ' . ($r->ticketCategory->section ?? '—') }}</td>
                         <td>{{ $r->quantity }}</td>
                         <td style="font-size:.72rem;color:var(--muted);">{{ $r->payment_reference ?? '—' }}</td>
                         <td><span class="badge badge-{{ $r->payment_status }}">{{ ucfirst($r->payment_status) }}</span></td>
@@ -218,19 +216,19 @@ tr:hover td{background:rgba(255,255,255,0.02);}
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="10"><div class="empty-state"><span class="ico">🎟️</span>No reservations yet</div></td></tr>
+                    <tr><td colspan="9"><div class="empty-state"><span class="ico">🎟️</span>No reservations yet</div></td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-
+ 
     {{-- MATCHES --}}
     <div class="panel" id="panel-matches">
         <div class="sec-head"><h2>Matches</h2><div class="actions"><button class="btn btn-gold" onclick="openMatchModal()">+ Add Match</button></div></div>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>#</th><th>Teams</th><th>Date</th><th>Time</th><th>Stage</th><th>Group</th><th>Status</th><th>Reservations</th><th>Actions</th></tr></thead>
+                <thead><tr><th>#</th><th>Teams</th><th>Date</th><th>Time</th><th>Stage</th><th>Group</th><th>Status</th><th>Actions</th></tr></thead>
                 <tbody>
                     @forelse($matches ?? [] as $m)
                     <tr>
@@ -249,17 +247,16 @@ tr:hover td{background:rgba(255,255,255,0.02);}
                         <td><span class="badge badge-not-entered">{{ $m->stage }}</span></td>
                         <td style="color:var(--muted);">{{ $m->group ?? '—' }}</td>
                         <td><span class="badge {{ $m->status==='live'?'badge-verified':($m->status==='finished'?'badge-not-entered':'badge-pending') }}">{{ ucfirst($m->status) }}</span></td>
-                        <td>{{ $m->reservations_count ?? 0 }}</td>
                         <td><button class="btn btn-outline btn-sm" onclick="editMatch({{ $m->id }})">Edit</button></td>
                     </tr>
                     @empty
-                    <tr><td colspan="9"><div class="empty-state"><span class="ico">⚽</span>No matches. Run the seeder.</div></td></tr>
+                    <tr><td colspan="8"><div class="empty-state"><span class="ico">⚽</span>No matches. Run the seeder.</div></td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-
+ 
     {{-- CUSTOMERS --}}
     <div class="panel" id="panel-customers">
         <div class="sec-head"><h2>Customers</h2></div>
@@ -283,13 +280,13 @@ tr:hover td{background:rgba(255,255,255,0.02);}
             </table>
         </div>
     </div>
-
+ 
     {{-- SECTIONS & PRICING --}}
     <div class="panel" id="panel-sections">
         <div class="sec-head"><h2>Sections & Pricing</h2><button class="btn btn-gold" onclick="savePrices()">Save Prices</button></div>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>Section</th><th>Type</th><th>Seating Style</th><th>Tables</th><th>Per Table</th><th>Capacity</th><th>Price (USD/person)</th><th>Available</th></tr></thead>
+                <thead><tr><th>Section</th><th>Type</th><th>Seating Style</th><th>Tables</th><th>Per Table</th><th>Capacity</th><th>Price (USD/person)</th><th>Available</th><th>Sold Out</th></tr></thead>
                 <tbody>
                     @forelse($categories ?? [] as $cat)
                     <tr>
@@ -301,15 +298,23 @@ tr:hover td{background:rgba(255,255,255,0.02);}
                         <td>{{ $cat->total_capacity }}</td>
                         <td><input type="number" class="search-input" style="width:100px;" value="{{ $cat->price ?? '' }}" placeholder="Set price" data-category-id="{{ $cat->id }}" min="0" step="0.01"></td>
                         <td><input type="checkbox" {{ $cat->is_available ? 'checked' : '' }} data-category-id="{{ $cat->id }}" onchange="toggleAvailability({{ $cat->id }},this.checked)" style="width:16px;height:16px;cursor:pointer;"></td>
+                        <td>
+                            <button
+                                class="btn-soldout {{ $cat->sold_out ? 'is-soldout' : '' }}"
+                                id="soldout-{{ $cat->id }}"
+                                onclick="toggleSoldOut({{ $cat->id }})">
+                                {{ $cat->sold_out ? '🔴 Sold Out' : '✅ Available' }}
+                            </button>
+                        </td>
                     </tr>
                     @empty
-                    <tr><td colspan="8"><div class="empty-state"><span class="ico">🗺️</span>No sections. Run the seeder.</div></td></tr>
+                    <tr><td colspan="9"><div class="empty-state"><span class="ico">🗺️</span>No sections. Run the seeder.</div></td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-
+ 
     {{-- QR SCANNER --}}
     <div class="panel" id="panel-scanner">
         <div class="sec-head"><h2>QR Entry Scanner</h2></div>
@@ -332,10 +337,10 @@ tr:hover td{background:rgba(255,255,255,0.02);}
             </div>
         </div>
     </div>
-
+ 
     </div>
 </div>
-
+ 
 {{-- MODALS --}}
 <div class="modal-overlay" id="modal-view">
     <div class="modal">
@@ -344,7 +349,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
         <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-view')">Close</button></div>
     </div>
 </div>
-
+ 
 <div class="modal-overlay" id="modal-match">
     <div class="modal">
         <div class="modal-header"><h3 id="match-modal-title">Add Match</h3><button class="modal-close" onclick="closeModal('modal-match')">✕</button></div>
@@ -381,12 +386,12 @@ tr:hover td{background:rgba(255,255,255,0.02);}
         </div>
     </div>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]').content;
-
+ 
 function showPanel(name, el) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -395,9 +400,9 @@ function showPanel(name, el) {
     const titles = {overview:'Dashboard',reservations:'Reservations',matches:'Matches',customers:'Customers',sections:'Sections & Pricing',scanner:'QR Scanner'};
     document.getElementById('topbar-title').textContent = titles[name] || name;
 }
-
+ 
 document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-
+ 
 function filterReservations(q) {
     q = q.toLowerCase();
     document.querySelectorAll('#res-tbody tr').forEach(row => {
@@ -409,12 +414,7 @@ function filterReservationsByStatus(val) {
         row.style.display = (!val || row.dataset.status === val) ? '' : 'none';
     });
 }
-function filterReservationsBySection(val) {
-    document.querySelectorAll('#res-tbody tr').forEach(row => {
-        row.style.display = (!val || row.dataset.section === val) ? '' : 'none';
-    });
-}
-
+ 
 function updateStatus(id, status, btn) {
     btn.disabled = true; btn.textContent = '…';
     fetch(`/admin/reservations/${id}/status`, {
@@ -424,7 +424,7 @@ function updateStatus(id, status, btn) {
     .then(r => r.json())
     .then(d => { if(d.success){ showToast(status==='verified'?'✓ Verified':'✗ Rejected', status==='verified'?'success':'error'); setTimeout(()=>location.reload(),800); }});
 }
-
+ 
 function viewReservation(id) {
     document.getElementById('modal-view-body').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);">Loading…</div>';
     openModal('modal-view');
@@ -436,8 +436,7 @@ function viewReservation(id) {
                 <div class="sr-row"><span class="k">Email</span><span style="color:var(--muted);">${d.email}</span></div>
                 <div class="sr-row"><span class="k">Phone</span><span style="color:var(--muted);">${d.phone}</span></div>
                 <div class="sr-row"><span class="k">Match</span><span>${d.match}</span></div>
-                <div class="sr-row"><span class="k">Date</span><span style="color:var(--muted);">${d.match_date}</span></div>
-                <div class="sr-row"><span class="k">Section</span><span>Section ${d.section} — ${d.section_name}</span></div>
+                <div class="sr-row"><span class="k">Spot</span><span>${d.section_name||d.section}</span></div>
                 <div class="sr-row"><span class="k">Quantity</span><span>${d.quantity}</span></div>
                 <div class="sr-row"><span class="k">Payment Ref</span><span style="color:var(--muted);">${d.payment_reference||'—'}</span></div>
                 <div class="sr-row"><span class="k">Payment</span><span class="badge badge-${d.payment_status}">${d.payment_status}</span></div>
@@ -446,7 +445,7 @@ function viewReservation(id) {
             </div>`;
     });
 }
-
+ 
 let editingMatchId = null;
 function openMatchModal() {
     editingMatchId = null;
@@ -481,7 +480,7 @@ function saveMatch() {
         .then(r=>r.json()).then(data=>{ if(data.success){ showToast('Match saved!','success'); closeModal('modal-match'); setTimeout(()=>location.reload(),600); }});
 }
 function d(id){ return document.getElementById(id).value; }
-
+ 
 function savePrices() {
     const prices = [];
     document.querySelectorAll('input[data-category-id][type="number"]').forEach(inp => {
@@ -490,11 +489,32 @@ function savePrices() {
     fetch('/admin/categories/prices',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify({prices})})
         .then(r=>r.json()).then(data=>{ if(data.success) showToast('Prices saved!','success'); });
 }
+ 
 function toggleAvailability(id, val) {
     fetch(`/admin/categories/${id}/availability`,{method:'PATCH',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify({is_available:val})})
         .then(r=>r.json()).then(data=>{ if(data.success) showToast(val?'Section enabled':'Section disabled','success'); });
 }
-
+ 
+function toggleSoldOut(id) {
+    fetch(`/admin/categories/${id}/soldout`,{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF}
+    })
+    .then(r=>r.json())
+    .then(data=>{
+        const btn=document.getElementById('soldout-'+id);
+        if(data.sold_out){
+            btn.classList.add('is-soldout');
+            btn.textContent='🔴 Sold Out';
+            showToast('Section marked as sold out','error');
+        } else {
+            btn.classList.remove('is-soldout');
+            btn.textContent='✅ Available';
+            showToast('Section marked as available','success');
+        }
+    });
+}
+ 
 let scannedCode = null;
 function scanCode() {
     const code = document.getElementById('scanner-input').value.trim();
@@ -505,7 +525,7 @@ function scanCode() {
         document.getElementById('sr-code').textContent     = d.booking_code;
         document.getElementById('sr-customer').textContent = d.customer;
         document.getElementById('sr-match').textContent    = d.match+' · '+d.match_date;
-        document.getElementById('sr-section').textContent  = 'Section '+d.section+' — '+d.section_name;
+        document.getElementById('sr-section').textContent  = d.section_name||d.section;
         document.getElementById('sr-qty').textContent      = d.quantity;
         document.getElementById('sr-payment').innerHTML    = `<span class="badge badge-${d.payment_status}">${d.payment_status}</span>`;
         document.getElementById('sr-entry').innerHTML      = `<span class="badge ${d.entry_status==='entered'?'badge-entered':'badge-not-entered'}">${d.entry_status}</span>`;
@@ -527,19 +547,19 @@ function markEntered() {
             } else { showToast(d.message||'Error','error'); }
         });
 }
-
+ 
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(o => {
     o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
 });
-
+ 
 function showToast(msg, type='success') {
     const t = document.getElementById('toast');
     t.textContent = msg; t.className = `toast ${type} show`;
     setTimeout(()=>t.classList.remove('show'), 3000);
 }
-
+ 
 const pendingCount = document.querySelectorAll('[data-status="pending"]').length;
 document.getElementById('pending-badge').textContent = pendingCount;
 if(pendingCount === 0) document.getElementById('pending-badge').style.display = 'none';

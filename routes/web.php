@@ -32,6 +32,7 @@ Route::post('/reserve/submit', [ReservationController::class, 'store'])->name('r
 // ── ADMIN LOGIN ───────────────────────────────────
 Route::get('/admin/login',  [AdminLoginController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');
+Route::patch('/categories/{id}/soldout', [AdminController::class, 'toggleSoldOut'])->name('admin.categories.soldout');
 
 // ── ADMIN DASHBOARD (protected) ───────────────────
 Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group(function () {

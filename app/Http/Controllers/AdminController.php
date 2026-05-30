@@ -227,4 +227,13 @@ public function deleteAd($id)
     $ad->delete();
     return response()->json(['success' => true]);
 }
+public function toggleSoldOut($id)
+{
+    $category = \App\Models\TicketCategory::findOrFail($id);
+    $category->update(['sold_out' => !$category->sold_out]);
+    return response()->json([
+        'success'   => true,
+        'sold_out'  => $category->sold_out,
+    ]);
+}
 }
