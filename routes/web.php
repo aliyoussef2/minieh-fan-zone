@@ -46,4 +46,5 @@ Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group
 
     Route::get('/scan/{code}',        [AdminController::class, 'scan']);
     Route::post('/scan/{code}/enter', [AdminController::class, 'markEntered']);
+    Route::get('/about', fn() => view('frontend.about'));
 });
