@@ -31,259 +31,72 @@ nav {
     border-bottom: 1px solid rgba(30,136,255,0.15);
 }
 
-.nav-logo {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    color: var(--white);
-    text-decoration: none;
-}
-
+.nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--white); text-decoration: none; white-space: nowrap; }
 .nav-logo span { color: var(--gold); }
-
-.nav-links {
-    display: flex;
-    gap: 35px;
-    list-style: none;
-}
-
-.nav-links a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-}
-
+.nav-links { display: flex; gap: 35px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
 .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-
-.nav-btn {
-    background: var(--blue);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
+.nav-btn { background: var(--blue); color: white; padding: 10px 25px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; white-space: nowrap; }
 .nav-btn:hover { background: var(--gold); color: var(--navy); }
+.nav-hamburger { display: none; background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--white); font-size: 1.3rem; cursor: pointer; padding: 6px 12px; border-radius: 6px; }
 
-.page-header {
-    padding: 140px 60px 60px;
-    text-align: center;
-    background: linear-gradient(180deg, rgba(30,136,255,0.08) 0%, transparent 100%);
-    border-bottom: 1px solid rgba(30,136,255,0.1);
+@media (max-width: 768px) {
+    nav { padding: 15px 20px; flex-wrap: wrap; gap: 8px; }
+    .nav-hamburger { display: block; }
+    .nav-btn { display: none; }
+    .nav-links { display: none; flex-direction: column; width: 100%; gap: 12px; padding: 15px 0 5px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1rem; }
+    .page-header { padding: 120px 20px 40px; }
+    .filters { padding: 20px; top: 60px; }
+    .search-bar { padding: 15px 20px; }
+    .matches-container { padding: 20px 15px 60px; }
+    .matches-grid { grid-template-columns: 1fr; }
 }
 
-.page-header h1 {
-    font-family: 'Bebas Neue', cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    letter-spacing: 3px;
-    margin-bottom: 15px;
-}
-
+.page-header { padding: 140px 60px 60px; text-align: center; background: linear-gradient(180deg, rgba(30,136,255,0.08) 0%, transparent 100%); border-bottom: 1px solid rgba(30,136,255,0.1); }
+.page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; margin-bottom: 15px; }
 .page-header h1 span { color: var(--gold); }
+.page-header p { color: rgba(255,255,255,0.5); font-size: 1rem; }
 
-.page-header p {
-    color: rgba(255,255,255,0.5);
-    font-size: 1rem;
-}
+.filters { padding: 20px 60px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 65px; z-index: 50; backdrop-filter: blur(20px); }
+.filter-btn { padding: 8px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.3s; }
+.filter-btn:hover, .filter-btn.active { background: var(--blue); border-color: var(--blue); color: white; }
 
-.filters {
-    padding: 30px 60px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    background: rgba(255,255,255,0.02);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: sticky;
-    top: 65px;
-    z-index: 50;
-    backdrop-filter: blur(20px);
-}
-
-.filter-btn {
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: transparent;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.filter-btn:hover, .filter-btn.active {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: white;
-}
-
-.search-bar {
-    padding: 20px 60px;
-    display: flex;
-    justify-content: center;
-}
-
-.search-input {
-    width: 100%;
-    max-width: 500px;
-    padding: 12px 20px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(30,136,255,0.2);
-    border-radius: 8px;
-    color: white;
-    font-size: 0.9rem;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.search-input:focus {
-    border-color: var(--blue);
-    background: rgba(30,136,255,0.08);
-}
-
+.search-bar { padding: 20px 60px; display: flex; justify-content: center; }
+.search-input { width: 100%; max-width: 500px; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(30,136,255,0.2); border-radius: 8px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s; }
+.search-input:focus { border-color: var(--blue); background: rgba(30,136,255,0.08); }
 .search-input::placeholder { color: rgba(255,255,255,0.3); }
 
-.matches-container {
-    padding: 30px 60px 80px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+.matches-container { padding: 30px 60px 80px; max-width: 1200px; margin: 0 auto; }
+.stage-title { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--gold); margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+.matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
-.stage-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    color: var(--gold);
-    margin: 40px 0 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255,215,0,0.2);
-}
-
-.matches-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
-}
-
-.match-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(30,136,255,0.1);
-    border-radius: 16px;
-    padding: 25px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.match-card:hover {
-    background: rgba(30,136,255,0.08);
-    border-color: rgba(30,136,255,0.4);
-    transform: translateY(-4px);
-}
-
-.match-stage {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--blue);
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
-
-.match-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.team {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-}
-
-.team-flag {
-    width: 60px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.team-name {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    color: var(--white);
-    text-align: center;
-}
-
-.vs {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
-    color: rgba(255,255,255,0.2);
-    padding: 0 15px;
-}
-
-.match-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.match-datetime {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.5);
-}
-
-.match-datetime span {
-    display: block;
-    color: rgba(255,255,255,0.8);
-    font-weight: 600;
-}
-
-.btn-reserve {
-    background: var(--gold);
-    color: var(--navy);
-    padding: 8px 18px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    white-space: nowrap;
-}
-
+.match-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(30,136,255,0.1); border-radius: 16px; padding: 25px; transition: all 0.3s; cursor: pointer; }
+.match-card:hover { background: rgba(30,136,255,0.08); border-color: rgba(30,136,255,0.4); transform: translateY(-4px); }
+.match-stage { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; margin-bottom: 15px; }
+.match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.team { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+.team-flag { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.team-name { font-family: 'Bebas Neue', cursive; font-size: 1.1rem; letter-spacing: 2px; color: var(--white); text-align: center; }
+.vs { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; color: rgba(255,255,255,0.2); padding: 0 15px; }
+.match-info { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+.match-datetime { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+.match-datetime span { display: block; color: rgba(255,255,255,0.8); font-weight: 600; }
+.btn-reserve { background: var(--gold); color: var(--navy); padding: 8px 18px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
 .btn-reserve:hover { background: white; }
 </style>
 
 <nav>
     <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/matches" class="active">Matches</a></li>
         <li><a href="/tickets">Tickets</a></li>
         <li><a href="/venue">Venue</a></li>
     </ul>
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
+    <button class="nav-hamburger" onclick="toggleNav()">☰</button>
 </nav>
 
 <div class="page-header">
@@ -309,6 +122,10 @@ nav {
 <div class="matches-container" id="matchesContainer"></div>
 
 <script>
+function toggleNav() {
+    document.getElementById('nav-links').classList.toggle('open');
+}
+
 const matches = [
     { id:1, stage:'Group Stage', group:'Group A', teamA:'Mexico', flagA:'https://flagcdn.com/w80/mx.png', teamB:'Ecuador', flagB:'https://flagcdn.com/w80/ec.png', date:'Jun 11', time:'7:00 PM' },
     { id:2, stage:'Group Stage', group:'Group A', teamA:'United States', flagA:'https://flagcdn.com/w80/us.png', teamB:'Canada', flagB:'https://flagcdn.com/w80/ca.png', date:'Jun 12', time:'7:00 PM' },

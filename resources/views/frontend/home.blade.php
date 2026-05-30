@@ -37,6 +37,8 @@ nav {
     font-size: 1.5rem;
     letter-spacing: 3px;
     color: var(--white);
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-logo span { color: var(--gold); }
@@ -70,9 +72,41 @@ nav {
     text-transform: uppercase;
     text-decoration: none;
     transition: all 0.3s;
+    white-space: nowrap;
 }
 
 .nav-btn:hover { background: var(--gold); color: var(--navy); }
+
+.nav-hamburger {
+    display: none;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .nav-hamburger { display: block; }
+    .nav-btn { display: none; }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        padding: 15px 0 5px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1rem; letter-spacing: 1px; }
+}
 
 /* HERO */
 .hero {
@@ -88,7 +122,7 @@ nav {
 .hero-bg {
     position: absolute;
     inset: 0;
-    background: 
+    background:
         linear-gradient(rgba(11,18,32,0.7), rgba(11,18,32,0.85)),
         url('/images/minieh-bg.webp') center/cover no-repeat;
 }
@@ -97,7 +131,7 @@ nav {
     position: relative;
     z-index: 10;
     max-width: 900px;
-    padding: 0 30px;
+    padding: 0 20px;
 }
 
 .hero-badge {
@@ -127,7 +161,7 @@ nav {
 
 .hero-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: clamp(4rem, 12vw, 10rem);
+    font-size: clamp(3.5rem, 12vw, 10rem);
     line-height: 0.9;
     letter-spacing: 3px;
     margin-bottom: 25px;
@@ -136,11 +170,12 @@ nav {
 .hero-title .gold { color: var(--gold); }
 
 .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: rgba(255,255,255,0.65);
     line-height: 1.8;
     max-width: 600px;
     margin: 0 auto 40px;
+    padding: 0 10px;
 }
 
 .hero-btns {
@@ -148,13 +183,13 @@ nav {
     gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 
 .btn-primary {
     background: var(--gold);
     color: var(--navy);
-    padding: 16px 45px;
+    padding: 16px 35px;
     border-radius: 6px;
     font-family: 'Bebas Neue', cursive;
     font-size: 1rem;
@@ -169,7 +204,7 @@ nav {
 .btn-secondary {
     background: transparent;
     color: white;
-    padding: 16px 45px;
+    padding: 16px 35px;
     border-radius: 6px;
     font-family: 'Bebas Neue', cursive;
     font-size: 1rem;
@@ -185,22 +220,23 @@ nav {
 /* COUNTDOWN */
 .countdown {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .countdown-box {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(30,136,255,0.2);
     border-radius: 12px;
-    padding: 20px 25px;
-    min-width: 90px;
+    padding: 18px 20px;
+    min-width: 75px;
     text-align: center;
 }
 
 .countdown-num {
     font-family: 'Bebas Neue', cursive;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: var(--gold);
     line-height: 1;
     display: block;
@@ -218,7 +254,7 @@ nav {
 
 /* STATS */
 .stats-section {
-    padding: 80px 60px;
+    padding: 60px 20px;
     background: rgba(30,136,255,0.05);
     border-top: 1px solid rgba(30,136,255,0.1);
     border-bottom: 1px solid rgba(30,136,255,0.1);
@@ -227,22 +263,26 @@ nav {
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 20px;
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
 }
 
+@media (max-width: 600px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 .stat-num {
     font-family: 'Bebas Neue', cursive;
-    font-size: 3.5rem;
+    font-size: 3rem;
     color: var(--gold);
     display: block;
     line-height: 1;
 }
 
 .stat-lbl {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 2px;
     color: rgba(255,255,255,0.4);
@@ -253,7 +293,7 @@ nav {
 
 /* FEATURES */
 .features-section {
-    padding: 120px 60px;
+    padding: 80px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -274,7 +314,7 @@ nav {
     font-size: clamp(2.5rem, 6vw, 5rem);
     letter-spacing: 2px;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     color: var(--white);
 }
 
@@ -283,14 +323,22 @@ nav {
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .features-grid { grid-template-columns: 1fr; }
 }
 
 .feature-card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(30,136,255,0.1);
     border-radius: 16px;
-    padding: 40px 30px;
+    padding: 30px 20px;
     text-align: center;
     transition: all 0.4s;
 }
@@ -301,29 +349,25 @@ nav {
     transform: translateY(-8px);
 }
 
-.feature-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    display: block;
-}
+.feature-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
 
 .feature-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     letter-spacing: 2px;
     color: var(--white);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .feature-desc {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     color: rgba(255,255,255,0.5);
     line-height: 1.8;
 }
 
 /* CTA */
 .cta-section {
-    padding: 120px 60px;
+    padding: 80px 20px;
     text-align: center;
     background: linear-gradient(135deg, rgba(30,136,255,0.1), rgba(255,215,0,0.05));
     border-top: 1px solid rgba(30,136,255,0.1);
@@ -331,7 +375,7 @@ nav {
 
 .cta-title {
     font-family: 'Bebas Neue', cursive;
-    font-size: clamp(3rem, 8vw, 7rem);
+    font-size: clamp(2.5rem, 8vw, 7rem);
     letter-spacing: 2px;
     line-height: 0.9;
     margin-bottom: 25px;
@@ -339,7 +383,7 @@ nav {
 
 /* FOOTER */
 footer {
-    padding: 40px 60px;
+    padding: 30px 20px;
     text-align: center;
     border-top: 1px solid rgba(255,255,255,0.05);
     color: rgba(255,255,255,0.3);
@@ -349,14 +393,15 @@ footer {
 
 {{-- NAV --}}
 <nav>
-    <div class="nav-logo">MINIEH <span>FAN ZONE</span></div>
-    <ul class="nav-links">
+    <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
+    <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/matches">Matches</a></li>
         <li><a href="/tickets">Tickets</a></li>
         <li><a href="/venue">Venue</a></li>
     </ul>
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
+    <button class="nav-hamburger" onclick="toggleNav()">☰</button>
 </nav>
 
 {{-- HERO --}}
@@ -474,7 +519,10 @@ footer {
 </footer>
 
 <script>
-// Countdown to June 11, 2026
+function toggleNav() {
+    document.getElementById('nav-links').classList.toggle('open');
+}
+
 function updateCountdown() {
     const target = new Date('2026-06-11T19:00:00');
     const now = new Date();
