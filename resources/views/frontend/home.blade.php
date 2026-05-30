@@ -390,7 +390,66 @@ footer {
     font-size: 0.85rem;
 }
 </style>
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes slideLeft { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:translateX(0); } }
+@keyframes slideRight { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+@keyframes scaleIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+@keyframes glow { 0%,100% { box-shadow:0 0 20px rgba(255,215,0,0.2); } 50% { box-shadow:0 0 40px rgba(255,215,0,0.5); } }
+@keyframes gradientShift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+@keyframes countUp { from { opacity:0; transform:translateY(20px) scale(0.8); } to { opacity:1; transform:translateY(0) scale(1); } }
 
+/* Hero animations */
+.hero-badge { animation: fadeIn 0.8s ease forwards; opacity:0; }
+.hero-title { animation: scaleIn 1s ease 0.3s forwards; opacity:0; }
+.hero-subtitle { animation: fadeUp 0.8s ease 0.7s forwards; opacity:0; }
+.hero-btns { animation: fadeUp 0.8s ease 0.9s forwards; opacity:0; }
+.countdown { animation: fadeUp 0.8s ease 1.1s forwards; opacity:0; }
+
+/* Countdown box float */
+.countdown-box { animation: float 3s ease-in-out infinite; }
+.countdown-box:nth-child(2) { animation-delay: 0.3s; }
+.countdown-box:nth-child(3) { animation-delay: 0.6s; }
+.countdown-box:nth-child(4) { animation-delay: 0.9s; }
+
+/* Stats */
+.stat-num { animation: countUp 0.6s ease forwards; opacity:0; }
+.stats-grid > div:nth-child(1) .stat-num { animation-delay:0.1s; }
+.stats-grid > div:nth-child(2) .stat-num { animation-delay:0.25s; }
+.stats-grid > div:nth-child(3) .stat-num { animation-delay:0.4s; }
+.stats-grid > div:nth-child(4) .stat-num { animation-delay:0.55s; }
+
+/* Feature cards */
+.feature-card {
+    opacity:0;
+    transform:translateY(30px);
+    transition:opacity 0.6s ease, transform 0.6s ease, background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.feature-card.visible { opacity:1; transform:translateY(0); }
+.feature-card:hover { box-shadow:0 0 30px rgba(30,136,255,0.2); }
+
+/* Nav link hover */
+.nav-links a { position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--gold); transition:width 0.3s; }
+.nav-links a:hover::after { width:100%; }
+
+/* Button hover */
+.btn-primary, .btn-secondary { position:relative; overflow:hidden; }
+.btn-primary::after, .btn-secondary::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.1); transform:translateX(-100%); transition:transform 0.3s; }
+.btn-primary:hover::after, .btn-secondary:hover::after { transform:translateX(0); }
+
+/* Hero bg animated gradient overlay */
+.hero-bg::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(30,136,255,0.05),rgba(255,215,0,0.03),rgba(30,136,255,0.05)); background-size:400% 400%; animation:gradientShift 8s ease infinite; }
+
+/* Animated gold glow on countdown nums */
+.countdown-num { transition:color 0.3s; }
+.countdown-box:hover .countdown-num { color:white; text-shadow:0 0 20px var(--gold); }
+
+/* CTA section */
+.cta-title { animation:none; }
+.cta-section .btn-primary { animation:glow 2s ease-in-out infinite; }
 {{-- NAV --}}
 <nav>
     <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
@@ -541,5 +600,31 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 </script>
+// Scroll reveal for feature cards
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.classList.add('visible');
+            }, i * 100);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
+
+// Scroll reveal for stats
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.stat-num').forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+        }
+    });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.stats-section').forEach(s => statsObserver.observe(s));
 
 @endsection
