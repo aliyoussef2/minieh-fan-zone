@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\Customer;
 use App\Models\FootballMatch;
 use App\Models\Reservation;
 use App\Models\TicketCategory;
 use App\Models\Payment;
+use App\Mail\TicketConfirmation;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
 
@@ -51,7 +54,6 @@ class ReservationController extends Controller
         $bookingCode = Reservation::generateBookingCode();
         $totalPrice  = $category->price ? $category->price * $validated['quantity'] : null;
 
-        // Generate QR code
         $qrPath = $this->generateQrCode($bookingCode);
 
         $reservation = Reservation::create([
@@ -74,6 +76,14 @@ class ReservationController extends Controller
             'transaction_reference' => $validated['payment_ref'],
             'status'                => 'pending',
         ]);
+
+        // Send confirmation email
+        try {
+            $reservation->load(['customer', 'footballMatch', 'ticketCategory']);
+            Mail::to($customer->email)->send(new TicketConfirmation($reservation));
+        } catch (\Exception $e) {
+            Log::error('Email failed: ' . $e->getMessage());
+        }
 
         return response()->json([
             'success'      => true,
