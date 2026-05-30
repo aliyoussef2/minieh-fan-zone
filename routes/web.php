@@ -22,7 +22,11 @@ Route::get('/venue', function () {
     return view('frontend.venue');
 });
 
-Route::get('/reserve',        [ReservationController::class, 'index'])->name('reserve');
+Route::get('/about', function () {
+    return view('frontend.about');
+});
+
+Route::get('/reserve', [ReservationController::class, 'index'])->name('reserve');
 Route::post('/reserve/submit', [ReservationController::class, 'store'])->name('reserve.store');
 
 // ── ADMIN LOGIN ───────────────────────────────────
@@ -46,5 +50,5 @@ Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group
 
     Route::get('/scan/{code}',        [AdminController::class, 'scan']);
     Route::post('/scan/{code}/enter', [AdminController::class, 'markEntered']);
-    Route::get('/about', fn() => view('frontend.about'));
+
 });
