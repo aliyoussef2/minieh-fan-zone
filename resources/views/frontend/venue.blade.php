@@ -118,6 +118,15 @@ body { background: var(--navy); color: var(--white); font-family: 'Instrument Sa
 @endsection
 
 @section('content')
+<nav style="background:#111827;padding:15px 30px;border-bottom:1px solid rgba(255,215,0,0.2);">
+    <ul style="display:flex;gap:30px;list-style:none;margin:0;padding:0;justify-content:center;">
+        <li><a href="/" style="color:white;text-decoration:none;">Home</a></li>
+        <li><a href="/matches" style="color:white;text-decoration:none;">Matches</a></li>
+        <li><a href="/tickets" style="color:white;text-decoration:none;">Tickets</a></li>
+        <li><a href="/venue" style="color:#FFD700;text-decoration:none;">Venue</a></li>
+        <li><a href="/about" style="color:white;text-decoration:none;">About</a></li>
+    </ul>
+</nav>
 
 <div class="venue-header">
     <p class="eyebrow">Minieh Fan Zone 2026</p>

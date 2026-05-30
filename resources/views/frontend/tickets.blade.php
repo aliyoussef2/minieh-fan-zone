@@ -116,6 +116,7 @@ nav {
         <li><a href="/matches">Matches</a></li>
         <li><a href="/tickets" class="active">Tickets</a></li>
         <li><a href="/venue">Venue</a></li>
+        <li><a href="/about">About</a></li>
     </ul>
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
     <button class="nav-hamburger" onclick="toggleNav()">☰</button>
