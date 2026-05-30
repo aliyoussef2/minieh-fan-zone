@@ -187,4 +187,44 @@ class AdminController extends Controller
         $request->session()->forget('admin_logged_in');
         return redirect('/admin/login');
     }
+    public function adsIndex()
+{
+    $ads = \App\Models\Ad::orderBy('order')->get();
+    return view('admin.ads', compact('ads'));
+}
+
+public function storeAd(Request $request)
+{
+    $request->validate(['image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120']);
+    
+    $file = $request->file('image');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $path = $file->storeAs('ads', $filename, 'public');
+    
+    $maxOrder = \App\Models\Ad::max('order') ?? 0;
+    
+    \App\Models\Ad::create([
+        'file_path' => $path,
+        'original_name' => $file->getClientOriginalName(),
+        'is_active' => true,
+        'order' => $maxOrder + 1,
+    ]);
+
+    return redirect()->route('admin.ads')->with('success', 'Ad uploaded successfully.');
+}
+
+public function toggleAd($id)
+{
+    $ad = \App\Models\Ad::findOrFail($id);
+    $ad->update(['is_active' => !$ad->is_active]);
+    return response()->json(['success' => true, 'is_active' => $ad->is_active]);
+}
+
+public function deleteAd($id)
+{
+    $ad = \App\Models\Ad::findOrFail($id);
+    \Illuminate\Support\Facades\Storage::disk('public')->delete($ad->file_path);
+    $ad->delete();
+    return response()->json(['success' => true]);
+}
 }

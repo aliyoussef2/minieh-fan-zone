@@ -51,4 +51,8 @@ Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group
     Route::get('/scan/{code}',        [AdminController::class, 'scan']);
     Route::post('/scan/{code}/enter', [AdminController::class, 'markEntered']);
 
+    Route::get('/ads',               [AdminController::class, 'adsIndex'])->name('admin.ads');
+    Route::post('/ads',              [AdminController::class, 'storeAd'])->name('admin.ads.store');
+    Route::patch('/ads/{id}/toggle', [AdminController::class, 'toggleAd'])->name('admin.ads.toggle');
+    Route::delete('/ads/{id}',       [AdminController::class, 'deleteAd'])->name('admin.ads.delete');
 });
