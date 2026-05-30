@@ -1,7 +1,7 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
-
+ 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -15,24 +15,25 @@ use App\Models\Payment;
 use App\Mail\TicketConfirmation;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
-
+ 
 class ReservationController extends Controller
 {
     public function index()
-{
-    try {
-        $matches = FootballMatch::upcoming()->get();
-    } catch (\Exception $e) {
-        $matches = collect();
+    {
+        try {
+            $matches = FootballMatch::upcoming()->get();
+        } catch (\Exception $e) {
+            $matches = collect();
+        }
+        return view('frontend.reserve', compact('matches'));
     }
-    return view('frontend.reserve', compact('matches'));
-}
-
+ 
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'match_id'    => 'required|exists:matches,id',
-            'section'     => 'required|string|max:2',
+            'match_id'    => 'required',
+            'section'     => 'required|string|max:100',
+            'section_type'=> 'nullable|string|max:100',
             'quantity'    => 'required|integer|min:1|max:20',
             'first_name'  => 'required|string|max:100',
             'last_name'   => 'required|string|max:100',
@@ -40,12 +41,13 @@ class ReservationController extends Controller
             'email'       => 'required|email|max:150',
             'payment_ref' => 'required|string|max:100',
         ]);
-
-        $category = TicketCategory::where('section', $validated['section'])->first();
-        if (!$category) {
-            return response()->json(['success' => false, 'message' => 'Invalid section.'], 422);
-        }
-
+ 
+        // Try to find ticket category, fallback gracefully
+        $category = null;
+        try {
+            $category = TicketCategory::where('section', $validated['section'])->first();
+        } catch (\Exception $e) {}
+ 
         $customer = Customer::firstOrCreate(
             ['email' => $validated['email']],
             [
@@ -54,16 +56,16 @@ class ReservationController extends Controller
                 'phone'      => $validated['phone'],
             ]
         );
-
+ 
         $bookingCode = Reservation::generateBookingCode();
-        $totalPrice  = $category->price ? $category->price * $validated['quantity'] : null;
-
+        $totalPrice  = $category && $category->price ? $category->price * $validated['quantity'] : null;
+ 
         $qrPath = $this->generateQrCode($bookingCode);
-
+ 
         $reservation = Reservation::create([
             'customer_id'        => $customer->id,
             'match_id'           => $validated['match_id'],
-            'ticket_category_id' => $category->id,
+            'ticket_category_id' => $category ? $category->id : null,
             'quantity'           => $validated['quantity'],
             'total_price'        => $totalPrice,
             'booking_code'       => $bookingCode,
@@ -71,78 +73,99 @@ class ReservationController extends Controller
             'payment_reference'  => $validated['payment_ref'],
             'payment_status'     => 'pending',
             'entry_status'       => 'not_entered',
+            'notes'              => 'Spot: ' . $validated['section'] . ($validated['section_type'] ? ' (' . $validated['section_type'] . ')' : ''),
         ]);
-
+ 
         Payment::create([
             'reservation_id'        => $reservation->id,
-            'payment_method'        => 'wish_money',
+            'payment_method'        => 'whish_money',
             'amount'                => $totalPrice,
             'transaction_reference' => $validated['payment_ref'],
             'status'                => 'pending',
         ]);
-
-        // Send confirmation email
+ 
+        // Send confirmation email to customer
         try {
             $reservation->load(['customer', 'footballMatch', 'ticketCategory']);
             Mail::to($customer->email)->send(new TicketConfirmation($reservation));
         } catch (\Exception $e) {
             Log::error('Email failed: ' . $e->getMessage());
         }
-
+ 
+        // Notify admin
+        try {
+            Mail::raw(
+                "🎟️ New Reservation Received!\n\n" .
+                "Name: {$validated['first_name']} {$validated['last_name']}\n" .
+                "Phone: {$validated['phone']}\n" .
+                "Email: {$validated['email']}\n" .
+                "Spot: {$validated['section']}\n" .
+                "Section Type: " . ($validated['section_type'] ?? 'N/A') . "\n" .
+                "Quantity: {$validated['quantity']}\n" .
+                "Payment Ref: {$validated['payment_ref']}\n" .
+                "Booking Code: {$bookingCode}\n" .
+                "Time: " . now()->format('d M Y H:i'),
+                function($message) {
+                    $message->to('tickets@miniehfanzone.com')
+                            ->subject('🎟️ New Reservation — Minieh Fan Zone');
+                }
+            );
+        } catch (\Exception $e) {
+            Log::error('Admin notification failed: ' . $e->getMessage());
+        }
+ 
         return response()->json([
             'success'      => true,
             'booking_code' => $bookingCode,
             'qr_code_url'  => $qrPath ? asset('storage/' . $qrPath) : null,
         ]);
     }
-
+ 
     private function generateQrCode(string $bookingCode): ?string
     {
         try {
             $qrCode = QrCode::create($bookingCode)
                 ->setSize(300)
                 ->setMargin(10);
-
+ 
             $writer = new SvgWriter();
             $result = $writer->write($qrCode);
-
+ 
             $path = 'qrcodes/' . $bookingCode . '.svg';
             Storage::disk('public')->put($path, $result->getString());
-
+ 
             return $path;
         } catch (\Exception $e) {
             return null;
         }
     }
-
+ 
     public function lookup(string $bookingCode): JsonResponse
     {
         $reservation = Reservation::with(['customer', 'footballMatch', 'ticketCategory'])
             ->where('booking_code', $bookingCode)
             ->firstOrFail();
-
+ 
         return response()->json([
             'booking_code'   => $reservation->booking_code,
             'customer'       => $reservation->customer->full_name,
-            'match'          => $reservation->footballMatch->label,
-            'match_date'     => $reservation->footballMatch->formatted_date,
-            'section'        => $reservation->ticketCategory->section,
-            'section_name'   => $reservation->ticketCategory->name,
+            'match'          => $reservation->footballMatch->label ?? 'N/A',
+            'section'        => $reservation->ticketCategory->section ?? $reservation->notes,
             'quantity'       => $reservation->quantity,
             'payment_status' => $reservation->payment_status,
             'entry_status'   => $reservation->entry_status,
             'qr_code_url'    => $reservation->qr_code ? asset('storage/' . $reservation->qr_code) : null,
         ]);
     }
-
+ 
     public function markEntered(string $bookingCode): JsonResponse
     {
         $reservation = Reservation::where('booking_code', $bookingCode)->firstOrFail();
-
+ 
         if ($reservation->payment_status !== 'verified') {
             return response()->json(['success' => false, 'message' => 'Payment not verified.'], 403);
         }
-
+ 
         $reservation->update(['entry_status' => 'entered']);
         return response()->json(['success' => true, 'message' => 'Entry recorded.']);
     }
