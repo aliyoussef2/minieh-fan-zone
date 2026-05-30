@@ -221,7 +221,7 @@ function clearAll(){Object.keys(sel).forEach(k=>rm(k));}
 function bookNow(){
   const keys=Object.keys(sel);
   if(!keys.length)return;
-  window.location.href='/reserve?items='+encodeURIComponent(keys.map(k=>sel[k].label).join(','));
+  window.location.href='/reserve';
 }
 
 let _cn=0,_tn=0,_sn=0;
