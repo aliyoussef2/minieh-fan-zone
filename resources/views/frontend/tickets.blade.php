@@ -296,8 +296,8 @@ function nS(n,p,c,s){return Array.from({length:n},()=>S(p,c,s));}
 
 _cn=0;buildRowGrid('g-vtl',[nC(5,'VTL',VC1,VS1,VT1,VTS1),nC(5,'VTL',VC1,VS1,VT1,VTS1),nC(5,'VTL',VC1,VS1,VT1,VTS1)]);
 _cn=0;buildRowGrid('g-vtr',[nC(5,'VTR',VC1,VS1,VT1,VTS1),nC(5,'VTR',VC1,VS1,VT1,VTS1),nC(5,'VTR',VC1,VS1,VT1,VTS1)]);
-_cn=0;buildRowGrid('g-vml',[nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2),nC(2,'VML',VC2,VS2,VT2,VTS2)]);
-_cn=0;buildRowGrid('g-vmr',[nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2),nC(2,'VMR',VC2,VS2,VT2,VTS2)]);
+_cn=0;buildRowGrid('g-vml',[nC(4,'VML',VC2,VS2,VT2,VTS2),nC(4,'VML',VC2,VS2,VT2,VTS2),nC(3,'VML',VC2,VS2,VT2,VTS2)]);
+_cn=0;buildRowGrid('g-vmr',[nC(4,'VMR',VC2,VS2,VT2,VTS2),nC(4,'VMR',VC2,VS2,VT2,VTS2),nC(3,'VMR',VC2,VS2,VT2,VTS2)]);
 _tn=0;buildRowGrid('g-tl',[nT(6,'TL'),nT(6,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL'),nT(5,'TL')]);
 _tn=0;buildRowGrid('g-tr',[nT(6,'TR'),nT(6,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR'),nT(5,'TR')]);
 _tn=0;buildRowGrid('g-tml',[nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),nT(4,'TML'),[T('TML'),techCell(),techCell()],[T('TML'),T('TML'),T('TML')]]);
