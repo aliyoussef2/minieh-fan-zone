@@ -6,6 +6,16 @@ $soldOut = \App\Models\TicketCategory::where('sold_out', true)->pluck('section')
 @endphp
  
 <style>
+    .nav-logo-img { height: 45px; width: auto; filter: brightness(1); transition: filter 0.3s, transform 0.3s; }
+.nav-logo-img:hover { filter: brightness(1.2); transform: scale(1.05); }
+
+.hero-logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; animation: logoEntrance 1.2s ease forwards; opacity: 0; filter: drop-shadow(0 0 30px rgba(255,215,0,0.4)); }
+
+@keyframes logoEntrance {
+    0% { opacity:0; transform:scale(0.5) rotate(-10deg); filter:drop-shadow(0 0 0px rgba(255,215,0,0)); }
+    60% { opacity:1; transform:scale(1.1) rotate(2deg); filter:drop-shadow(0 0 40px rgba(255,215,0,0.6)); }
+    100% { opacity:1; transform:scale(1) rotate(0deg); filter:drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
+}
     .sold-out-overlay { position:relative; }
 .sold-out-overlay::after { content:'SOLD OUT'; position:absolute; inset:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',cursive; font-size:11px; letter-spacing:2px; color:#f87171; border-radius:8px; pointer-events:none; }
 .sold-out-overlay * { pointer-events:none !important; }
@@ -153,7 +163,9 @@ footer { padding:30px 20px; text-align:center; border-top:1px solid rgba(255,255
 @endif
  
 <nav>
-    <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
+    <a href="/" class="nav-logo">
+    <img src="/images/logo.png" alt="Minieh Fan Zone" class="nav-logo-img">
+</a>
     <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/matches">Matches</a></li>
@@ -168,11 +180,12 @@ footer { padding:30px 20px; text-align:center; border-top:1px solid rgba(255,255
 <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
+        <img src="/images/logo.png" alt="Minieh Fan Zone 2026" class="hero-logo">
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
             Official FIFA World Cup 2026 Viewing Experience
         </div>
-        <h1 class="hero-title">MINIEH<br><span class="gold">FAN ZONE</span><br>2026</h1>
+        <h1 class="hero-title"><span class="gold">FIFA World Cup 2026</span><br>Viewing Experience</h1>
         <p class="hero-subtitle">Watch every FIFA World Cup match live on a giant screen with thousands of football fans on the beautiful Minieh Corniche.</p>
         <div class="hero-btns">
             <a href="/reserve" class="btn-primary">🎟️ Reserve Tickets</a>
