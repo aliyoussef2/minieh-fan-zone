@@ -6,10 +6,11 @@ $soldOut = \App\Models\TicketCategory::where('sold_out', true)->pluck('section')
 @endphp
  
 <style>
-    .nav-logo-img { height: 45px; width: auto; filter: brightness(1); transition: filter 0.3s, transform 0.3s; }
+ .nav-logo-img { height: 45px; width: auto; mix-blend-mode: lighten; transition: filter 0.3s, transform 0.3s; }
 .nav-logo-img:hover { filter: brightness(1.2); transform: scale(1.05); }
 
-.hero-logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; animation: logoEntrance 1.2s ease forwards; opacity: 0; filter: drop-shadow(0 0 30px rgba(255,215,0,0.4)); }
+```php
+.hero-logo { width: 180px; height: auto; margin: 40px auto 25px; display: block; animation: logoEntrance 1.2s ease forwards; opacity: 0; mix-blend-mode: lighten; filter: drop-shadow(0 0 20px rgba(255,215,0,0.4)); }
 
 @keyframes logoEntrance {
     0% { opacity:0; transform:scale(0.5) rotate(-10deg); filter:drop-shadow(0 0 0px rgba(255,215,0,0)); }
