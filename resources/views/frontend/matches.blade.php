@@ -1,23 +1,23 @@
 @extends('layouts.app')
-
+ 
 @section('content')
-
+ 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
 :root {
     --navy: #0B1220;
     --blue: #1E88FF;
     --gold: #FFD700;
     --white: #FFFFFF;
 }
-
+ 
 body {
     background: var(--navy);
     font-family: 'Instrument Sans', sans-serif;
     color: var(--white);
 }
-
+ 
 nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -26,20 +26,22 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(11,18,32,0.95);
+    background: rgba(11,18,32,0.8);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(30,136,255,0.15);
+    border-bottom: 1px solid rgba(255,215,0,0.12);
 }
-
+ 
 .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--white); text-decoration: none; white-space: nowrap; }
-.nav-logo span { color: var(--gold); }
+.nav-logo span { color: var(--gold); text-shadow:0 0 15px rgba(255,215,0,0.4); }
 .nav-links { display: flex; gap: 35px; list-style: none; }
-.nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
+.nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; position: relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--gold); box-shadow:0 0 8px rgba(255,215,0,0.6); transition:width 0.3s; }
+.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
 .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-.nav-btn { background: var(--blue); color: white; padding: 10px 25px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; white-space: nowrap; }
-.nav-btn:hover { background: var(--gold); color: var(--navy); }
+.nav-btn { background: var(--gold); color: var(--navy); padding: 10px 25px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; white-space: nowrap; box-shadow:0 0 20px rgba(255,215,0,0.25); }
+.nav-btn:hover { box-shadow:0 0 35px rgba(255,215,0,0.5); transform:translateY(-1px); }
 .nav-hamburger { display: none; background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--white); font-size: 1.3rem; cursor: pointer; padding: 6px 12px; border-radius: 6px; }
-
+ 
 @media (max-width: 768px) {
     nav { padding: 15px 20px; flex-wrap: wrap; gap: 8px; }
     .nav-hamburger { display: block; }
@@ -53,28 +55,33 @@ nav {
     .matches-container { padding: 20px 15px 60px; }
     .matches-grid { grid-template-columns: 1fr; }
 }
-
-.page-header { padding: 140px 60px 60px; text-align: center; background: linear-gradient(180deg, rgba(30,136,255,0.08) 0%, transparent 100%); border-bottom: 1px solid rgba(30,136,255,0.1); }
-.page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; margin-bottom: 15px; }
-.page-header h1 span { color: var(--gold); }
-.page-header p { color: rgba(255,255,255,0.5); font-size: 1rem; }
-
-.filters { padding: 20px 60px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 65px; z-index: 50; backdrop-filter: blur(20px); }
-.filter-btn { padding: 8px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.3s; }
-.filter-btn:hover, .filter-btn.active { background: var(--blue); border-color: var(--blue); color: white; }
-
+ 
+.page-header { padding: 140px 60px 60px; text-align: center; position:relative; overflow:hidden; }
+.page-header::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,215,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,0.03) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; }
+.page-header::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,215,0,0.08), transparent 70%); pointer-events:none; }
+.page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; margin-bottom: 15px; position:relative; z-index:1; }
+.page-header h1 span { color: var(--gold); text-shadow:0 0 40px rgba(255,215,0,0.5); }
+.page-header p { color: rgba(255,255,255,0.5); font-size: 1rem; position:relative; z-index:1; }
+ 
+.filters { padding: 20px 60px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 65px; z-index: 50; }
+.filter-btn { padding: 8px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(255,215,0,0.2); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+.filter-btn:hover { border-color: rgba(255,215,0,0.5); color: var(--gold); box-shadow:0 0 20px rgba(255,215,0,0.15); }
+.filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); box-shadow:0 0 25px rgba(255,215,0,0.4); }
+ 
 .search-bar { padding: 20px 60px; display: flex; justify-content: center; }
-.search-input { width: 100%; max-width: 500px; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(30,136,255,0.2); border-radius: 8px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s; }
-.search-input:focus { border-color: var(--blue); background: rgba(30,136,255,0.08); }
+.search-input { width: 100%; max-width: 500px; padding: 12px 20px; background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,215,0,0.15); border-radius: 10px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s; }
+.search-input:focus { border-color: var(--gold); box-shadow:0 0 25px rgba(255,215,0,0.15); }
 .search-input::placeholder { color: rgba(255,255,255,0.3); }
-
+ 
 .matches-container { padding: 30px 60px 80px; max-width: 1200px; margin: 0 auto; }
-.stage-title { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--gold); margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+.stage-title { font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 3px; color: var(--gold); margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2); text-shadow:0 0 15px rgba(255,215,0,0.3); }
 .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-
-.match-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(30,136,255,0.1); border-radius: 16px; padding: 25px; transition: all 0.3s; cursor: pointer; }
-.match-card:hover { background: rgba(30,136,255,0.08); border-color: rgba(30,136,255,0.4); transform: translateY(-4px); }
-.match-stage { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; margin-bottom: 15px; }
+ 
+.match-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,215,0,0.12); border-radius: 18px; padding: 25px; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); cursor: pointer; position:relative; overflow:hidden; }
+.match-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#FFD700,transparent); opacity:0; transition:opacity .3s; }
+.match-card:hover { border-color: rgba(255,215,0,0.5); transform: translateY(-6px); box-shadow:0 0 35px rgba(255,215,0,0.15); }
+.match-card:hover::before { opacity:1; }
+.match-stage { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
 .match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .team { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
 .team-flag { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
@@ -83,10 +90,10 @@ nav {
 .match-info { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
 .match-datetime { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
 .match-datetime span { display: block; color: rgba(255,255,255,0.8); font-weight: 600; }
-.btn-reserve { background: var(--gold); color: var(--navy); padding: 8px 18px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
-.btn-reserve:hover { background: white; }
+.btn-reserve { background: var(--gold); color: var(--navy); padding: 8px 18px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); white-space: nowrap; box-shadow:0 0 15px rgba(255,215,0,0.25); }
+.btn-reserve:hover { box-shadow:0 0 30px rgba(255,215,0,0.55); transform:translateY(-1px); }
 </style>
-
+ 
 <nav>
     <a href="/" class="nav-logo">MINIEH <span>FAN ZONE</span></a>
     <ul class="nav-links" id="nav-links">
@@ -99,12 +106,12 @@ nav {
     <a href="/reserve" class="nav-btn">🎟️ Reserve Now</a>
     <button class="nav-hamburger" onclick="toggleNav()">☰</button>
 </nav>
-
+ 
 <div class="page-header">
     <h1>MATCH <span>SCHEDULE</span></h1>
     <p>All 64 FIFA World Cup 2026 matches — live on the giant screen</p>
 </div>
-
+ 
 <div class="filters">
     <button class="filter-btn active" onclick="filterMatches('all', this)">All Matches</button>
     <button class="filter-btn" onclick="filterMatches('Group Stage', this)">Group Stage</button>
@@ -115,18 +122,18 @@ nav {
     <button class="filter-btn" onclick="filterMatches('Third Place', this)">Third Place</button>
     <button class="filter-btn" onclick="filterMatches('Final', this)">Final</button>
 </div>
-
+ 
 <div class="search-bar">
     <input type="text" class="search-input" placeholder="🔍 Search by team or date..." oninput="searchMatches(this.value)">
 </div>
-
+ 
 <div class="matches-container" id="matchesContainer"></div>
-
+ 
 <script>
 function toggleNav() {
     document.getElementById('nav-links').classList.toggle('open');
 }
-
+ 
 const matches = [
     { id:1, stage:'Group Stage', group:'Group A', teamA:'Mexico', flagA:'https://flagcdn.com/w80/mx.png', teamB:'Ecuador', flagB:'https://flagcdn.com/w80/ec.png', date:'Jun 11', time:'7:00 PM' },
     { id:2, stage:'Group Stage', group:'Group A', teamA:'United States', flagA:'https://flagcdn.com/w80/us.png', teamB:'Canada', flagB:'https://flagcdn.com/w80/ca.png', date:'Jun 12', time:'7:00 PM' },
@@ -169,10 +176,10 @@ const matches = [
     { id:39, stage:'Third Place', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 18', time:'5:00 PM' },
     { id:40, stage:'Final', teamA:'TBD', flagA:'https://flagcdn.com/w80/un.png', teamB:'TBD', flagB:'https://flagcdn.com/w80/un.png', date:'Jul 19', time:'7:00 PM' },
 ];
-
+ 
 let currentFilter = 'all';
 let currentSearch = '';
-
+ 
 function renderMatches() {
     const container = document.getElementById('matchesContainer');
     let filtered = matches;
@@ -215,20 +222,20 @@ function renderMatches() {
         container.appendChild(stageDiv);
     });
 }
-
+ 
 function filterMatches(stage, btn) {
     currentFilter = stage;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderMatches();
 }
-
+ 
 function searchMatches(val) {
     currentSearch = val.toLowerCase();
     renderMatches();
 }
-
+ 
 renderMatches();
 </script>
-
+ 
 @endsection
